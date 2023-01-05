@@ -10,7 +10,7 @@ const Loader = () => {
       justifyContent='center'
       sx={{ height: "100vh", width: "100%" }}
     >
-      <DotLoader />
+      <DotLoader color='#2574F5' />
     </Box>
   );
 };
