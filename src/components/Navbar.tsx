@@ -1,5 +1,14 @@
 import React from "react";
-import { AppBar, Typography, Box, Menu, MenuItem } from "@mui/material";
+import {
+  AppBar,
+  Typography,
+  Box,
+  Menu,
+  MenuItem,
+  useTheme,
+  useMediaQuery,
+  IconButton,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import logo from "../assets/Nazza-logo.svg";
 import avatar from "../assets/avatar.svg";
@@ -19,6 +28,9 @@ export default function Navbar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <div>
       <AppBar
@@ -36,12 +48,18 @@ export default function Navbar() {
             py={2}
           >
             <Box display={{ xs: "flex", md: "none" }}>
-              <MenuIcon fontSize='large' />
+              <IconButton
+                sx={{
+                  color: "#fff",
+                }}
+              >
+                <MenuIcon fontSize='large' />
+              </IconButton>
             </Box>
             <img
               src={logo}
               alt='logo'
-              width={129}
+              width={isSmallScreen ? 100 : 129}
               style={{
                 cursor: "pointer",
               }}
@@ -53,6 +71,7 @@ export default function Navbar() {
                 src={avatar}
                 onClick={handleClick}
                 alt='avatar'
+                width={isSmallScreen ? 50 : 129}
               />
             </Box>
             <Box
