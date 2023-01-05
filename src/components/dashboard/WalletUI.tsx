@@ -23,6 +23,7 @@ export default function WalletUI({
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
         }}
+        textAlign={{ xs: "center", md: "left" }}
       >
         <Typography mb='4px' fontWeight={400} variant='subtitle1'>
           Avaliable balance

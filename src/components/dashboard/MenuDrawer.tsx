@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import logo from "assets/Nazza-logo.svg";
 import CloseIcon from "@mui/icons-material/Close";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { pxToRem } from "utils/pxToRem";
 
 interface IMenuProps {

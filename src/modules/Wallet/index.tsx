@@ -14,6 +14,18 @@ const styleCard = {
   color: "#8C8B90",
   border: "1px solid #A4A3A7",
   borderRadius: "16px",
+
+  ".focus, :hover": {
+    color: "#8C8B90",
+    border: "1px solid #A4A3A7",
+    borderRadius: "16px",
+  },
+
+  ":hover": {
+    background: "white",
+    transform: "scale(1.03)",
+    transition: "ease-in-out",
+  },
 };
 
 export default function Wallet() {
