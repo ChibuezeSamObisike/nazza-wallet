@@ -1,9 +1,11 @@
 import React from "react";
 import { AppBar, Typography, Box, Menu, MenuItem } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import logo from "../assets/Nazza-logo.svg";
 import avatar from "../assets/avatar.svg";
 import { Container } from "@mui/system";
 import { NavLink, useNavigate } from "react-router-dom";
+import { pxToRem } from "utils/pxToRem";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -33,6 +35,9 @@ export default function Navbar() {
             alignItems='center'
             py={2}
           >
+            <Box display={{ xs: "flex", md: "none" }}>
+              <MenuIcon fontSize='large' />
+            </Box>
             <img
               src={logo}
               alt='logo'
@@ -42,6 +47,14 @@ export default function Navbar() {
               }}
               onClick={() => navigate("/")}
             />
+            <Box display={{ xs: "flex", md: "none" }}>
+              <img
+                style={{ marginLeft: "10px", cursor: "pointer" }}
+                src={avatar}
+                onClick={handleClick}
+                alt='avatar'
+              />
+            </Box>
             <Box
               display={{ xs: "none", md: "flex" }}
               justifyContent='space-between'
