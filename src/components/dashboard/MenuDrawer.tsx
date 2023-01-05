@@ -5,16 +5,51 @@ import {
   useTheme,
   useMediaQuery,
   IconButton,
+  Typography,
 } from "@mui/material";
 import logo from "assets/Nazza-logo.svg";
 import CloseIcon from "@mui/icons-material/Close";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { pxToRem } from "utils/pxToRem";
 
 interface IMenuProps {
   open: boolean;
   close: Function;
 }
+
+const NavClick = ({
+  path,
+  close,
+  label,
+}: {
+  path: string;
+  close: Function;
+  label: string;
+}) => {
+  const navigate = useNavigate();
+  return (
+    <div
+      onClick={() => {
+        navigate(path);
+        close();
+      }}
+      style={{
+        cursor: "pointer",
+      }}
+    >
+      <Typography
+        style={{
+          padding: pxToRem(10),
+          color: "white",
+          fontWeight: "light",
+          fontSize: pxToRem(24),
+        }}
+      >
+        {label}
+      </Typography>
+    </div>
+  );
+};
 
 export default function MenuDrawer({ open, close }: IMenuProps) {
   const theme = useTheme();
@@ -50,42 +85,13 @@ export default function MenuDrawer({ open, close }: IMenuProps) {
             justifyContent='space-around'
             p={5}
           >
-            <NavLink
-              style={{
-                padding: pxToRem(10),
-                color: "white",
-                fontWeight: "light",
-                fontSize: pxToRem(24),
-              }}
-              onClick={() => close()}
-              to='/dashboard'
-            >
-              Dashboard
-            </NavLink>
-            <NavLink
-              style={{
-                padding: pxToRem(10),
-                color: "white",
-                fontWeight: "light",
-                fontSize: pxToRem(24),
-              }}
-              onClick={() => close()}
-              to='/wallet'
-            >
-              Wallet
-            </NavLink>
-            <NavLink
-              style={{
-                padding: pxToRem(10),
-                color: "white",
-                fontWeight: "light",
-                fontSize: pxToRem(24),
-              }}
-              onClick={() => close()}
-              to='/referral'
-            >
-              Referral
-            </NavLink>
+            {[
+              { label: "Dashboard", close: () => close(), path: "/" },
+              { label: "Wallet", close: () => close(), path: "/wallet" },
+              { label: "Referral", close: () => close(), path: "/referrals" },
+            ].map((x) => (
+              <NavClick {...x} />
+            ))}
           </Box>
         </Box>
       </Box>
