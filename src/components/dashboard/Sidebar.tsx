@@ -59,6 +59,7 @@ export default function Sidebar() {
                   background: "#EFF3FF",
                 }),
                 textTransform: "none",
+                textAlign: "left",
               }}
             />
           </Tabs>

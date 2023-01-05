@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Typography,
@@ -10,11 +10,11 @@ import {
   IconButton,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import logo from "../assets/Nazza-logo.svg";
-import avatar from "../assets/avatar.svg";
+import logo from "assets/Nazza-logo.svg";
+import avatar from "assets/avatar.svg";
 import { Container } from "@mui/system";
 import { NavLink, useNavigate } from "react-router-dom";
-import { pxToRem } from "utils/pxToRem";
+import MenuDrawer from "./dashboard/MenuDrawer";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -29,10 +29,18 @@ export default function Navbar() {
     setAnchorEl(null);
   };
 
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <div>
+      <MenuDrawer
+        open={openModal}
+        close={() => {
+          setOpenModal(false);
+        }}
+      />
       <AppBar
         position='sticky'
         sx={{
@@ -51,6 +59,9 @@ export default function Navbar() {
               <IconButton
                 sx={{
                   color: "#fff",
+                }}
+                onClick={() => {
+                  setOpenModal(true);
                 }}
               >
                 <MenuIcon fontSize='large' />
