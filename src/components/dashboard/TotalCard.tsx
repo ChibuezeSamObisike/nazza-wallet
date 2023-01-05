@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
-
 import { ReactComponent as Bg } from "assets/card-svg.svg";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { pxToRem } from "utils/pxToRem";
+import useSmallScreen from "hooks/useSmallScreen";
 
 export default function TotalCard() {
   const [viewPrice, setViewPrice] = useState(true);
+
+  const isMobile = useSmallScreen();
 
   return (
     <Box
@@ -49,7 +52,7 @@ export default function TotalCard() {
         </Typography>
         {viewPrice ? (
           <>
-            <Typography fontSize='62px' fontWeight={700}>
+            <Typography fontSize={pxToRem(isMobile ? 50 : 62)} fontWeight={700}>
               NGN0.0
             </Typography>
             <Typography variant='body2' fontWeight='bold'>
