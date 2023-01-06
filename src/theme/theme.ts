@@ -91,6 +91,15 @@ const theme = createTheme({
         },
       },
     },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          "& .MuiInputBase-root": {
+            // color: "#74737A",
+          },
+        },
+      },
+    },
   },
 });
 

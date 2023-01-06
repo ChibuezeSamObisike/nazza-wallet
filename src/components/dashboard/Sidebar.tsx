@@ -47,6 +47,10 @@ export default function Sidebar() {
               borderRight: 1,
               borderColor: "divider",
               textTransform: "inherit",
+              alignItems: "flex",
+              ".css-7l2gq0-MuiButtonBase-root-MuiTab-root": {
+                alignItems: "flex-start",
+              },
               ".MuiTabs-indicator": {
                 left: 0,
               },
@@ -59,7 +63,15 @@ export default function Sidebar() {
                   background: "#EFF3FF",
                 }),
                 textTransform: "none",
-                textAlign: "left",
+              }}
+            />
+            <Tab
+              label='Hello World'
+              sx={{
+                ...(value === 0 && {
+                  background: "#EFF3FF",
+                }),
+                textTransform: "none",
               }}
             />
           </Tabs>

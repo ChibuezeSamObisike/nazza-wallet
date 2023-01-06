@@ -8,7 +8,7 @@ interface IRoute {
   path: string;
   component: React.Component | ReactElement | JSX.Element | Function;
   auth: boolean;
-  layout: React.Component | ReactElement | JSX.Element | Function;
+  layout?: React.Component | ReactElement | JSX.Element | Function;
 }
 
 const routes: IRoute[] = [
@@ -29,6 +29,11 @@ const routes: IRoute[] = [
     component: lazy(() => import("modules/Refferals")),
     auth: false,
     layout: ReferalLayout,
+  },
+  {
+    path: "*",
+    component: () => <h1>Seems you are lost</h1>,
+    auth: false,
   },
 ];
 
