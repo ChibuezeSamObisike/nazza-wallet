@@ -1,15 +1,17 @@
 import { Box, Typography } from "@mui/material";
 import { ReactComponent as Avatar } from "assets/Avatar profile-upload.svg";
-import { ReactComponent as Profile } from "assets/profile.svg";
-import { ReactComponent as Kyc } from "assets/KycIcon.svg";
-import { ReactComponent as Security } from "assets/SecurityIcon.svg";
+import Profile from "@mui/icons-material/Person";
+import Kyc from "@mui/icons-material/FactCheck";
+import Security from "@mui/icons-material/Lock";
 import { ReactComponent as Refer } from "assets/refer icons.svg";
 import AppTabs from "shared/Tabs";
 
 export default function Sidebar({
   handleChangeTabs,
+  active,
 }: {
   handleChangeTabs: (val: number) => void;
+  active?: number;
 }) {
   return (
     <Box
@@ -39,21 +41,29 @@ export default function Sidebar({
           <AppTabs
             label='Profile'
             icon={Profile}
+            index={0}
+            active={active}
             onClick={() => handleChangeTabs(0)}
           />
           <AppTabs
             label='KYC (verify Identity)'
             icon={Kyc}
+            index={1}
+            active={active}
             onClick={() => handleChangeTabs(1)}
           />
           <AppTabs
             label='Security'
             icon={Security}
+            index={2}
+            active={active}
             onClick={() => handleChangeTabs(2)}
           />
           <AppTabs
             label='Refer and Earn'
             icon={Refer}
+            index={3}
+            active={active}
             onClick={() => handleChangeTabs(3)}
           />
         </Box>

@@ -14,19 +14,24 @@ interface IAppProps {
       >
     | any;
   onClick: () => void;
+  index?: number;
+  active?: number;
 }
 
 export default function AppTabs({
   label,
   icon: Icon,
   onClick,
+  active,
+  index,
   ...rest
 }: IAppProps) {
+  const checkStyle = Boolean(active === index);
   return (
     <Box
-      borderLeft='1px solid #001D4B'
+      borderLeft={checkStyle ? "1px solid #001D4B" : ""}
       alignItems='center'
-      bgcolor='#e8f2ff'
+      bgcolor={checkStyle ? "#e8f2ff" : ""}
       display='flex'
       sx={{
         cursor: "pointer",
@@ -35,8 +40,17 @@ export default function AppTabs({
       p={2}
       {...rest}
     >
-      <Icon />
-      <Typography variant='body1' fontWeight={700} ml={2}>
+      <Icon
+        sx={{
+          color: checkStyle ? "#101628" : "#8C8B90",
+        }}
+      />
+      <Typography
+        variant='body1'
+        color={checkStyle ? "" : "#8C8B90"}
+        fontWeight={700}
+        ml={2}
+      >
         {label}
       </Typography>
     </Box>

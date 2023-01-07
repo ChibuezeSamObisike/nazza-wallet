@@ -5,11 +5,12 @@ import Sidebar from "components/dashboard/Sidebar";
 import Security from "components/referrals/Security";
 import ProfileDetails from "components/ProfileDetails";
 import KycVerification from "components/KycVerification";
+import ReferEarn from "components/ReferEarn";
 import useSmallScreen from "hooks/useSmallScreen";
 
 export default function Index({ children }: { children: any }) {
   const isMobile = useSmallScreen();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(1);
 
   const handleChangeTabs = (val: number): void => {
     setValue(val);
@@ -26,7 +27,7 @@ export default function Index({ children }: { children: any }) {
           borderRight='1px solid #EBEBEB'
           minWidth='30%'
         >
-          <Sidebar handleChangeTabs={handleChangeTabs} />
+          <Sidebar handleChangeTabs={handleChangeTabs} active={value} />
         </Box>
       )}
 
@@ -42,6 +43,7 @@ export default function Index({ children }: { children: any }) {
         {value === 0 && <ProfileDetails />}
         {value === 1 && <KycVerification />}
         {value === 2 && <Security />}
+        {value === 3 && <ReferEarn />}
       </Box>
     </Box>
   );
