@@ -13,7 +13,7 @@ interface IAppProps {
         }
       >
     | any;
-  onClick: () => void;
+  onClick?: () => void;
   index?: number;
   active?: number;
 }

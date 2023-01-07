@@ -31,6 +31,11 @@ const routes: IRoute[] = [
     layout: ReferalLayout,
   },
   {
+    path: "kyc-sidebar",
+    component: lazy(() => import("modules/Sidebar")),
+    auth: false,
+  },
+  {
     path: "*",
     component: () => <h1>Seems you are lost</h1>,
     auth: false,

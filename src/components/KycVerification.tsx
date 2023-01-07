@@ -1,7 +1,5 @@
-import React from "react";
 import { Box, TextField, Typography, Button } from "@mui/material";
 import TextTag from "shared/TextTag";
-import { pxToRem } from "utils/pxToRem";
 
 export default function KycVerification() {
   return (

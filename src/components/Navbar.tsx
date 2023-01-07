@@ -3,8 +3,6 @@ import {
   AppBar,
   Typography,
   Box,
-  Menu,
-  MenuItem,
   useTheme,
   useMediaQuery,
   IconButton,
@@ -15,6 +13,8 @@ import avatar from "assets/avatar.svg";
 import { Container } from "@mui/system";
 import { NavLink, useNavigate } from "react-router-dom";
 import MenuDrawer from "./dashboard/MenuDrawer";
+import AppMenuItem from "./menu/AppMenuItem";
+import OutsideClick from "hooks/useClickOutSide";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -30,6 +30,12 @@ export default function Navbar() {
   };
 
   const [openModal, setOpenModal] = useState<boolean>(false);
+
+  const dropDownElems = [
+    { label: "Account", path: "Referralss" },
+    { label: "Help", path: "" },
+    { label: "Sign Out", path: "" },
+  ];
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -84,6 +90,29 @@ export default function Navbar() {
                 alt='avatar'
                 width={isSmallScreen ? 50 : 129}
               />
+              {open && (
+                <OutsideClick cb={handleClose}>
+                  <Box
+                    bgcolor='#fff'
+                    color='primary'
+                    width='118px'
+                    borderRadius='2px'
+                    boxShadow='0px 8.4446px 16.8892px rgba(0, 0, 0, 0.06), 0px 16.8892px 25.3338px rgba(0, 0, 0, 0.1);'
+                    sx={{
+                      position: "absolute",
+                      right: 20,
+                      bottom: -130,
+                    }}
+                    onClick={() => handleClose()}
+                    textAlign='left'
+                    py={2}
+                  >
+                    {dropDownElems.map((x) => (
+                      <AppMenuItem {...x} />
+                    ))}
+                  </Box>
+                </OutsideClick>
+              )}
             </Box>
             <Box
               display={{ xs: "none", md: "flex" }}
@@ -114,18 +143,38 @@ export default function Navbar() {
                   Refferals
                 </Typography>
               </NavLink>
-              <Box>
-                <img
-                  style={{ marginLeft: "10px", cursor: "pointer" }}
-                  src={avatar}
-                  onClick={handleClick}
-                  alt='avatar'
-                />
-                <Menu id='basic-menu' open={open} onClose={handleClose}>
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={handleClose}>My account</MenuItem>
-                  <MenuItem onClick={handleClose}>Logout</MenuItem>
-                </Menu>
+              <Box position='relative'>
+                <OutsideClick cb={handleClose}>
+                  <img
+                    style={{
+                      marginLeft: "10px",
+                      cursor: "pointer",
+                    }}
+                    src={avatar}
+                    alt='avatar'
+                    onClick={handleClick}
+                  />
+                  {open && (
+                    <Box
+                      bgcolor='#fff'
+                      color='primary'
+                      width='118px'
+                      borderRadius='2px'
+                      boxShadow='0px 8.4446px 16.8892px rgba(0, 0, 0, 0.06), 0px 16.8892px 25.3338px rgba(0, 0, 0, 0.1);'
+                      sx={{
+                        position: "absolute",
+                        right: 20,
+                        bottom: -140,
+                      }}
+                      onClick={() => handleClose()}
+                      py={2}
+                    >
+                      {dropDownElems.map((x) => (
+                        <AppMenuItem {...x} />
+                      ))}
+                    </Box>
+                  )}
+                </OutsideClick>
               </Box>
             </Box>
           </Box>
