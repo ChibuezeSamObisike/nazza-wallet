@@ -64,13 +64,7 @@ export default function KycVerification() {
           </span>{" "}
         </Typography>
 
-        <Box
-          width={pxToRem(409)}
-          mt={4}
-          border='1px solid #D4D4D4'
-          borderRadius='4px'
-          p={2}
-        >
+        <Box mt={4} border='1px solid #D4D4D4' borderRadius='4px' p={2}>
           <Typography mb={2} fontWeight={700}>
             Required Document
           </Typography>
@@ -79,7 +73,7 @@ export default function KycVerification() {
             passportDate of Birth
           </Typography>
         </Box>
-        <Box mt={3} mb={4} width={pxToRem(409)}>
+        <Box mt={3} mb={4}>
           <Button
             sx={{
               width: "100%",
