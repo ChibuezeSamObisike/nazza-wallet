@@ -6,12 +6,18 @@ import WithdrawPaymentTypeCard from "components/dashboard/WithdrawPaymentTypeCar
 import { Box, Button, Grid } from "@mui/material";
 import BasicTable from "shared/Table";
 import TextTag from "shared/TextTag";
+import { useNavigate } from "react-router-dom";
 
 function App() {
+  const navigate = useNavigate();
   return (
     <div>
       <Box display='flex' justifyContent='flex-end'>
-        <Button variant='contained' color='secondary'>
+        <Button
+          variant='contained'
+          color='secondary'
+          onClick={() => navigate("referrals")}
+        >
           Refer and earn
         </Button>
       </Box>

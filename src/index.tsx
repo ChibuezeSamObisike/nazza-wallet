@@ -7,7 +7,6 @@ import reportWebVitals from "./reportWebVitals";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme/theme";
 import { BrowserRouter } from "react-router-dom";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { LocalizationProvider as LocalAdapter } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
@@ -15,17 +14,15 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  // <React.StrictMode>
-
-  <LocalAdapter dateAdapter={AdapterDayjs}>
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
-    </BrowserRouter>
-  </LocalAdapter>
-
-  // </React.StrictMode>
+  <React.StrictMode>
+    <LocalAdapter dateAdapter={AdapterDayjs}>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </BrowserRouter>
+    </LocalAdapter>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

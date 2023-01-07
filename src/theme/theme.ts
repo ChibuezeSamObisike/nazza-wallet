@@ -37,6 +37,7 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: ["Plus Jakarta Sans"].join(","),
+
     fontWeightBold: 700,
     h1: {
       fontSize: pxToRem(64),

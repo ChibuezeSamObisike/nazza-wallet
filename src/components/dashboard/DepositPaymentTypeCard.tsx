@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, IconButton } from "@mui/material";
 
 import bg from "assets/deposit-card.svg";
 
@@ -20,7 +20,9 @@ export default function DepositPaymentTypeCard() {
       borderRadius='8px'
     >
       <Box pt={4}>
-        <Deposit />
+        <IconButton>
+          <Deposit />
+        </IconButton>
       </Box>
       <Typography variant='subtitle2' fontWeight='bold' pt={2}>
         Deposit Cryptocurrency

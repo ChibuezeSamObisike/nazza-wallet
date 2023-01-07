@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, IconButton } from "@mui/material";
 import bg from "assets/withdraw-card.svg";
 import { ReactComponent as Withdraw } from "assets/Withdraw.svg";
 
@@ -18,7 +18,9 @@ export default function PaymentTypeCard() {
       borderRadius='8px'
     >
       <Box pt={4}>
-        <Withdraw />
+        <IconButton>
+          <Withdraw />
+        </IconButton>
       </Box>
       <Typography variant='subtitle2' fontWeight='bold' pt={2}>
         Withdraw

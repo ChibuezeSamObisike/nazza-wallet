@@ -1,7 +1,9 @@
 import { Box, Typography, IconButton } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { useNavigate } from "react-router-dom";
 
 export default function VerifyKyc() {
+  const navigate = useNavigate();
   return (
     <Box
       bgcolor='background.totalCard'
@@ -20,7 +22,7 @@ export default function VerifyKyc() {
           we need some information to complete your account verification
         </Typography>
       </Box>
-      <IconButton onClick={() => console.log("Hello world")}>
+      <IconButton onClick={() => navigate("referrals")}>
         <ArrowForwardIcon />
       </IconButton>
     </Box>

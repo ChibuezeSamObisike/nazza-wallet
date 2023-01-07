@@ -1,13 +1,16 @@
-import React from "react";
-import { Box, Typography, Tabs, Tab } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { ReactComponent as Avatar } from "assets/Avatar profile-upload.svg";
+import { ReactComponent as Profile } from "assets/profile.svg";
+import { ReactComponent as Kyc } from "assets/KycIcon.svg";
+import { ReactComponent as Security } from "assets/SecurityIcon.svg";
+import { ReactComponent as Refer } from "assets/refer icons.svg";
+import AppTabs from "shared/Tabs";
 
-export default function Sidebar() {
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
+export default function Sidebar({
+  handleChangeTabs,
+}: {
+  handleChangeTabs: (val: number) => void;
+}) {
   return (
     <Box
       width='100%'
@@ -33,48 +36,26 @@ export default function Sidebar() {
       </Box>
       <Box mt={10} width='100%' display='flex' justifyContent='flex-end'>
         <Box width='60%'>
-          <Tabs
-            orientation='vertical'
-            variant='scrollable'
-            value={value}
-            onChange={handleChange}
-            TabIndicatorProps={{
-              style: {
-                backgroundColor: "#001D4B",
-              },
-            }}
-            sx={{
-              borderRight: 1,
-              borderColor: "divider",
-              textTransform: "inherit",
-              alignItems: "flex",
-              ".css-7l2gq0-MuiButtonBase-root-MuiTab-root": {
-                alignItems: "flex-start",
-              },
-              ".MuiTabs-indicator": {
-                left: 0,
-              },
-            }}
-          >
-            <Tab
-              label='Item One'
-              sx={{
-                ...(value === 0 && {
-                  background: "#EFF3FF",
-                }),
-                textTransform: "none",
-              }}
-            />
-            <Tab
-              label='Hello World'
-              sx={{
-                ...(value === 0 && {
-                  background: "#EFF3FF",
-                }),
-                textTransform: "none",
-              }}
-            />
-          </Tabs>
+          <AppTabs
+            label='Profile'
+            icon={Profile}
+            onClick={() => handleChangeTabs(0)}
+          />
+          <AppTabs
+            label='KYC (verify Identity)'
+            icon={Kyc}
+            onClick={() => handleChangeTabs(1)}
+          />
+          <AppTabs
+            label='Security'
+            icon={Security}
+            onClick={() => handleChangeTabs(2)}
+          />
+          <AppTabs
+            label='Refer and Earn'
+            icon={Refer}
+            onClick={() => handleChangeTabs(3)}
+          />
         </Box>
       </Box>
     </Box>

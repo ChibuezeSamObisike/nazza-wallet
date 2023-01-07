@@ -61,7 +61,7 @@ export default function TotalCard() {
           </>
         ) : (
           <Typography fontWeight='bold' variant='h1'>
-            - - - - -
+            * * * * *
           </Typography>
         )}
       </Box>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, IconButton } from "@mui/material";
 import bg from "assets/sell-card.svg";
 import { ReactComponent as Send } from "assets/Send.svg";
 
@@ -18,7 +18,9 @@ export default function PaymentTypeCard() {
       overflow='hidden'
     >
       <Box pt={4}>
-        <Send />
+        <IconButton>
+          <Send />
+        </IconButton>
       </Box>
       <Typography variant='subtitle2' fontWeight='bold' pt={2}>
         Sell Cryptocurrency
