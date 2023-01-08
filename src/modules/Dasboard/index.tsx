@@ -7,11 +7,13 @@ import { Box, Button, Grid } from "@mui/material";
 import BasicTable from "shared/Table";
 import TextTag from "shared/TextTag";
 import { useNavigate } from "react-router-dom";
+import SellModal from "components/SellModal";
 
 function App() {
   const navigate = useNavigate();
   return (
     <div>
+      {/* <SellModal /> */}
       <Box display='flex' justifyContent='flex-end'>
         <Button
           variant='contained'

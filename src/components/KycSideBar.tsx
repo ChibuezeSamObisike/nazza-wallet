@@ -19,14 +19,6 @@ export default function KycSideBar({
   const navigate = useNavigate();
   const isMobile = useSmallScreen();
 
-  useEffect(() => {
-    if (isMobile) {
-      navigate("/kyc-sidebar", { state: "Hi" });
-    } else {
-      navigate("/referrals", { state: "Hi" });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMobile]);
   return (
     <Box p={2}>
       <Box display='flex' textAlign='center' alignItems='center'>

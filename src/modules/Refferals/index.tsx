@@ -19,7 +19,7 @@ export default function Index({ children }: { children: any }) {
   const navigate = useNavigate();
 
   const handleChangeTabs = (val: number): void => {
-    navigate("/referral");
+    navigate("/referrals");
     setValue(val);
   };
 
@@ -30,7 +30,7 @@ export default function Index({ children }: { children: any }) {
       setValue(0);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMobile]);
+  }, []);
 
   return (
     <Box display='flex' justifyContent='space-between'>
