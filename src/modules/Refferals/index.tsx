@@ -1,36 +1,30 @@
-import React, { useEffect } from "react";
+import React from "react";
 
-import { Box } from "@mui/material";
+import { Box, IconButton, Tabs } from "@mui/material";
 
 import Sidebar from "components/dashboard/Sidebar";
 import Security from "components/referrals/Security";
 import ProfileDetails from "components/ProfileDetails";
 import KycVerification from "components/KycVerification";
 import ReferEarn from "components/ReferEarn";
-import KycSideBar from "components/KycSideBar";
+
+import { ReactComponent as Refer } from "assets/refer icons.svg";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import Profile from "@mui/icons-material/Person";
+import Kyc from "@mui/icons-material/FactCheck";
+import SecurityIcon from "@mui/icons-material/Lock";
+
+import AppTabs from "shared/Tabs";
 
 import useSmallScreen from "hooks/useSmallScreen";
-
-import { useNavigate } from "react-router-dom";
 
 export default function Index({ children }: { children: any }) {
   const isMobile = useSmallScreen();
   const [value, setValue] = React.useState(1);
-  const navigate = useNavigate();
 
   const handleChangeTabs = (val: number): void => {
-    navigate("/referrals");
     setValue(val);
   };
-
-  useEffect(() => {
-    if (isMobile) {
-      setValue(-1);
-    } else {
-      setValue(0);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <Box display='flex' justifyContent='space-between'>
@@ -56,7 +50,82 @@ export default function Index({ children }: { children: any }) {
         width='100%'
         height='100vh'
       >
-        {value === -1 && <KycSideBar handleChangeTabs={handleChangeTabs} />}
+        {isMobile && (
+          <Tabs
+            value={value}
+            // onChange={handleChangeTabs}
+            variant='scrollable'
+            scrollButtons='auto'
+            aria-label='scrollable auto tabs example'
+          >
+            {" "}
+            <Box
+              display='flex'
+              alignItems='center'
+              justifyContent='space-between'
+              py={1}
+            >
+              <AppTabs
+                icon={Profile}
+                active={40}
+                label='Profile'
+                onClick={() => handleChangeTabs(0)}
+              />
+              <IconButton>
+                <ArrowForwardIosIcon />
+              </IconButton>
+            </Box>
+            <Box
+              display='flex'
+              alignItems='center'
+              justifyContent='space-between'
+              py={1}
+            >
+              <AppTabs
+                active={40}
+                icon={Kyc}
+                label='KYC (verify Identity)'
+                onClick={() => handleChangeTabs(1)}
+              />
+              <IconButton>
+                <ArrowForwardIosIcon />
+              </IconButton>
+            </Box>
+            <Box
+              display='flex'
+              alignItems='center'
+              justifyContent='space-between'
+              py={1}
+            >
+              <AppTabs
+                active={40}
+                icon={SecurityIcon}
+                label='Security'
+                onClick={() => handleChangeTabs(2)}
+              />
+              <IconButton>
+                <ArrowForwardIosIcon />
+              </IconButton>
+            </Box>{" "}
+            <Box
+              display='flex'
+              alignItems='center'
+              justifyContent='space-between'
+              py={1}
+            >
+              <AppTabs
+                onClick={() => handleChangeTabs(3)}
+                active={40}
+                icon={Refer}
+                label='Refer and Earn'
+              />{" "}
+              <IconButton>
+                <ArrowForwardIosIcon />
+              </IconButton>
+            </Box>
+          </Tabs>
+        )}
+
         {value === 0 && <ProfileDetails />}
         {value === 1 && <KycVerification />}
         {value === 2 && <Security />}
