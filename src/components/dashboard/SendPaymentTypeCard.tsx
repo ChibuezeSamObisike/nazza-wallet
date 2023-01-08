@@ -3,7 +3,11 @@ import { Box, Typography, IconButton } from "@mui/material";
 import bg from "assets/sell-card.svg";
 import { ReactComponent as Send } from "assets/Send.svg";
 
-export default function PaymentTypeCard() {
+export default function PaymentTypeCard({
+  onClick,
+}: {
+  onClick: VoidFunction;
+}) {
   return (
     <Box
       sx={{
@@ -12,6 +16,7 @@ export default function PaymentTypeCard() {
         backgroundSize: "cover",
         cursor: "pointer",
       }}
+      onClick={onClick}
       py={5}
       pl={2}
       borderRadius='8px'

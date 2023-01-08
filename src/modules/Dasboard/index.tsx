@@ -7,13 +7,24 @@ import { Box, Button, Grid } from "@mui/material";
 import BasicTable from "shared/Table";
 import TextTag from "shared/TextTag";
 import { useNavigate } from "react-router-dom";
-import SellModal from "components/SellModal";
+import SellModal from "components/modals/SellModal";
+import { useState } from "react";
 
 function App() {
   const navigate = useNavigate();
+  const [openSell, setOpenSell] = useState<boolean>(false);
+
+  const handleSellClose = (): void => {
+    setOpenSell(false);
+  };
+
+  const handleSellOpen = (): void => {
+    setOpenSell(true);
+  };
+
   return (
     <div>
-      {/* <SellModal /> */}
+      <SellModal open={openSell} close={handleSellClose} />
       <Box display='flex' justifyContent='flex-end'>
         <Button
           variant='contained'
@@ -28,7 +39,7 @@ function App() {
       <Box mt={5}>
         <Grid container spacing={4}>
           <Grid item xs={12} md={4}>
-            <PaymentTypeCard />
+            <PaymentTypeCard onClick={handleSellOpen} />
           </Grid>
           <Grid item xs={12} md={4}>
             <DepositPaymentTypeCard />

@@ -17,6 +17,10 @@ declare module "@mui/material/styles/createPalette" {
   interface TypeBackground {
     totalCard: string;
   }
+
+  interface TypographyOptions {
+    subtitle3: string;
+  }
 }
 
 const theme = createTheme({
@@ -54,6 +58,7 @@ const theme = createTheme({
     subtitle2: {
       fontSize: pxToRem(22),
     },
+
     body1: {
       fontSize: pxToRem(16),
       fontWeight: 500,
