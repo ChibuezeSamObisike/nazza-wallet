@@ -10,12 +10,34 @@ import { useNavigate } from "react-router-dom";
 import SellModal from "components/modals/SellModal";
 import { useState } from "react";
 
+import ConfirmSellModal from "components/modals/ConfirmSell";
+import SuccessModal from "shared/SuccessModal";
+
 function App() {
   const navigate = useNavigate();
   const [openSell, setOpenSell] = useState<boolean>(false);
+  const [confirmSellOpen, setConfirmSellOpen] = useState<boolean>(false);
+  const [openSuccess, setOpenSuccess] = useState<boolean>(false);
+
+  const handleSucessClose = (): void => {
+    setOpenSuccess(false);
+  };
+
+  const handleSucessOpen = (): void => {
+    setOpenSuccess(true);
+  };
 
   const handleSellClose = (): void => {
     setOpenSell(false);
+  };
+
+  const handleConfirmSellOpen = () => {
+    handleSellClose();
+    setConfirmSellOpen(true);
+  };
+
+  const handleConfirmSellClose = () => {
+    setConfirmSellOpen(false);
   };
 
   const handleSellOpen = (): void => {
@@ -24,7 +46,22 @@ function App() {
 
   return (
     <div>
-      <SellModal open={openSell} close={handleSellClose} />
+      <SellModal
+        open={openSell}
+        close={handleSellClose}
+        openNext={handleConfirmSellOpen}
+      />
+      <ConfirmSellModal
+        open={confirmSellOpen}
+        close={handleConfirmSellClose}
+        handleSuccessOpen={handleSucessOpen}
+      />
+      <SuccessModal
+        title='Successful'
+        open={openSuccess}
+        close={handleSucessClose}
+        subtitle='Done!!'
+      />
       <Box display='flex' justifyContent='flex-end'>
         <Button
           variant='contained'

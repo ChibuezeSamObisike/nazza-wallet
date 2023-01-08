@@ -17,9 +17,11 @@ import SwapVerticalCircleOutlinedIcon from "@mui/icons-material/SwapVerticalCirc
 export default function SellModal({
   open,
   close,
+  openNext,
 }: {
   open: boolean;
   close: VoidFunction;
+  openNext?: VoidFunction;
 }) {
   return (
     <AppModal open={open} sxStyle={{ textAlign: "center" }} close={close}>
@@ -149,6 +151,7 @@ export default function SellModal({
           }}
           disabled={false}
           fullWidth
+          onClick={() => openNext?.()}
         >
           Review and Confirm
         </Button>
