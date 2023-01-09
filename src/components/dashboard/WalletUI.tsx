@@ -25,11 +25,11 @@ export default function WalletUI({
         }}
         textAlign={{ xs: "center", md: "left" }}
       >
-        <Typography mb='4px' fontWeight={400} variant='subtitle1'>
+        <Typography mb={1} fontWeight={400} variant='subtitle1'>
           Avaliable balance
         </Typography>
         <Typography fontWeight='bold' fontSize={pxToRem(62)}>
-          0.000{" "}
+          0.0{" "}
           <span style={{ fontSize: pxToRem(12), fontWeight: "lighter" }}>
             BTC
           </span>
