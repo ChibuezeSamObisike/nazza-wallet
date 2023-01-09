@@ -35,24 +35,26 @@ export default function Wallet() {
   const isMobile = useSmallScreen();
   return (
     <div>
-      <Box display='flex' justifyContent='flex-end'>
-        <Button
-          sx={{
-            marginRight: "20px",
-            px: 10,
-          }}
-        >
-          Deposit
-        </Button>
-        <Button
-          sx={{
-            px: 10,
-          }}
-          color='secondary'
-        >
-          Sell
-        </Button>
-      </Box>
+      {!isMobile && (
+        <Box display='flex' justifyContent='flex-end'>
+          <Button
+            sx={{
+              marginRight: "20px",
+              px: 10,
+            }}
+          >
+            Deposit
+          </Button>
+          <Button
+            sx={{
+              px: 10,
+            }}
+            color='secondary'
+          >
+            Sell
+          </Button>
+        </Box>
+      )}
 
       {isMobile && (
         <Box
@@ -170,6 +172,27 @@ export default function Wallet() {
           >
             <Usdt style={{ marginRight: "10px" }} />
             USDT
+          </Button>
+        </Box>
+      )}
+
+      {isMobile && (
+        <Box display='flex' mb={6} justifyContent='space-between'>
+          <Button
+            sx={{
+              marginRight: "20px",
+              px: 10,
+            }}
+          >
+            Deposit
+          </Button>
+          <Button
+            sx={{
+              px: 10,
+            }}
+            color='secondary'
+          >
+            Sell
           </Button>
         </Box>
       )}
