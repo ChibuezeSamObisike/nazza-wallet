@@ -6,6 +6,7 @@ import {
   useTheme,
   useMediaQuery,
   IconButton,
+  ClickAwayListener,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import logo from "assets/Nazza-logo.svg";
@@ -14,7 +15,8 @@ import { Container } from "@mui/system";
 import { NavLink, useNavigate } from "react-router-dom";
 import MenuDrawer from "./dashboard/MenuDrawer";
 import AppMenuItem from "./menu/AppMenuItem";
-import OutsideClick from "hooks/useClickOutSide";
+
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -32,9 +34,9 @@ export default function Navbar() {
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   const dropDownElems = [
-    { label: "Account", path: "Referralss" },
-    { label: "Help", path: "" },
-    { label: "Sign Out", path: "" },
+    { label: "Account", path: "/Referrals" },
+    { label: "Help", path: "/" },
+    { label: "Sign Out", path: "/" },
   ];
 
   const theme = useTheme();
@@ -82,6 +84,7 @@ export default function Navbar() {
               }}
               onClick={() => navigate("/")}
             />
+
             <Box display={{ xs: "flex", md: "none" }}>
               <img
                 style={{ marginLeft: "10px", cursor: "pointer" }}
@@ -91,7 +94,7 @@ export default function Navbar() {
                 width={isSmallScreen ? 50 : 129}
               />
               {open && (
-                <OutsideClick cb={handleClose}>
+                <ClickAwayListener onClickAway={handleClose}>
                   <Box
                     bgcolor='#fff'
                     color='primary'
@@ -108,12 +111,15 @@ export default function Navbar() {
                     py={2}
                   >
                     {dropDownElems.map((x) => (
-                      <AppMenuItem {...x} />
+                      <Link to={x.path}>
+                        <AppMenuItem {...x} />
+                      </Link>
                     ))}
                   </Box>
-                </OutsideClick>
+                </ClickAwayListener>
               )}
             </Box>
+
             <Box
               display={{ xs: "none", md: "flex" }}
               justifyContent='space-between'
@@ -143,21 +149,22 @@ export default function Navbar() {
                   Refferals
                 </Typography>
               </NavLink>
+
               <Box position='relative'>
-                <OutsideClick cb={handleClose}>
-                  <img
-                    style={{
-                      marginLeft: "10px",
-                      cursor: "pointer",
-                    }}
-                    src={avatar}
-                    alt='avatar'
-                    onClick={handleClick}
-                  />
-                  {open && (
+                <img
+                  style={{
+                    marginLeft: "10px",
+                    cursor: "pointer",
+                  }}
+                  src={avatar}
+                  alt='avatar'
+                  onClick={handleClick}
+                />
+                {open && (
+                  <ClickAwayListener onClickAway={handleClose}>
                     <Box
                       bgcolor='#fff'
-                      color='primary'
+                      color='#001D4B'
                       width='118px'
                       borderRadius='2px'
                       boxShadow='0px 8.4446px 16.8892px rgba(0, 0, 0, 0.06), 0px 16.8892px 25.3338px rgba(0, 0, 0, 0.1);'
@@ -170,11 +177,13 @@ export default function Navbar() {
                       py={2}
                     >
                       {dropDownElems.map((x) => (
-                        <AppMenuItem {...x} />
+                        <Link to={x.path}>
+                          <AppMenuItem {...x} />
+                        </Link>
                       ))}
                     </Box>
-                  )}
-                </OutsideClick>
+                  </ClickAwayListener>
+                )}
               </Box>
             </Box>
           </Box>

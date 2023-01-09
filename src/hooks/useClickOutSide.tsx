@@ -3,7 +3,7 @@ import React, { useRef, useEffect } from "react";
 /**
  * Hook that alerts clicks outside of the passed ref
  */
-function useOutsideAlerter(ref: any, cb?: () => void) {
+export function useOutsideRef(ref: any, cb?: () => void) {
   useEffect(() => {
     /**
      * Alert if clicked on outside of element
@@ -33,7 +33,7 @@ export default function OutsideClick({
   cb: () => void;
 }) {
   const wrapperRef = useRef(null);
-  useOutsideAlerter(wrapperRef, cb);
+  useOutsideRef(wrapperRef, cb);
 
   return <div ref={wrapperRef}>{children}</div>;
 }

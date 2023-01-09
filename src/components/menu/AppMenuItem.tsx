@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 
 export default function AppMenuItem({
   path,
@@ -9,7 +8,6 @@ export default function AppMenuItem({
   path: string;
   label: string;
 }) {
-  const navigate = useNavigate();
   return (
     <Box
       display='flex'
@@ -20,9 +18,8 @@ export default function AppMenuItem({
           bgcolor: "#EFF3FF",
         },
       }}
-      onClick={() => navigate(path)}
     >
-      <Typography variant='body2' color='primary' textAlign='left'>
+      <Typography variant='body2' color='#001D4B' textAlign='left'>
         {label}
       </Typography>
     </Box>
