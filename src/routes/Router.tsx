@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Loader from "shared/Loader";
 import NavLayOut from "shared/layout/NavLayOut";
 import ReferalLayout from "shared/layout/ReferalLayout";
+import SignInLayout from "shared/layout/SignInLayout";
 
 interface IRoute {
   path: string;
@@ -33,6 +34,18 @@ const routes: IRoute[] = [
   {
     path: "kyc-sidebar",
     component: lazy(() => import("modules/Sidebar")),
+    auth: false,
+  },
+  {
+    path: "login",
+    component: lazy(() => import("modules/SignIn/Login")),
+    layout: SignInLayout,
+    auth: false,
+  },
+  {
+    path: "verify",
+    component: lazy(() => import("modules/SignIn/VerifyEmail")),
+    layout: SignInLayout,
     auth: false,
   },
   {
