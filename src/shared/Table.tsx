@@ -9,8 +9,10 @@ import Paper from "@mui/material/Paper";
 import { Box, Chip, Typography } from "@mui/material";
 import getChipColor from "utils/getChipColor";
 import getIcon from "utils/getIcon";
+import useSmallScreen from "hooks/useSmallScreen";
 
 import { ReactComponent as EmptyIcon } from "assets/EmptyStateIcon.svg";
+import MobileTransactionCard from "./MobileTransaction";
 
 function createData(
   crypto: string,
@@ -102,7 +104,56 @@ const header = [
   { label: "Network", id: "network" },
 ];
 
+const tableMobile = [
+  {
+    chip: "Sell",
+    number: "1.3BTC",
+    price: "N23,000",
+    network: "BNB",
+    date: "23rd May 2022",
+    icon: "USDT",
+  },
+  {
+    chip: "Sell",
+    number: "1.3BTC",
+    price: "N23,000",
+    network: "BNB",
+    date: "23rd May 2022",
+    icon: "Lite Coin",
+  },
+  {
+    chip: "Deposit",
+    number: "1.3BTC",
+    price: "N23,000",
+    network: "BNB",
+    date: "23rd May 2022",
+    icon: "Dodge",
+  },
+
+  {
+    chip: "Withdraw",
+    number: "1.3BTC",
+    price: "N23,000",
+    network: "BNB",
+    date: "23rd May 2022",
+    icon: "Bitcoin",
+  },
+];
+
 export default function BasicTable() {
+  const isMobile = useSmallScreen();
+
+  if (isMobile) {
+    return (
+      <>
+        {tableMobile.map((x, i) => (
+          <div key={i}>
+            <MobileTransactionCard {...x} />
+          </div>
+        ))}
+      </>
+    );
+  }
   return (
     <TableContainer
       component={Paper}

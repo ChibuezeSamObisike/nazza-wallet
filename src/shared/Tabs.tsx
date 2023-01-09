@@ -27,6 +27,7 @@ export default function AppTabs({
   ...rest
 }: IAppProps) {
   const checkStyle = Boolean(active === index);
+
   return (
     <Box
       borderLeft={checkStyle ? "1px solid #001D4B" : ""}
