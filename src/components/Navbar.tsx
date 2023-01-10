@@ -105,11 +105,11 @@ export default function Navbar() {
                     sx={{
                       position: "absolute",
                       right: 20,
-                      bottom: -290,
+                      bottom: -160,
                     }}
-                    onClick={() => handleClose()}
                     textAlign='left'
                     py={1}
+                    // px={4}
                   >
                     {dropDownElems.map((x) => (
                       <Link to={x.path}>
