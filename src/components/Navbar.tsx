@@ -112,8 +112,15 @@ export default function Navbar() {
                     // px={4}
                   >
                     {dropDownElems.map((x) => (
-                      <Link to={x.path}>
-                        <AppMenuItem {...x} />
+                      <Link
+                        style={{
+                          display: "block",
+                          padding: 20,
+                          color: "#001D4B",
+                        }}
+                        to={x.path}
+                      >
+                        {x.label}
                       </Link>
                     ))}
                   </Box>
@@ -168,6 +175,7 @@ export default function Navbar() {
                       bgcolor='#fff'
                       color='#001D4B'
                       width='118px'
+                      overflow='hidden'
                       borderRadius='2px'
                       boxShadow='0px 8.4446px 16.8892px rgba(0, 0, 0, 0.06), 0px 16.8892px 25.3338px rgba(0, 0, 0, 0.1);'
                       sx={{
@@ -175,7 +183,6 @@ export default function Navbar() {
                         right: 20,
                         bottom: -140,
                       }}
-                      onClick={() => handleClose()}
                       py={2}
                     >
                       {dropDownElems.map((x) => (
