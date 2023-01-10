@@ -98,17 +98,18 @@ export default function Navbar() {
                   <Box
                     bgcolor='#fff'
                     color='primary'
+                    overflow='hidden'
                     width='118px'
                     borderRadius='2px'
                     boxShadow='0px 8.4446px 16.8892px rgba(0, 0, 0, 0.06), 0px 16.8892px 25.3338px rgba(0, 0, 0, 0.1);'
                     sx={{
                       position: "absolute",
                       right: 20,
-                      bottom: -130,
+                      bottom: -290,
                     }}
                     onClick={() => handleClose()}
                     textAlign='left'
-                    py={2}
+                    py={1}
                   >
                     {dropDownElems.map((x) => (
                       <Link to={x.path}>
@@ -120,6 +121,7 @@ export default function Navbar() {
               )}
             </Box>
 
+            {/* Destop Drop down */}
             <Box
               display={{ xs: "none", md: "flex" }}
               justifyContent='space-between'

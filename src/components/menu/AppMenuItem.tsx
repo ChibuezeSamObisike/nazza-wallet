@@ -11,12 +11,13 @@ export default function AppMenuItem({
   return (
     <Box
       display='flex'
-      p={1}
-      pl={2}
+      p={4}
+      my={1}
       sx={{
         ":hover": {
           bgcolor: "#EFF3FF",
         },
+        width: "100%",
       }}
     >
       <Typography variant='body2' color='#001D4B' textAlign='left'>
