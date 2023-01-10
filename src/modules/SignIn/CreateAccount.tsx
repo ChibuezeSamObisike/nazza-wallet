@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const navigate = useNavigate();
-  //   mt:{{ md: -30, xs: 0 }}
   return (
     <Box sx={{ width: { md: "60%", xs: "100%" } }}>
       <img
@@ -18,21 +17,11 @@ export default function Login() {
         }}
       />
       <Typography variant='subtitle1' fontWeight='bold'>
-        Login to your account
+        Create your account
       </Typography>
 
       <TextField
         placeholder='Email'
-        label='Email'
-        fullWidth
-        sx={{
-          mt: 3,
-        }}
-      />
-
-      <TextField
-        placeholder='Password'
-        label='Password'
         fullWidth
         sx={{
           mt: 3,
@@ -44,27 +33,15 @@ export default function Login() {
           mt: 3,
           width: "100%",
         }}
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/verify")}
       >
-        Login
+        Create Account
       </Button>
 
-      <Box
-        display='flex'
-        mt={2}
-        alignItems='center'
-        mb={4}
-        justifyContent='flex-end'
-      >
-        <Typography color='#145CD3' fontWeight={400}>
-          Forgot your password?
-        </Typography>
-      </Box>
-
       <Typography display='flex' mt={2} alignItems='center'>
-        Don't Have an account?{" "}
+        Have an account?{" "}
         <Typography ml={2} color='#2574F5'>
-          Create Account
+          Sign in
         </Typography>
       </Typography>
     </Box>

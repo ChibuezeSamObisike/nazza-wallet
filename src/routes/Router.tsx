@@ -37,14 +37,26 @@ const routes: IRoute[] = [
     auth: false,
   },
   {
+    path: "create-account",
+    component: lazy(() => import("modules/SignIn/CreateAccount")),
+    layout: SignInLayout,
+    auth: false,
+  },
+  {
     path: "login",
-    component: lazy(() => import("modules/SignIn/Login")),
+    component: lazy(() => import("modules/SignIn/LogIn")),
     layout: SignInLayout,
     auth: false,
   },
   {
     path: "verify",
     component: lazy(() => import("modules/SignIn/VerifyEmail")),
+    layout: SignInLayout,
+    auth: false,
+  },
+  {
+    path: "account-setup",
+    component: lazy(() => import("modules/SignIn/AccountSetUp")),
     layout: SignInLayout,
     auth: false,
   },

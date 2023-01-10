@@ -9,7 +9,7 @@ interface IProps {
 export default function SignInLayout({ children }: IProps) {
   return (
     <Box position='relative'>
-      <Box position='absolute' top={{ md: -90, xs: -60 }} right={0} mb={5}>
+      <Box position='absolute' top={{ md: -90, xs: -90 }} right={0} mb={5}>
         <PatternBg />
       </Box>
       <Container>
