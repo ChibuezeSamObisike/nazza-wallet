@@ -36,7 +36,7 @@ export default function Navbar() {
   const dropDownElems = [
     { label: "Account", path: "/Referrals" },
     { label: "Help", path: "/" },
-    { label: "Sign Out", path: "/" },
+    { label: "Sign Out", path: "/login" },
   ];
 
   const theme = useTheme();
