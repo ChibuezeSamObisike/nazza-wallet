@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const navigate = useNavigate();
-  //   mt:{{ md: -30, xs: 0 }}
+
   return (
     <Box sx={{ width: { md: "60%", xs: "100%" } }}>
       <img

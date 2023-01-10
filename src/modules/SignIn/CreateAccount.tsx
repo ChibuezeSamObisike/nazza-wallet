@@ -3,7 +3,7 @@ import nazaLogo from "assets/naza-logo.svg";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function CreateAccount() {
   const navigate = useNavigate();
   return (
     <Box sx={{ width: { md: "60%", xs: "100%" } }}>

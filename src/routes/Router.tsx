@@ -44,7 +44,7 @@ const routes: IRoute[] = [
   },
   {
     path: "login",
-    component: lazy(() => import("modules/SignIn/LogIn")),
+    component: lazy(() => import("modules/SignIn/Login")),
     layout: SignInLayout,
     auth: false,
   },
