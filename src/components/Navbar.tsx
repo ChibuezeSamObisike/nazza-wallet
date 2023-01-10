@@ -7,16 +7,16 @@ import {
   useMediaQuery,
   IconButton,
   ClickAwayListener,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import logo from "assets/Nazza-logo.svg";
 import avatar from "assets/avatar.svg";
 import { Container } from "@mui/system";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, Link } from "react-router-dom";
 import MenuDrawer from "./dashboard/MenuDrawer";
 import AppMenuItem from "./menu/AppMenuItem";
-
-import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -111,7 +111,44 @@ export default function Navbar() {
                     py={1}
                     // px={4}
                   >
-                    {dropDownElems.map((x) => (
+                    <Menu
+                      id='basic-menu'
+                      // anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                      transformOrigin={{ vertical: "top", horizontal: "right" }}
+                      MenuListProps={{
+                        "aria-labelledby": "basic-button",
+                      }}
+                    >
+                      <MenuItem
+                        onClick={() => {
+                          navigate("/referrals");
+                          handleClose();
+                        }}
+                      >
+                        Profile
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          navigate("/wallet");
+                          handleClose();
+                        }}
+                      >
+                        My account
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          navigate("/login");
+
+                          handleClose();
+                        }}
+                      >
+                        Logout
+                      </MenuItem>
+                    </Menu>
+                    {/* {dropDownElems.map((x) => (
                       <Link
                         style={{
                           display: "block",
@@ -122,7 +159,7 @@ export default function Navbar() {
                       >
                         {x.label}
                       </Link>
-                    ))}
+                    ))} */}
                   </Box>
                 </ClickAwayListener>
               )}
