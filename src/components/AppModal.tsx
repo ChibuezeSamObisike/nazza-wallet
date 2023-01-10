@@ -24,7 +24,7 @@ export default function AppModal({
     height: { md: "auto", xs: "100vh" },
     bgcolor: "background.paper",
     boxShadow: 24,
-    p: 4,
+    p: 10,
     borderRadius: { md: "16px", xs: 0 },
   };
   return (
@@ -32,7 +32,7 @@ export default function AppModal({
       <Box
         sx={{ ...style, ...sxStyle }}
         bgcolor={"red"}
-        p={4}
+        p={14}
         ml={{
           xs: 0,
           md: 0,
@@ -40,10 +40,15 @@ export default function AppModal({
       >
         <Container
           sx={{
-            p: { xs: 4, md: 0 },
+            p: { xs: 8, md: 0 },
           }}
         >
-          <Box display='flex' alignItems='flex-end' justifyContent='flex-end'>
+          <Box
+            display='flex'
+            alignItems='flex-end'
+            mb={4}
+            justifyContent='flex-end'
+          >
             <IconButton onClick={() => close?.()}>
               <CloseIcon
                 sx={{
