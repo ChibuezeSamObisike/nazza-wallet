@@ -94,61 +94,61 @@ export default function Navbar() {
                 width={isSmallScreen ? 50 : 129}
               />
               {open && (
-                <ClickAwayListener onClickAway={handleClose}>
-                  <Box
-                    bgcolor='#fff'
-                    color='primary'
-                    overflow='hidden'
-                    width='118px'
-                    borderRadius='2px'
-                    boxShadow='0px 8.4446px 16.8892px rgba(0, 0, 0, 0.06), 0px 16.8892px 25.3338px rgba(0, 0, 0, 0.1);'
-                    sx={{
-                      position: "absolute",
-                      right: 20,
-                      bottom: -160,
+                // <ClickAwayListener onClickAway={handleClose}>
+                <Box
+                  bgcolor='#fff'
+                  color='primary'
+                  overflow='hidden'
+                  width='118px'
+                  borderRadius='2px'
+                  boxShadow='0px 8.4446px 16.8892px rgba(0, 0, 0, 0.06), 0px 16.8892px 25.3338px rgba(0, 0, 0, 0.1);'
+                  sx={{
+                    position: "absolute",
+                    right: 20,
+                    bottom: -160,
+                  }}
+                  textAlign='left'
+                  py={1}
+                  // px={4}
+                >
+                  <Menu
+                    id='basic-menu'
+                    // anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                    transformOrigin={{ vertical: "top", horizontal: "right" }}
+                    MenuListProps={{
+                      "aria-labelledby": "basic-button",
                     }}
-                    textAlign='left'
-                    py={1}
-                    // px={4}
                   >
-                    <Menu
-                      id='basic-menu'
-                      // anchorEl={anchorEl}
-                      open={open}
-                      onClose={handleClose}
-                      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                      transformOrigin={{ vertical: "top", horizontal: "right" }}
-                      MenuListProps={{
-                        "aria-labelledby": "basic-button",
+                    <MenuItem
+                      onClick={() => {
+                        navigate("/referrals");
+                        handleClose();
                       }}
                     >
-                      <MenuItem
-                        onClick={() => {
-                          navigate("/referrals");
-                          handleClose();
-                        }}
-                      >
-                        Profile
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => {
-                          navigate("/wallet");
-                          handleClose();
-                        }}
-                      >
-                        My account
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => {
-                          navigate("/login");
+                      Profile
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        navigate("/wallet");
+                        handleClose();
+                      }}
+                    >
+                      My account
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        navigate("/login");
 
-                          handleClose();
-                        }}
-                      >
-                        Logout
-                      </MenuItem>
-                    </Menu>
-                    {/* {dropDownElems.map((x) => (
+                        handleClose();
+                      }}
+                    >
+                      Logout
+                    </MenuItem>
+                  </Menu>
+                  {/* {dropDownElems.map((x) => (
                       <Link
                         style={{
                           display: "block",
@@ -160,8 +160,8 @@ export default function Navbar() {
                         {x.label}
                       </Link>
                     ))} */}
-                  </Box>
-                </ClickAwayListener>
+                </Box>
+                // </ClickAwayListener>
               )}
             </Box>
 
