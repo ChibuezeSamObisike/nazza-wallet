@@ -11,9 +11,7 @@ export default function AppMenuItem({
   return (
     <Box
       display='flex'
-      p={1}
-      pl={2}
-      my={2}
+      p={2}
       sx={{
         ":hover": {
           bgcolor: "#EFF3FF",

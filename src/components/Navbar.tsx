@@ -21,6 +21,7 @@ import AppMenuItem from "./menu/AppMenuItem";
 export default function Navbar() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | boolean>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const open = Boolean(anchorEl);
 
   const handleClick = () => {
@@ -87,81 +88,44 @@ export default function Navbar() {
 
             <Box display={{ xs: "flex", md: "none" }}>
               <img
-                style={{ marginLeft: "10px", cursor: "pointer" }}
+                style={{
+                  marginLeft: "10px",
+                  cursor: "pointer",
+                  position: "relative",
+                }}
                 src={avatar}
-                onClick={handleClick}
+                onClick={() => setMobileMenuOpen(true)}
                 alt='avatar'
                 width={isSmallScreen ? 50 : 129}
               />
-              {open && (
-                // <ClickAwayListener onClickAway={handleClose}>
-                <Box
-                  bgcolor='#fff'
-                  color='primary'
-                  overflow='hidden'
-                  width='118px'
-                  borderRadius='2px'
-                  boxShadow='0px 8.4446px 16.8892px rgba(0, 0, 0, 0.06), 0px 16.8892px 25.3338px rgba(0, 0, 0, 0.1);'
-                  sx={{
-                    position: "absolute",
-                    right: 20,
-                    bottom: -160,
-                  }}
-                  textAlign='left'
-                  py={1}
-                  // px={4}
-                >
-                  <Menu
-                    id='basic-menu'
-                    // anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                    transformOrigin={{ vertical: "top", horizontal: "right" }}
-                    MenuListProps={{
-                      "aria-labelledby": "basic-button",
+              {mobileMenuOpen && (
+                <ClickAwayListener onClickAway={() => setMobileMenuOpen(false)}>
+                  <Box
+                    display={"flex"}
+                    flexDirection={"column"}
+                    rowGap={"1rem"}
+                    position={"absolute"}
+                    top={"70px"}
+                    right='15px'
+                    overflow='hidden'
+                    p={3}
+                    sx={{
+                      backgroundColor: "white",
                     }}
                   >
-                    <MenuItem
-                      onClick={() => {
-                        navigate("/referrals");
-                        handleClose();
-                      }}
-                    >
-                      Profile
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        navigate("/wallet");
-                        handleClose();
-                      }}
-                    >
-                      My account
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        navigate("/login");
-
-                        handleClose();
-                      }}
-                    >
-                      Logout
-                    </MenuItem>
-                  </Menu>
-                  {/* {dropDownElems.map((x) => (
+                    {dropDownElems.map((x) => (
                       <Link
                         style={{
-                          display: "block",
-                          padding: 20,
                           color: "#001D4B",
+                          padding: 3,
                         }}
                         to={x.path}
                       >
                         {x.label}
                       </Link>
-                    ))} */}
-                </Box>
-                // </ClickAwayListener>
+                    ))}
+                  </Box>
+                </ClickAwayListener>
               )}
             </Box>
 
