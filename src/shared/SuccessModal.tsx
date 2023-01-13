@@ -29,10 +29,6 @@ const SuccessModal: React.FC<ISuccessProps> = ({
   title,
   subtitle,
 }: ISuccessProps) => {
-  setTimeout(() => {
-    close();
-  }, 40000);
-
   return (
     <div>
       <AppModal
