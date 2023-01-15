@@ -10,18 +10,27 @@ import { BrowserRouter } from "react-router-dom";
 import { LocalizationProvider as LocalAdapter } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
+import { QueryClient, QueryClientProvider } from "react-query";
+import { NotificationProvider } from "contexts/NotificationProvider";
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
+const queryClient = new QueryClient();
 root.render(
   <React.StrictMode>
-    <LocalAdapter dateAdapter={AdapterDayjs}>
-      <BrowserRouter>
-        <ThemeProvider theme={theme}>
-          <App />
-        </ThemeProvider>
-      </BrowserRouter>
-    </LocalAdapter>
+    <QueryClientProvider client={queryClient}>
+      <LocalAdapter dateAdapter={AdapterDayjs}>
+        <BrowserRouter>
+          <ThemeProvider theme={theme}>
+            <NotificationProvider>
+              <App />
+            </NotificationProvider>
+          </ThemeProvider>
+        </BrowserRouter>
+      </LocalAdapter>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 

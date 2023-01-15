@@ -2,15 +2,14 @@ import axios, { AxiosRequestConfig } from "axios";
 
 import { getToken, isAuthenticated } from "./auth";
 
-export const baseUrl =
-  process.env.REACT_APP_API_BASE_URL || "https://api.py.prowoks.co/api/v1";
+export const baseUrl = "https://api.mynazza.com/";
 
-const Api = axios.create({
+const http = axios.create({
   baseURL: baseUrl,
 });
 
 // Request interceptor for API calls
-Api.interceptors.request.use(
+http.interceptors.request.use(
   async (config: AxiosRequestConfig) => {
     config.headers = {
       Authorization: isAuthenticated() ? `Bearer ${getToken()}` : "",
@@ -23,7 +22,7 @@ Api.interceptors.request.use(
 );
 
 // Response interceptor for API calls
-Api.interceptors.response.use(
+http.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -44,10 +43,4 @@ Api.interceptors.response.use(
   }
 );
 
-// function refreshToken(token: string) {
-//   return Api.post("/auth/token/refresh/", {
-//     refresh: token,
-//   });
-// }
-
-export default Api;
+export default http;

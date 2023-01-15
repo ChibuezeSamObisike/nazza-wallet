@@ -25,7 +25,9 @@
       "theme/*": ["./theme/*"],
       "assets/*": ["./assets/*"],
       "utils/*": ["./utils/*"],
-      "modules/*": ["./modules/*"]
+      "modules/*": ["./modules/*"],
+      "services/*": ["./services/*"],
+      "contexts/*": ["./contexts/*"]
     }
   },
   "include": ["src"]
