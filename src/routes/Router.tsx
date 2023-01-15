@@ -1,6 +1,11 @@
 import React, { ReactElement, Suspense, lazy } from "react";
+
 import { Route, Routes } from "react-router-dom";
+
 import Loader from "shared/Loader";
+
+import AuthGuard from "./AuthGuard";
+
 import NavLayOut from "shared/layout/NavLayOut";
 import ReferalLayout from "shared/layout/ReferalLayout";
 import SignInLayout from "shared/layout/SignInLayout";
@@ -16,7 +21,7 @@ const routes: IRoute[] = [
   {
     path: "/",
     component: lazy(() => import("modules/Dasboard")),
-    auth: false,
+    auth: true,
     layout: NavLayOut,
   },
   {
@@ -70,16 +75,21 @@ const routes: IRoute[] = [
 const LazyLoad = ({
   component: Component,
   layout: Layout,
+  auth,
 }: {
   component: any;
   layout: any;
+  auth: boolean;
 }) => {
   const MainLayout = Layout ?? React.Fragment;
+  const AuthLayout = auth ? AuthGuard : React.Fragment;
   return (
     <Suspense fallback={<Loader />}>
-      <MainLayout>
-        <Component />
-      </MainLayout>
+      <AuthLayout>
+        <MainLayout>
+          <Component />
+        </MainLayout>
+      </AuthLayout>
     </Suspense>
   );
 };
@@ -90,7 +100,13 @@ export default function AppRouter() {
       {routes.map((rout) => (
         <Route
           path={rout.path}
-          element={<LazyLoad component={rout.component} layout={rout.layout} />}
+          element={
+            <LazyLoad
+              component={rout.component}
+              layout={rout.layout}
+              auth={rout.auth}
+            />
+          }
         />
       ))}
     </Routes>

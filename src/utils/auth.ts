@@ -43,16 +43,16 @@ export const logOut = (cb: VoidFunction): void => {
   cb();
 };
 
-// export const isAuthenticated = () => {
-//   try {
-//     const decodedToken = getDecodedJwt();
-//     if (decodedToken) {
-//       const { exp } = decodedToken;
-//       const currentTime = Date.now() / 1000;
-//       return exp > currentTime;
-//     }
-//     return false;
-//   } catch (e) {
-//     return false;
-//   }
-// };
+export const isAuthenticated = () => {
+  try {
+    const decodedToken = getDecodedJwt();
+    if (decodedToken) {
+      // const currentTime = Date.now() / 1000;
+      // return decodedToken?.exp > currentTime;
+      return false;
+    }
+    return false;
+  } catch (e) {
+    return false;
+  }
+};
