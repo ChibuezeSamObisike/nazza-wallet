@@ -8,6 +8,8 @@ const http = axios.create({
   baseURL: baseUrl,
 });
 
+http.defaults.headers.common["Content-Type"] = "application/json";
+
 // Request interceptor for API calls
 http.interceptors.request.use(
   async (config: AxiosRequestConfig) => {
@@ -22,25 +24,25 @@ http.interceptors.request.use(
 );
 
 // Response interceptor for API calls
-http.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  async function (error) {
-    console.log({ error });
-    // const originalRequest = error?.config;
-    // if (error?.response?.status === 401 && !originalRequest?._retry) {
-    //   originalRequest._retry = true;
-    //   const rToken = getRefreshToken();
-    //   if (rToken) {
-    //     const access_token = await refreshToken(rToken);
-    //     axios.defaults.headers.common["Authorization"] =
-    //       "Bearer " + access_token;
-    //   }
-    //   return Api(originalRequest);
-    // }
-    return Promise.reject(error);
-  }
-);
+// http.interceptors.response.use(
+//   (response) => {
+//     return response;
+//   },
+//   async function (error) {
+//     console.log({ error });
+//     // const originalRequest = error?.config;
+//     // if (error?.response?.status === 401 && !originalRequest?._retry) {
+//     //   originalRequest._retry = true;
+//     //   const rToken = getRefreshToken();
+//     //   if (rToken) {
+//     //     const access_token = await refreshToken(rToken);
+//     //     axios.defaults.headers.common["Authorization"] =
+//     //       "Bearer " + access_token;
+//     //   }
+//     //   return Api(originalRequest);
+//     // }
+//     return Promise.reject(error);
+//   }
+// );
 
 export default http;

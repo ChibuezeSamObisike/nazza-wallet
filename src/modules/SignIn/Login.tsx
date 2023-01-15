@@ -1,13 +1,13 @@
 import { Typography, Box, TextField, Button } from "@mui/material";
 import nazaLogo from "assets/naza-logo.svg";
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import { useMutation } from "react-query";
 import { login } from "services/authLogin";
 import * as Yup from "yup";
 
-import { useForm } from "react-hook-form";
+import { useForm, FieldValues } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import handleApiError from "utils/handleApiError";
@@ -15,23 +15,27 @@ import handleApiError from "utils/handleApiError";
 import { useAlert } from "hooks/useAlert";
 
 export default function Login() {
-  const navigate = useNavigate();
   const { showNotification } = useAlert();
-
   const {
     mutate,
     isLoading,
     error: mutationError,
   } = useMutation(login, {
     onSuccess(data) {
+      showNotification?.("Success", { type: "success" });
+      navigate("/");
       console.log(data);
     },
-    onError(data) {
-      console.log(data);
+    onError(error) {
+      showNotification?.(handleApiError(error), { type: "error" });
+      console.log("onError", error);
     },
   });
 
-  const onSubmit = (data: any) => {
+  const navigate = useNavigate();
+
+  const onSubmit = (data: FieldValues) => {
+    console.log("Data payload", data);
     return mutate({ data });
   };
 
@@ -131,7 +135,14 @@ export default function Login() {
 
       <Typography display='flex' mt={2} alignItems='center'>
         Don't Have an account?{" "}
-        <Typography ml={2} color='#2574F5'>
+        <Typography
+          ml={1}
+          color='#2574F5'
+          sx={{
+            cursor: "pointer",
+          }}
+          onClick={() => navigate("/create-account")}
+        >
           Create Account
         </Typography>
       </Typography>
