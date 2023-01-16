@@ -54,6 +54,11 @@ const routes: IRoute[] = [
     auth: false,
   },
   {
+    path: "logout",
+    component: lazy(() => import("modules/SignIn/Logout")),
+    auth: false,
+  },
+  {
     path: "verify",
     component: lazy(() => import("modules/SignIn/VerifyEmail")),
     layout: SignInLayout,

@@ -12,7 +12,11 @@ import { useForm, FieldValues } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import handleApiError from "utils/handleApiError";
 
+import { setToken } from "utils/auth";
+
 import { useAlert } from "hooks/useAlert";
+
+import { getDecodedJwt } from "utils/auth";
 
 export default function Login() {
   const { showNotification } = useAlert();
@@ -22,9 +26,11 @@ export default function Login() {
     error: mutationError,
   } = useMutation(login, {
     onSuccess(data) {
-      showNotification?.("Success", { type: "success" });
+      // showNotification?.("Success", { type: "success" });
       navigate("/");
-      console.log(data);
+      console.log("auth data", data);
+      setToken(data?.accessToken);
+      getDecodedJwt();
     },
     onError(error) {
       showNotification?.(handleApiError(error), { type: "error" });
@@ -50,7 +56,7 @@ export default function Login() {
       .email("Type most be email"),
     password: Yup.string()
       .required("Password is Required")
-      .min(9, "Minimum of 9 text"),
+      .min(6, "Minimum of 6 text"),
   });
 
   const resolver = yupResolver(schema);
@@ -60,14 +66,6 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver, defaultValues });
-
-  useEffect(() => {
-    console.log("Mutation error", handleApiError(mutationError));
-  }, [mutationError]);
-
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
 
   return (
     <Box sx={{ width: { md: "60%", xs: "100%" } }}>

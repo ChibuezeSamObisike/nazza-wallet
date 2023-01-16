@@ -9,12 +9,14 @@ const http = axios.create({
 });
 
 http.defaults.headers.common["Content-Type"] = "application/json";
+http.defaults.headers.common["x-auth-apiKey"] = 1;
 
 // Request interceptor for API calls
 http.interceptors.request.use(
   async (config: AxiosRequestConfig) => {
     config.headers = {
       Authorization: isAuthenticated() ? `Bearer ${getToken()}` : "",
+      "x-auth-apiKey": "1",
     };
     return config;
   },

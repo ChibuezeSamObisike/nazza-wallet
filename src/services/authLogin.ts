@@ -6,11 +6,8 @@ export const login = async (payload: any) => {
     .post("user/login/", payload.data)
     .then((res) => {
       console.log("Res>>>", res);
-      return res;
+      return res.data;
     })
-    .then((res) => {
-      console.log("Res>>>", res);
-      return res;
-    })
+
     .catch((err) => console.log("Error>>>>", err));
 };

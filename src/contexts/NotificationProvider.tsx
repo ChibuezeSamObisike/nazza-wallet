@@ -66,9 +66,9 @@ function RenderSnack({ id, message, open, type, handleClose }: SnackbarProp) {
           borderSize: "1px",
           borderColor: (theme: any) => theme.palette[type].main,
           borderRadius: "4px",
-          color: (theme: any) => theme.palette[type].dark,
+          color: (theme: any) => "#fff" || theme.palette[type].dark,
           "& .MuiAlert-icon": {
-            color: (theme: any) => theme.palette[type].dark,
+            color: (theme: any) => "#fff" || theme.palette[type].dark,
           },
         }}
       >
