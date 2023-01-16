@@ -49,7 +49,7 @@ export const isAuthenticated = () => {
   try {
     const decodedToken = getDecodedJwt();
     console.log("decoded token", decodedToken);
-    if (decodedToken) {
+    if (decodedToken && Object.keys(decodedToken).length !== 0) {
       return true;
     }
     return false;

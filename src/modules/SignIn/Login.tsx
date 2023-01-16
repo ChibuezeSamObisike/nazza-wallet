@@ -1,7 +1,12 @@
-import { Typography, Box, TextField, Button } from "@mui/material";
+import {
+  Typography,
+  Box,
+  TextField,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 import nazaLogo from "assets/naza-logo.svg";
-import React, { useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { useMutation } from "react-query";
 import { login } from "services/authLogin";
@@ -10,7 +15,7 @@ import * as Yup from "yup";
 import { useForm, FieldValues } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
-import handleApiError from "utils/handleApiError";
+import { handleAppError } from "utils/handleApiError";
 
 import { setToken } from "utils/auth";
 
@@ -20,20 +25,16 @@ import { getDecodedJwt } from "utils/auth";
 
 export default function Login() {
   const { showNotification } = useAlert();
-  const {
-    mutate,
-    isLoading,
-    error: mutationError,
-  } = useMutation(login, {
+  const { mutate, isLoading } = useMutation(login, {
     onSuccess(data) {
-      // showNotification?.("Success", { type: "success" });
+      showNotification?.("Login Successful", { type: "success" });
       navigate("/");
       console.log("auth data", data);
       setToken(data?.accessToken);
       getDecodedJwt();
     },
     onError(error) {
-      showNotification?.(handleApiError(error), { type: "error" });
+      showNotification?.(handleAppError(error), { type: "error" });
       console.log("onError", error);
     },
   });
@@ -113,9 +114,25 @@ export default function Login() {
             width: "100%",
           }}
           type='submit'
-          // onClick={() => navigate("/")}
         >
-          {isLoading ? "Loading" : " Login"}
+          {isLoading ? (
+            <Box
+              display='flex'
+              alignItems='center'
+              justifyContent='space-between'
+            >
+              <CircularProgress
+                sx={{
+                  width: "15px",
+                  color: "#fff",
+                  marginRight: 3,
+                }}
+              />{" "}
+              <Typography>Loading</Typography>
+            </Box>
+          ) : (
+            <Typography>Login</Typography>
+          )}
         </Button>
       </form>
 
@@ -139,7 +156,7 @@ export default function Login() {
           sx={{
             cursor: "pointer",
           }}
-          onClick={() => navigate("/create-account")}
+          onClick={() => navigate("/account-setup")}
         >
           Create Account
         </Typography>

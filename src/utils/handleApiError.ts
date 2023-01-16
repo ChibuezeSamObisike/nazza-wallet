@@ -1,3 +1,5 @@
+import { AxiosError } from "axios";
+
 const genericMessage =
   "Something went wrong while trying to connect with the server";
 
@@ -83,6 +85,10 @@ const handleApiError = (error: any, fields?: any) => {
         genericMessage
       );
   }
+};
+
+export const handleAppError = (err: AxiosError | any) => {
+  return err.response.data.error.message;
 };
 
 export default handleApiError;

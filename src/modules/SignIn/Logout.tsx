@@ -7,6 +7,6 @@ export default function Logout() {
   React.useEffect(() => {
     removeToken();
     navigate("/login");
-  });
+  }, []);
   return null;
 }

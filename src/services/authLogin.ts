@@ -1,13 +1,13 @@
 import http from "utils/http";
 
 export const login = async (payload: any) => {
-  console.log("Payload", payload.data);
-  return http
-    .post("user/login/", payload.data)
-    .then((res) => {
-      console.log("Res>>>", res);
-      return res.data;
-    })
+  return http.post("user/login/", payload.data).then((res) => {
+    return res.data;
+  });
+};
 
-    .catch((err) => console.log("Error>>>>", err));
+export const register = async (payload: any) => {
+  return http.post("user/register/", payload.data).then((res) => {
+    return res.data;
+  });
 };
