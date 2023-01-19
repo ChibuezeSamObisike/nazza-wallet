@@ -1,7 +1,9 @@
 import React from "react";
 import { Box, Typography, IconButton } from "@mui/material";
 import bg from "assets/withdraw-card.svg";
-import { ReactComponent as Withdraw } from "assets/Withdraw.svg";
+import { ReactComponent as Invite } from "assets/invite.svg";
+
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 
 export default function PaymentTypeCard() {
   return (
@@ -19,13 +21,13 @@ export default function PaymentTypeCard() {
     >
       <Box pt={4}>
         <IconButton>
-          <Withdraw />
+          <Invite />
         </IconButton>
       </Box>
       <Typography variant='subtitle2' fontWeight='bold' pt={2}>
-        Withdraw
+        Invite
       </Typography>
-      <Typography>Withdraw your crypto</Typography>
+      <Typography>Invite a friend and earn</Typography>
     </Box>
   );
 }

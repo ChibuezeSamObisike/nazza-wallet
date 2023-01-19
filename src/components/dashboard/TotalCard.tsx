@@ -31,39 +31,52 @@ export default function TotalCard() {
       >
         <Bg />
       </Box>
-      <Box display='flex' justifyContent='flex-end'>
-        <IconButton onClick={() => setViewPrice(!viewPrice)}>
-          <VisibilityOffIcon
-            sx={{
-              color: "#101628",
-            }}
-          />
-        </IconButton>
-      </Box>
-      <Box
-        flexDirection='column'
-        display='flex'
-        alignItems='center'
-        justifyContent='center'
-        width='100%'
-      >
-        <Typography variant='subtitle1' color='#000'>
-          Combine total
-        </Typography>
+
+      <Box flexDirection='column' display='flex' width='100%'>
         {viewPrice ? (
-          <>
-            <Typography fontSize={pxToRem(isMobile ? 50 : 62)} fontWeight={700}>
-              NGN0.0
-            </Typography>
-            <Typography variant='body2' fontWeight='bold'>
-              USD 0
-            </Typography>
-          </>
+          <Box display='flex' flexDirection='column' ml={isMobile ? 15 : 20}>
+            <Box>
+              <Typography
+                fontSize={pxToRem(isMobile ? 50 : 62)}
+                fontWeight={700}
+              >
+                <span
+                  style={{
+                    fontSize: pxToRem(22),
+                    color: "rgba(0, 29, 75, 0.5)",
+                  }}
+                >
+                  USD
+                </span>{" "}
+                0346
+              </Typography>
+            </Box>
+            <Box>
+              <Typography
+                variant='subtitle2'
+                fontWeight={400}
+                color='#001D4B'
+                sx={{
+                  opacity: "40%",
+                }}
+              >
+                Total Payout balance in
+              </Typography>
+            </Box>
+          </Box>
         ) : (
           <Typography fontWeight='bold' variant='h1'>
             * * * * *
           </Typography>
         )}
+
+        <IconButton onClick={() => setViewPrice(!viewPrice)}>
+          <VisibilityOffIcon
+            sx={{
+              color: "#7785B0",
+            }}
+          />
+        </IconButton>
       </Box>
     </Box>
   );

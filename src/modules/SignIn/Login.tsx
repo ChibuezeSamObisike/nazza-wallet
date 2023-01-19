@@ -121,13 +121,14 @@ export default function Login() {
               alignItems='center'
               justifyContent='space-between'
             >
-              <CircularProgress
-                sx={{
-                  width: "15px",
-                  color: "#fff",
-                  marginRight: 3,
-                }}
-              />{" "}
+              <Box width='5px' marginRight='15px'>
+                <CircularProgress
+                  sx={{
+                    width: "5px",
+                    color: "#fff",
+                  }}
+                />
+              </Box>
               <Typography>Loading</Typography>
             </Box>
           ) : (

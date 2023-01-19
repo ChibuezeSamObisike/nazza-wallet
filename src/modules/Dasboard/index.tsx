@@ -1,9 +1,9 @@
 import TotalCard from "components/dashboard/TotalCard";
-import VerifyKyc from "components/dashboard/VerifyKyc";
+
 import PaymentTypeCard from "components/dashboard/SendPaymentTypeCard";
 import DepositPaymentTypeCard from "components/dashboard/DepositPaymentTypeCard";
 import WithdrawPaymentTypeCard from "components/dashboard/WithdrawPaymentTypeCard";
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import BasicTable from "shared/Table";
 import TextTag from "shared/TextTag";
 import { useNavigate } from "react-router-dom";
@@ -62,24 +62,17 @@ function App() {
         close={handleSucessClose}
         subtitle='Done!!'
       />
-      <Box display='flex' justifyContent='flex-end'>
-        <Button
-          variant='contained'
-          color='secondary'
-          onClick={() => navigate("referrals")}
-        >
-          Refer and earn
-        </Button>
+      <Box display='flex' mb={4}>
+        <Typography variant='h3' fontWeight='bold' color='#47454C'>
+          Welcome, Sam <span className='wave'>👋</span>
+        </Typography>
       </Box>
-      <VerifyKyc />
+
       <TotalCard />
       <Box mt={5}>
         <Grid container spacing={4}>
           <Grid item xs={12} md={4}>
             <PaymentTypeCard onClick={handleSellOpen} />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <DepositPaymentTypeCard />
           </Grid>
           <Grid item xs={12} md={4}>
             <WithdrawPaymentTypeCard />
