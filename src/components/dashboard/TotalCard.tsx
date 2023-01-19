@@ -47,7 +47,7 @@ export default function TotalCard() {
             </Typography>
           </Box>
           <Box>
-            <Typography fontSize={pxToRem(isMobile ? 40 : 48)} fontWeight={700}>
+            <Typography fontSize={pxToRem(isMobile ? 22 : 48)} fontWeight={700}>
               {viewPrice ? " $ 180,000.34" : "---------"}
             </Typography>
           </Box>
