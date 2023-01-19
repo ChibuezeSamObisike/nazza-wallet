@@ -14,7 +14,14 @@ export default function SignInLayout({ children }: IProps) {
       alignItems='center'
       justifyContent='center'
     >
-      <Box position='absolute' top={{ md: -90, xs: -90 }} right={0}>
+      <Box
+        position='absolute'
+        top={{ md: -90, xs: -90 }}
+        sx={{
+          opacity: { xs: "30%", md: "80%" },
+        }}
+        right={0}
+      >
         <PatternBg />
       </Box>
       <Container>
