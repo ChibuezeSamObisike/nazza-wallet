@@ -1,9 +1,13 @@
+import { useState } from "react";
+
 import {
   Typography,
   Box,
   TextField,
   Button,
   CircularProgress,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
 import nazaLogo from "assets/naza-logo.svg";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +17,7 @@ import { login } from "services/authLogin";
 import * as Yup from "yup";
 
 import { useForm, FieldValues } from "react-hook-form";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { handleAppError } from "utils/handleApiError";
@@ -25,6 +30,12 @@ import { getDecodedJwt } from "utils/auth";
 
 export default function Login() {
   const { showNotification } = useAlert();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   const { mutate, isLoading } = useMutation(login, {
     onSuccess(data) {
       showNotification?.("Login Successful", { type: "success" });
@@ -99,6 +110,16 @@ export default function Login() {
         <TextField
           placeholder='Password'
           label='Password'
+          type={showPassword ? "" : "password"}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position='end'>
+                <IconButton onClick={() => togglePasswordVisibility()}>
+                  <VisibilityOffIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
           fullWidth
           {...register("password")}
           error={Boolean(errors["password"]?.message)}

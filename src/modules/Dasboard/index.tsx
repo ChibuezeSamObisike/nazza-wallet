@@ -98,6 +98,7 @@ function App() {
             Sell Crypto
           </Button>
           <Button
+            onClick={() => navigate("/referrals")}
             sx={{
               bgcolor: "#FFF5D8",
               color: "#423308",

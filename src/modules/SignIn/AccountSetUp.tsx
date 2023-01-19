@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
   Typography,
   TextField,
   CircularProgress,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import nazaLogo from "assets/naza-logo.svg";
@@ -24,11 +26,19 @@ import { handleAppError } from "utils/handleApiError";
 
 import { useAlert } from "hooks/useAlert";
 
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+
 import ReactPasswordChecklist from "react-password-checklist";
 
 import * as Yup from "yup";
 
 export default function AccountSetUp() {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   const defaultValues = {
     email: "",
     password: "",
@@ -128,10 +138,20 @@ export default function AccountSetUp() {
         <TextField
           placeholder='Password'
           label='Password'
+          type={showPassword ? "" : "password"}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position='end'>
+                <IconButton onClick={() => togglePasswordVisibility()}>
+                  <VisibilityOffIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+          fullWidth
           {...register("password")}
           error={Boolean(errors["password"]?.message)}
           helperText={errors.password?.message?.toString()}
-          fullWidth
           sx={{
             mt: 3,
           }}

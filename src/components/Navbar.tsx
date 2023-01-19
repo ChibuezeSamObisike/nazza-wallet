@@ -7,8 +7,6 @@ import {
   useMediaQuery,
   IconButton,
   ClickAwayListener,
-  Menu,
-  MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import logo from "assets/Nazza-logo.svg";
@@ -143,20 +141,13 @@ export default function Navbar() {
                   Dashboard
                 </Typography>
               </NavLink>
+
               <NavLink
-                to='/wallet'
+                to='/all-transactions'
                 style={{ color: "inherit", textDecoration: "inherit" }}
               >
                 <Typography variant='body1' mx={1} fontWeight={700}>
-                  Wallet
-                </Typography>
-              </NavLink>
-              <NavLink
-                to='/referrals'
-                style={{ color: "inherit", textDecoration: "inherit" }}
-              >
-                <Typography variant='body1' mx={1} fontWeight={700}>
-                  Refferals
+                  All Transactions
                 </Typography>
               </NavLink>
 

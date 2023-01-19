@@ -31,6 +31,12 @@ const routes: IRoute[] = [
     layout: NavLayOut,
   },
   {
+    path: "/all-transactions",
+    component: lazy(() => import("modules/AllTransactions")),
+    auth: false,
+    layout: NavLayOut,
+  },
+  {
     path: "/referrals",
     component: lazy(() => import("modules/Refferals")),
     auth: false,
