@@ -81,7 +81,7 @@ export default function AccountSetUp() {
     mutate({ data });
   };
   return (
-    <Box mt={{ md: -30, xs: 0 }} sx={{ width: { md: "60%", xs: "100%" } }}>
+    <Box sx={{ width: { md: "60%", xs: "100%" } }}>
       <img
         src={nazaLogo}
         alt='logo'

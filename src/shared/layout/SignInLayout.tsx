@@ -8,15 +8,20 @@ interface IProps {
 
 export default function SignInLayout({ children }: IProps) {
   return (
-    <Box position='relative'>
-      <Box position='absolute' top={{ md: -90, xs: -90 }} right={0} mb={5}>
+    <Box
+      position='relative'
+      display='flex'
+      alignItems='center'
+      justifyContent='center'
+    >
+      <Box position='absolute' top={{ md: -90, xs: -90 }} right={0}>
         <PatternBg />
       </Box>
       <Container>
         <Box
           display='flex'
+          mt='25%'
           alignItems='center'
-          pt={{ md: 50, xs: 30 }}
           justifyContent='center'
         >
           {children}
