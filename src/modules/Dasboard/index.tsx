@@ -1,9 +1,8 @@
 import TotalCard from "components/dashboard/TotalCard";
 
-import PaymentTypeCard from "components/dashboard/SendPaymentTypeCard";
-import DepositPaymentTypeCard from "components/dashboard/DepositPaymentTypeCard";
-import WithdrawPaymentTypeCard from "components/dashboard/WithdrawPaymentTypeCard";
-import { Box, Grid, Typography } from "@mui/material";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import { ReactComponent as Invite } from "assets/invite.svg";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import BasicTable from "shared/Table";
 import TextTag from "shared/TextTag";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +10,7 @@ import SellModal from "components/modals/SellModal";
 import { useState } from "react";
 
 import ConfirmSellModal from "components/modals/ConfirmSell";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import SuccessModal from "shared/SuccessModal";
 
 function App() {
@@ -62,23 +62,66 @@ function App() {
         close={handleSucessClose}
         subtitle='Done!!'
       />
-      <Box display='flex' mb={4}>
+      <Box
+        display='flex'
+        flexDirection={{ xs: "column", md: "row" }}
+        mb={4}
+        alignItems={{ xs: "flex-start", md: "center" }}
+        justifyContent='space-between'
+      >
         <Typography variant='h3' fontWeight='bold' color='#47454C'>
           Welcome, Sam <span className='wave'>👋</span>
         </Typography>
+
+        <Box
+          sx={{
+            mt: { xs: 3, md: 0 },
+          }}
+        >
+          <Button
+            sx={{
+              bgcolor: "#FFD8C2",
+              color: "#441D07",
+              fontWeight: 400,
+              ":hover": {
+                bgcolor: "#FFD8C2",
+                color: "#441D07",
+              },
+            }}
+          >
+            <OpenInNewIcon
+              sx={{
+                mr: 1,
+                fontWeight: 400,
+              }}
+            />{" "}
+            Sell Crypto
+          </Button>
+          <Button
+            sx={{
+              bgcolor: "#FFF5D8",
+              color: "#423308",
+              fontWeight: 400,
+              ":hover": {
+                bgcolor: "#FFF5D8",
+                color: "#423308",
+              },
+              ml: 3,
+            }}
+          >
+            <PersonAddAltIcon
+              sx={{
+                mr: 1,
+                fontWeight: 400,
+              }}
+            />
+            Invite
+          </Button>
+        </Box>
       </Box>
 
       <TotalCard />
-      <Box mt={5}>
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={4}>
-            <PaymentTypeCard onClick={handleSellOpen} />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <WithdrawPaymentTypeCard />
-          </Grid>
-        </Grid>
-      </Box>
+
       <div style={{ marginTop: "40px" }}>
         <TextTag label='Transaction History' />
         <div style={{ marginBottom: "50px" }}></div>

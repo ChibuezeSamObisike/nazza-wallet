@@ -30,7 +30,7 @@ export default function Login() {
       showNotification?.("Login Successful", { type: "success" });
       navigate("/");
       console.log("auth data", data);
-      setToken(data?.accessToken);
+      setToken(data?.accessToken?.token);
       getDecodedJwt();
     },
     onError(error) {
@@ -114,26 +114,19 @@ export default function Login() {
             width: "100%",
           }}
           type='submit'
+          startIcon={
+            isLoading && (
+              <CircularProgress
+                size={16}
+                sx={{
+                  fontSize: 2,
+                  color: "#fff",
+                }}
+              />
+            )
+          }
         >
-          {isLoading ? (
-            <Box
-              display='flex'
-              alignItems='center'
-              justifyContent='space-between'
-            >
-              <Box width='5px' marginRight='15px'>
-                <CircularProgress
-                  sx={{
-                    width: "5px",
-                    color: "#fff",
-                  }}
-                />
-              </Box>
-              <Typography>Loading</Typography>
-            </Box>
-          ) : (
-            <Typography>Login</Typography>
-          )}
+          Login
         </Button>
       </form>
 

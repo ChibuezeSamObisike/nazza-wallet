@@ -24,6 +24,8 @@ import { handleAppError } from "utils/handleApiError";
 
 import { useAlert } from "hooks/useAlert";
 
+import ReactPasswordChecklist from "react-password-checklist";
+
 import * as Yup from "yup";
 
 export default function AccountSetUp() {
@@ -137,32 +139,27 @@ export default function AccountSetUp() {
 
         <Button
           sx={{
-            mt: 10,
-            width: "70%",
+            mt: 3,
+            width: "100%",
           }}
           type='submit'
-          // onClick={() => navigate("/verify")}
-        >
-          {isLoading ? (
-            <Box
-              display='flex'
-              alignItems='center'
-              justifyContent='space-between'
-            >
+          startIcon={
+            isLoading && (
               <CircularProgress
+                size={16}
                 sx={{
-                  width: "15px",
+                  fontSize: 2,
                   color: "#fff",
-                  marginRight: 3,
                 }}
-              />{" "}
-              <Typography>Creating Account</Typography>
-            </Box>
-          ) : (
-            <Typography>Create Account</Typography>
-          )}
+              />
+            )
+          }
+        >
+          Create Account
         </Button>
       </form>
+
+      {/* <ReactPasswordChecklist /> */}
       <Box mt={3}>
         <Box
           display='flex'

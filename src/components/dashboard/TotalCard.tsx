@@ -18,12 +18,12 @@ export default function TotalCard() {
       overflow='hidden'
       borderRadius='8px'
     >
-      <Box position='absolute' left='-5px' top='-10px'>
+      <Box position='absolute' left='-65px' top='-10px'>
         <Bg />
       </Box>
       <Box
         position='absolute'
-        right='-40px'
+        right='-70px'
         top='10px'
         sx={{
           transform: "rotate(180deg)",
@@ -32,45 +32,37 @@ export default function TotalCard() {
         <Bg />
       </Box>
 
-      <Box flexDirection='column' display='flex' width='100%'>
-        {viewPrice ? (
-          <Box display='flex' flexDirection='column' ml={isMobile ? 15 : 20}>
-            <Box>
-              <Typography
-                fontSize={pxToRem(isMobile ? 50 : 62)}
-                fontWeight={700}
-              >
-                <span
-                  style={{
-                    fontSize: pxToRem(22),
-                    color: "rgba(0, 29, 75, 0.5)",
-                  }}
-                >
-                  USD
-                </span>{" "}
-                0346
-              </Typography>
-            </Box>
-            <Box>
-              <Typography
-                variant='subtitle2'
-                fontWeight={400}
-                color='#001D4B'
-                sx={{
-                  opacity: "40%",
-                }}
-              >
-                Total Payout balance in
-              </Typography>
-            </Box>
+      <Box display='flex' width='100%' alignItems='center'>
+        <Box display='flex' flexDirection='column'>
+          <Box>
+            <Typography
+              variant='subtitle2'
+              fontWeight={400}
+              color='#001D4B'
+              sx={{
+                opacity: "40%",
+              }}
+            >
+              Total Payout
+            </Typography>
           </Box>
-        ) : (
-          <Typography fontWeight='bold' variant='h1'>
-            * * * * *
-          </Typography>
-        )}
+          <Box>
+            <Typography fontSize={pxToRem(isMobile ? 50 : 48)} fontWeight={700}>
+              {viewPrice ? " $ 180,000.34" : "---------"}
+            </Typography>
+          </Box>
 
-        <IconButton onClick={() => setViewPrice(!viewPrice)}>
+          <Typography color='#7587a5' fontWeight={700} fontSize={pxToRem(18)}>
+            {viewPrice ? "NGN 23,000.34" : "-------"}
+          </Typography>
+        </Box>
+
+        <IconButton
+          sx={{
+            ml: 2,
+          }}
+          onClick={() => setViewPrice(!viewPrice)}
+        >
           <VisibilityOffIcon
             sx={{
               color: "#7785B0",
