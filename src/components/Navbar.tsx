@@ -12,6 +12,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import logo from "assets/Nazza-logo.svg";
 import avatar from "assets/avatar.svg";
 import { Container } from "@mui/system";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import { NavLink, useNavigate, Link } from "react-router-dom";
 import MenuDrawer from "./dashboard/MenuDrawer";
 import AppMenuItem from "./menu/AppMenuItem";
@@ -149,6 +150,17 @@ export default function Navbar() {
                 <Typography variant='body1' mx={1} fontWeight={700}>
                   All Transactions
                 </Typography>
+              </NavLink>
+
+              <NavLink
+                to='/notification'
+                style={{
+                  color: "inherit",
+                  textDecoration: "inherit",
+                  margin: "0px 20px",
+                }}
+              >
+                <NotificationsIcon />
               </NavLink>
 
               <Box position='relative'>

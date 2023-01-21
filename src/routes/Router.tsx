@@ -37,6 +37,18 @@ const routes: IRoute[] = [
     layout: NavLayOut,
   },
   {
+    path: "/notification",
+    component: lazy(() => import("modules/Notifications")),
+    auth: false,
+    layout: NavLayOut,
+  },
+  {
+    path: "/sell",
+    component: lazy(() => import("modules/Sell")),
+    auth: false,
+    layout: NavLayOut,
+  },
+  {
     path: "/referrals",
     component: lazy(() => import("modules/Refferals")),
     auth: false,

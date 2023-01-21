@@ -88,6 +88,7 @@ function App() {
                 color: "#441D07",
               },
             }}
+            onClick={() => navigate("/sell")}
           >
             <OpenInNewIcon
               sx={{
