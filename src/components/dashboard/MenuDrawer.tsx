@@ -89,6 +89,11 @@ export default function MenuDrawer({ open, close }: IMenuProps) {
               { label: "Dashboard", close: () => close(), path: "/" },
               { label: "Sell", close: () => close(), path: "/sell" },
               { label: "Referral", close: () => close(), path: "/referrals" },
+              {
+                label: "All Transactions",
+                close: () => close(),
+                path: "/all-transactions",
+              },
             ].map((x) => (
               <NavClick {...x} />
             ))}
