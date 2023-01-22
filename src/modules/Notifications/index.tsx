@@ -15,8 +15,8 @@ export default function index() {
       />
 
       <Box>
-        <Box bgcolor='#fff' mt={3} py={8}>
-          <Box p={6}>
+        <Box bgcolor='#fff' mt={3} py={{ xs: 2, md: 8 }}>
+          <Box p={{ xs: 3, md: 6 }}>
             <Typography fontSize={pxToRem(18)} fontWeight={700} mb={3}>
               Payment Received
             </Typography>

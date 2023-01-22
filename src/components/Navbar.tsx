@@ -85,7 +85,11 @@ export default function Navbar() {
               onClick={() => navigate("/")}
             />
 
-            <Box display={{ xs: "flex", md: "none" }} alignItems='center'>
+            <Box
+              display={{ xs: "flex", md: "none" }}
+              alignItems='center'
+              justifyContent='center'
+            >
               <NavLink
                 to='/notification'
                 style={{
