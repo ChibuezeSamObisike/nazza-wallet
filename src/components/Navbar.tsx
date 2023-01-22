@@ -85,7 +85,17 @@ export default function Navbar() {
               onClick={() => navigate("/")}
             />
 
-            <Box display={{ xs: "flex", md: "none" }}>
+            <Box display={{ xs: "flex", md: "none" }} alignItems='center'>
+              <NavLink
+                to='/notification'
+                style={{
+                  color: "inherit",
+                  textDecoration: "inherit",
+                  margin: "0px 20px",
+                }}
+              >
+                <NotificationsIcon />
+              </NavLink>
               <img
                 style={{
                   marginLeft: "10px",

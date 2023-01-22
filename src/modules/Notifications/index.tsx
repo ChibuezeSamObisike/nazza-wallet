@@ -34,16 +34,22 @@ export default function index() {
               <Box
                 display='flex'
                 alignItems={{ xs: "left", md: "center" }}
-                justifyContent={{ xs: "space-around", md: "space-between" }}
+                justifyContent={{ xs: "flex-start", md: "space-between" }}
                 color='#A4A3A7'
+                mt={{
+                  xs: 3,
+                  md: "auto",
+                }}
                 fontWeight={400}
+                // bgcolor='red'
+                width={{ xs: "100%", md: "auto" }}
               >
                 <QueryBuilderOutlinedIcon
                   sx={{
                     color: "#A4A3A7",
                   }}
                 />
-                <Typography ml={{ xs: 0, md: 1 }}>7 :59 Pm</Typography>
+                <Typography ml={1}>7 :59 Pm</Typography>
                 <Typography mx={2}>|</Typography>
                 <Typography ml={1}>12th June, 2023</Typography>
               </Box>

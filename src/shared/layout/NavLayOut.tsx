@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Box } from "@mui/system";
+import { Container } from "@mui/system";
 import Navbar from "components/Navbar";
 
 export default function NavLayOut({ children }: { children: React.ReactNode }) {

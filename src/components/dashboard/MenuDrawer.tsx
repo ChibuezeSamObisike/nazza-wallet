@@ -42,7 +42,7 @@ const NavClick = ({
           padding: pxToRem(10),
           color: "white",
           fontWeight: "light",
-          fontSize: pxToRem(24),
+          fontSize: pxToRem(20),
         }}
       >
         {label}
@@ -87,7 +87,7 @@ export default function MenuDrawer({ open, close }: IMenuProps) {
           >
             {[
               { label: "Dashboard", close: () => close(), path: "/" },
-              { label: "Wallet", close: () => close(), path: "/wallet" },
+              { label: "Sell", close: () => close(), path: "/sell" },
               { label: "Referral", close: () => close(), path: "/referrals" },
             ].map((x) => (
               <NavClick {...x} />

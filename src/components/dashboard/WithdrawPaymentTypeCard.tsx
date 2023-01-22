@@ -3,8 +3,6 @@ import { Box, Typography, IconButton } from "@mui/material";
 import bg from "assets/withdraw-card.svg";
 import { ReactComponent as Invite } from "assets/invite.svg";
 
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-
 export default function PaymentTypeCard() {
   return (
     <Box
