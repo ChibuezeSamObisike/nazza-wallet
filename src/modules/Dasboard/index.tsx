@@ -88,6 +88,7 @@ function App() {
           alignItems='center'
           display='flex'
           justifyContent='space-between'
+          flexDirection='column'
           sx={{
             mt: { xs: 3, md: 0 },
             width: "100%",
@@ -121,7 +122,8 @@ function App() {
               bgcolor: "#FFF5D8",
               color: "#423308",
               fontWeight: 400,
-              ml: 2,
+              mt: 2,
+
               ":hover": {
                 bgcolor: "#FFF5D8",
                 color: "#423308",
