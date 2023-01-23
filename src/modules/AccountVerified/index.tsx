@@ -6,8 +6,8 @@ import { verify } from "services/authLogin";
 
 import { AxiosError } from "axios";
 
-import { ReactComponent as AccountVerified } from "assets/verified.svg";
-import { useMutation, useQuery } from "react-query";
+import successGif from "assets/succesful-gif.gif";
+import { useMutation } from "react-query";
 import { useLocation } from "react-router-dom";
 import { useAlert } from "hooks/useAlert";
 import { useNavigate } from "react-router-dom";
@@ -59,9 +59,10 @@ export default function Index() {
       display='flex'
       alignItems='center'
       justifyContent='center'
+      bgcolor='white'
     >
       <Box width={{ md: "30%", xs: "80%" }} textAlign='center'>
-        <AccountVerified />
+        <img src={successGif} alt='Img' width='350' />
         <Box mt={3}>
           <Typography fontWeight='bold' variant='h3'>
             Account Verified!
@@ -71,9 +72,11 @@ export default function Index() {
         </Box>
 
         <Button
+          onClick={() => navigate("/login")}
           sx={{
             width: "100%",
             mt: 5,
+
             borderRadius: 0,
             bgcolor: "#2574F5",
             ":hover": {

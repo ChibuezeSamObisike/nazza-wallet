@@ -37,6 +37,12 @@ const routes: IRoute[] = [
     layout: Fragment,
   },
   {
+    path: "/forgot-password",
+    component: lazy(() => import("modules/SignIn/ForgotPassword")),
+    auth: false,
+    layout: SignInLayout,
+  },
+  {
     path: "/all-transactions",
     component: lazy(() => import("modules/AllTransactions")),
     auth: false,
