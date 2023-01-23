@@ -1,6 +1,6 @@
 import React from "react";
 import { Box } from "@mui/material";
-import { DotLoader } from "react-spinners";
+import { PropagateLoader } from "react-spinners";
 
 const Loader = () => {
   return (
@@ -10,7 +10,7 @@ const Loader = () => {
       justifyContent='center'
       sx={{ height: "100vh", width: "100%" }}
     >
-      <DotLoader color='#2574F5' />
+      <PropagateLoader color='#2574F5' />
     </Box>
   );
 };

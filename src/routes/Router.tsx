@@ -1,4 +1,4 @@
-import React, { ReactElement, Suspense, lazy } from "react";
+import React, { Fragment, ReactElement, Suspense, lazy } from "react";
 
 import { Route, Routes } from "react-router-dom";
 
@@ -29,6 +29,12 @@ const routes: IRoute[] = [
     component: lazy(() => import("modules/Wallet")),
     auth: false,
     layout: NavLayOut,
+  },
+  {
+    path: "/verified",
+    component: lazy(() => import("modules/AccountVerified")),
+    auth: false,
+    layout: Fragment,
   },
   {
     path: "/all-transactions",
