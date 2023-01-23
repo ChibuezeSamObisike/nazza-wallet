@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 export default function CreateAccount() {
   const navigate = useNavigate();
   return (
-    <Box sx={{ width: { md: "60%", xs: "100%" } }}>
+    <Box sx={{ width: { md: "60%", xs: "100%" } }} textAlign='center'>
       <img
         src={nazaLogo}
         alt='logo'
@@ -40,7 +40,14 @@ export default function CreateAccount() {
 
       <Typography display='flex' mt={2} alignItems='center'>
         Have an account?{" "}
-        <Typography ml={2} color='#2574F5'>
+        <Typography
+          ml={2}
+          color='#2574F5'
+          sx={{
+            cursor: "pointer",
+          }}
+          onClick={() => navigate("/login")}
+        >
           Sign in
         </Typography>
       </Typography>

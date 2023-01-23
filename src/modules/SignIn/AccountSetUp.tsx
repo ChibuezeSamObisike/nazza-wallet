@@ -28,7 +28,7 @@ import { useAlert } from "hooks/useAlert";
 
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
-import ReactPasswordChecklist from "react-password-checklist";
+// import ReactPasswordChecklist from "react-password-checklist";
 
 import * as Yup from "yup";
 
@@ -46,14 +46,10 @@ export default function AccountSetUp() {
   };
   const navigate = useNavigate();
   const { showNotification } = useAlert();
-  const {
-    mutate,
-    isLoading,
-    error: mutationError,
-  } = useMutation(registerService, {
+  const { mutate, isLoading } = useMutation(registerService, {
     onSuccess(data) {
       showNotification?.("Success", { type: "success" });
-      console.log("auth data", data);
+
       navigate("/verify");
     },
     onError(error: AxiosError) {
@@ -62,12 +58,6 @@ export default function AccountSetUp() {
         type: "error",
       });
     },
-  });
-  const [passTest, setPassTest] = React.useState({
-    atleast8: false,
-    uppercase: false,
-    oneNumber: false,
-    specialChar: false,
   });
 
   const schema = Yup.object({
@@ -93,7 +83,7 @@ export default function AccountSetUp() {
     mutate({ data });
   };
   return (
-    <Box sx={{ width: { md: "60%", xs: "100%" } }}>
+    <Box sx={{ width: { md: "60%", xs: "100%" } }} textAlign='center'>
       <img
         src={nazaLogo}
         alt='logo'
@@ -181,12 +171,7 @@ export default function AccountSetUp() {
 
       {/* <ReactPasswordChecklist /> */}
       <Box mt={3}>
-        <Box
-          display='flex'
-          mb={2}
-          alignItems='center'
-          color={passTest.atleast8 ? "" : "#8C8B90"}
-        >
+        <Box display='flex' mb={2} alignItems='center'>
           <DoneIcon
             sx={{
               mr: 3,

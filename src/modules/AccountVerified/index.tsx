@@ -73,6 +73,7 @@ export default function Index() {
 
         <Button
           onClick={() => navigate("/login")}
+          type='submit'
           sx={{
             width: "100%",
             mt: 5,

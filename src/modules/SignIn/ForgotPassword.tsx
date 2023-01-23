@@ -4,16 +4,36 @@ import { Box, Typography, TextField, Button } from "@mui/material";
 import { useForm } from "react-hook-form";
 
 import nazaLogo from "assets/naza-logo.svg";
+import * as Yup from "yup";
+
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useNavigate } from "react-router-dom";
 
 export default function ForgotPassword() {
+  const defaultValues = {
+    email: "",
+  };
+
+  const schema = Yup.object({
+    email: Yup.string()
+      .required("Email is Required")
+      .email("Type most be email"),
+  });
+
+  const resolver = yupResolver(schema);
+
   const {
     register,
+    handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver, defaultValues });
 
   const navigate = useNavigate();
+
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
   return (
     <Box sx={{ width: { md: "60%", xs: "100%" } }} textAlign='center'>
       <img
@@ -34,7 +54,7 @@ export default function ForgotPassword() {
         email address to reset your password.
       </Typography>
 
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
           placeholder='Enter your email'
           label='Email'
@@ -48,7 +68,7 @@ export default function ForgotPassword() {
         />
 
         <Button
-          onClick={() => navigate("/login")}
+          type='submit'
           sx={{
             width: "100%",
             mt: 5,

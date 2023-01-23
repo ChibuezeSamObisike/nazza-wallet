@@ -96,20 +96,30 @@ export default function Login() {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
-          placeholder='Email'
-          label='Email'
+          placeholder='Password'
+          label='Password'
+          type={showPassword ? "" : "password"}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position='end'>
+                <IconButton onClick={() => togglePasswordVisibility()}>
+                  <VisibilityOffIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
           fullWidth
-          {...register("email")}
+          {...register("password")}
+          error={Boolean(errors["password"]?.message)}
+          helperText={errors.password?.message?.toString()}
           sx={{
             mt: 3,
           }}
-          error={Boolean(errors["email"]?.message)}
-          helperText={errors.email?.message?.toString()}
         />
 
         <TextField
-          placeholder='Password'
-          label='Password'
+          placeholder='Confirm Password'
+          label='Confirm Password'
           type={showPassword ? "" : "password"}
           InputProps={{
             endAdornment: (
@@ -147,42 +157,9 @@ export default function Login() {
             )
           }
         >
-          Login
+          Enter new password
         </Button>
       </form>
-
-      <Box
-        display='flex'
-        mt={2}
-        alignItems='center'
-        mb={4}
-        justifyContent='flex-end'
-      >
-        <Typography
-          color='#145CD3'
-          fontWeight={400}
-          sx={{
-            cursor: "pointer",
-          }}
-          onClick={() => navigate("/forgot-password")}
-        >
-          Forgot your password?
-        </Typography>
-      </Box>
-
-      <Typography display='flex' mt={2} alignItems='center'>
-        Don't Have an account?{" "}
-        <Typography
-          ml={1}
-          color='#2574F5'
-          sx={{
-            cursor: "pointer",
-          }}
-          onClick={() => navigate("/account-setup")}
-        >
-          Create Account
-        </Typography>
-      </Typography>
     </Box>
   );
 }
