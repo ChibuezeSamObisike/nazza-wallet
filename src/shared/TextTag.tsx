@@ -10,9 +10,10 @@ export default function TextTag({
 }) {
   return (
     <Box
-      bgcolor='background.totalCard'
+      bgcolor='#FFFFFF'
       borderRadius='8px'
       p='10px'
+      color='#101628'
       sx={{ ...style }}
     >
       <Typography variant='subtitle2' fontWeight='bold'>

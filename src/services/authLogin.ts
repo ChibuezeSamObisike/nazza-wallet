@@ -18,3 +18,10 @@ export const verify = async ({ data }: any) => {
     return res.data;
   });
 };
+
+export const reset = async ({ data }: any) => {
+  console.log("verify data", data);
+  return http.post("user/reset/", data).then((res) => {
+    return res.data;
+  });
+};

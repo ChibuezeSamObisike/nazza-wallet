@@ -1,14 +1,23 @@
 import React from "react";
-import { Box, Typography, TextField, Button } from "@mui/material";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 
 import nazaLogo from "assets/naza-logo.svg";
 import * as Yup from "yup";
 
 import { yupResolver } from "@hookform/resolvers/yup";
-
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
+import { reset } from "services/authLogin";
+import { useAlert } from "hooks/useAlert";
+import { handleAppError } from "utils/handleApiError";
 
 export default function ForgotPassword() {
   const defaultValues = {
@@ -23,6 +32,20 @@ export default function ForgotPassword() {
 
   const resolver = yupResolver(schema);
 
+  const { showNotification } = useAlert();
+
+  const { mutate, isLoading } = useMutation(reset, {
+    onSuccess(data) {
+      showNotification?.("Sent Reset Email", { type: "success" });
+      navigate("/reset-password");
+      console.log("auth data", data);
+    },
+    onError(error) {
+      showNotification?.(handleAppError(error), { type: "error" });
+      console.log("onError", error);
+    },
+  });
+
   const {
     register,
     handleSubmit,
@@ -31,8 +54,8 @@ export default function ForgotPassword() {
 
   const navigate = useNavigate();
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = (data: FieldValues) => {
+    mutate({ data });
   };
   return (
     <Box sx={{ width: { md: "60%", xs: "100%" } }} textAlign='center'>
@@ -69,6 +92,17 @@ export default function ForgotPassword() {
 
         <Button
           type='submit'
+          startIcon={
+            isLoading && (
+              <CircularProgress
+                size={16}
+                sx={{
+                  fontSize: 2,
+                  color: "#fff",
+                }}
+              />
+            )
+          }
           sx={{
             width: "100%",
             mt: 5,

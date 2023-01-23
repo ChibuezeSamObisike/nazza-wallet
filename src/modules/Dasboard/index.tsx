@@ -6,62 +6,20 @@ import { Box, Button, Grid, Typography } from "@mui/material";
 import BasicTable from "shared/Table";
 import TextTag from "shared/TextTag";
 import { useNavigate } from "react-router-dom";
-import SellModal from "components/modals/SellModal";
+
 import { useState } from "react";
 
-import ConfirmSellModal from "components/modals/ConfirmSell";
+import useSmallScreen from "hooks/useSmallScreen";
+
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import SuccessModal from "shared/SuccessModal";
 
 function App() {
   const navigate = useNavigate();
-  const [openSell, setOpenSell] = useState<boolean>(false);
-  const [confirmSellOpen, setConfirmSellOpen] = useState<boolean>(false);
-  const [openSuccess, setOpenSuccess] = useState<boolean>(false);
-
-  const handleSucessClose = (): void => {
-    setOpenSuccess(false);
-  };
-
-  const handleSucessOpen = (): void => {
-    setOpenSuccess(true);
-  };
-
-  const handleSellClose = (): void => {
-    setOpenSell(false);
-  };
-
-  const handleConfirmSellOpen = () => {
-    handleSellClose();
-    setConfirmSellOpen(true);
-  };
-
-  const handleConfirmSellClose = () => {
-    setConfirmSellOpen(false);
-  };
-
-  const handleSellOpen = (): void => {
-    setOpenSell(true);
-  };
+  const isSmallScreen = useSmallScreen();
 
   return (
     <div>
-      <SellModal
-        open={openSell}
-        close={handleSellClose}
-        openNext={handleConfirmSellOpen}
-      />
-      <ConfirmSellModal
-        open={confirmSellOpen}
-        close={handleConfirmSellClose}
-        handleSuccessOpen={handleSucessOpen}
-      />
-      <SuccessModal
-        title='Successful'
-        open={openSuccess}
-        close={handleSucessClose}
-        subtitle='Done!!'
-      />
       <Box
         display='flex'
         flexDirection={{ xs: "column", md: "row" }}
@@ -73,12 +31,70 @@ function App() {
           Welcome, Sam <span className='wave'>👋</span>
         </Typography>
 
+        {!isSmallScreen && (
+          <Box
+            sx={{
+              mt: { xs: 3, md: 0 },
+            }}
+          >
+            <Button
+              sx={{
+                bgcolor: "#FFD8C2",
+                color: "#441D07",
+                fontWeight: 400,
+                ":hover": {
+                  bgcolor: "#FFD8C2",
+                  color: "#441D07",
+                },
+              }}
+              onClick={() => navigate("/sell")}
+            >
+              <OpenInNewIcon
+                sx={{
+                  mr: 1,
+                  fontWeight: 400,
+                }}
+              />{" "}
+              Sell Crypto
+            </Button>
+            <Button
+              onClick={() => navigate("/referrals")}
+              sx={{
+                bgcolor: "#FFF5D8",
+                color: "#423308",
+                fontWeight: 400,
+                ":hover": {
+                  bgcolor: "#FFF5D8",
+                  color: "#423308",
+                },
+                ml: 3,
+              }}
+            >
+              <PersonAddAltIcon
+                sx={{
+                  mr: 1,
+                  fontWeight: 400,
+                }}
+              />
+              Invite
+            </Button>
+          </Box>
+        )}
+      </Box>
+
+      <TotalCard />
+      {isSmallScreen && (
         <Box
+          alignItems='center'
+          display='flex'
+          justifyContent='space-between'
           sx={{
             mt: { xs: 3, md: 0 },
+            width: "100%",
           }}
         >
           <Button
+            fullWidth
             sx={{
               bgcolor: "#FFD8C2",
               color: "#441D07",
@@ -99,16 +115,17 @@ function App() {
             Sell Crypto
           </Button>
           <Button
+            fullWidth
             onClick={() => navigate("/referrals")}
             sx={{
               bgcolor: "#FFF5D8",
               color: "#423308",
               fontWeight: 400,
+              ml: 2,
               ":hover": {
                 bgcolor: "#FFF5D8",
                 color: "#423308",
               },
-              ml: 3,
             }}
           >
             <PersonAddAltIcon
@@ -120,9 +137,7 @@ function App() {
             Invite
           </Button>
         </Box>
-      </Box>
-
-      <TotalCard />
+      )}
 
       <div style={{ marginTop: "40px" }}>
         <TextTag label='Transaction History' />

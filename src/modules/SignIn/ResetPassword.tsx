@@ -22,11 +22,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { handleAppError } from "utils/handleApiError";
 
-import { setToken } from "utils/auth";
-
 import { useAlert } from "hooks/useAlert";
-
-import { getDecodedJwt } from "utils/auth";
 
 export default function Login() {
   const { showNotification } = useAlert();
@@ -36,39 +32,25 @@ export default function Login() {
     setShowPassword(!showPassword);
   };
 
-  const { mutate, isLoading } = useMutation(login, {
-    onSuccess(data) {
-      showNotification?.("Login Successful", { type: "success" });
-      navigate("/");
-      console.log("auth data", data);
-      setToken(data?.accessToken?.token);
-      getDecodedJwt();
-    },
-    onError(error) {
-      showNotification?.(handleAppError(error), { type: "error" });
-      console.log("onError", error);
-    },
-  });
-
   const navigate = useNavigate();
 
   const onSubmit = (data: FieldValues) => {
     console.log("Data payload", data);
-    return mutate({ data });
   };
 
   const defaultValues = {
-    email: "",
+    passwordConfirmation: "",
     password: "",
   };
 
   const schema = Yup.object({
-    email: Yup.string()
-      .required("Email is Required")
-      .email("Type most be email"),
     password: Yup.string()
       .required("Password is Required")
       .min(6, "Minimum of 6 text"),
+    passwordConfirmation: Yup.string().oneOf(
+      [Yup.ref("password"), null],
+      "Passwords must match"
+    ),
   });
 
   const resolver = yupResolver(schema);
@@ -98,7 +80,7 @@ export default function Login() {
         <TextField
           placeholder='Password'
           label='Password'
-          type={showPassword ? "" : "password"}
+          type={showPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (
               <InputAdornment position='end'>
@@ -131,9 +113,9 @@ export default function Login() {
             ),
           }}
           fullWidth
-          {...register("password")}
-          error={Boolean(errors["password"]?.message)}
-          helperText={errors.password?.message?.toString()}
+          {...register("passwordConfirmation")}
+          error={Boolean(errors["passwordConfirmation"]?.message)}
+          helperText={errors.passwordConfirmation?.message?.toString()}
           sx={{
             mt: 3,
           }}
@@ -146,7 +128,7 @@ export default function Login() {
           }}
           type='submit'
           startIcon={
-            isLoading && (
+            false && (
               <CircularProgress
                 size={16}
                 sx={{
