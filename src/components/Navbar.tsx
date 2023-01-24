@@ -42,7 +42,11 @@ export default function Navbar() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
-    <div>
+    <div
+      style={{
+        zIndex: 10,
+      }}
+    >
       <MenuDrawer
         open={openModal}
         close={() => {

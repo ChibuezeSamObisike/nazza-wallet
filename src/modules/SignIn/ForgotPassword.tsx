@@ -27,7 +27,7 @@ export default function ForgotPassword() {
   const schema = Yup.object({
     email: Yup.string()
       .required("Email is Required")
-      .email("Type most be email"),
+      .email("Type must be email"),
   });
 
   const resolver = yupResolver(schema);

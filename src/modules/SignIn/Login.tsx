@@ -65,7 +65,7 @@ export default function Login() {
   const schema = Yup.object({
     email: Yup.string()
       .required("Email is Required")
-      .email("Type most be email"),
+      .email("Type must be email"),
     password: Yup.string()
       .required("Password is Required")
       .min(6, "Minimum of 6 text"),

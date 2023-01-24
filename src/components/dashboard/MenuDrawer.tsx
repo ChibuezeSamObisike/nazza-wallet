@@ -1,105 +1,106 @@
 import React from "react";
-import {
-  Drawer,
-  Box,
-  useTheme,
-  useMediaQuery,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { Drawer, Box, Typography } from "@mui/material";
 import logo from "assets/Nazza-logo.svg";
-import CloseIcon from "@mui/icons-material/Close";
-import { useNavigate } from "react-router-dom";
+
+import { useNavigate, NavLink } from "react-router-dom";
 import { pxToRem } from "utils/pxToRem";
+
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
+import SettingsIcon from "@mui/icons-material/Settings";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import InfoIcon from "@mui/icons-material/Info";
+import LockRoundedIcon from "@mui/icons-material/LockRounded";
+
+const menuLink = [
+  {
+    label: "Home",
+    path: "/",
+    icon: HomeRoundedIcon,
+  },
+  {
+    label: "Transactions",
+    path: "/all-transactions",
+    icon: AccountBalanceWalletRoundedIcon,
+  },
+  {
+    label: "Settings",
+    path: "/profile",
+    icon: SettingsIcon,
+  },
+  {
+    label: "Invite",
+    path: "/invite",
+    icon: PersonAddIcon,
+  },
+  {
+    label: "Help",
+    path: "/help",
+    icon: InfoIcon,
+  },
+  {
+    label: "Logout",
+    path: "/logout",
+    icon: LockRoundedIcon,
+  },
+];
 
 interface IMenuProps {
   open: boolean;
   close: Function;
 }
 
-const NavClick = ({
-  path,
-  close,
-  label,
-}: {
-  path: string;
-  close: Function;
-  label: string;
-}) => {
-  const navigate = useNavigate();
+function MenuItem({ icon: Icon, label, path }: any) {
   return (
-    <div
-      onClick={() => {
-        navigate(path);
-        close();
-      }}
-      style={{
-        cursor: "pointer",
-      }}
-    >
-      <Typography
-        style={{
-          padding: pxToRem(10),
-          color: "white",
-          fontWeight: "light",
-          fontSize: pxToRem(20),
-        }}
-      >
-        {label}
-      </Typography>
-    </div>
-  );
-};
-
-export default function MenuDrawer({ open, close }: IMenuProps) {
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  return (
-    <Drawer open={open} onClose={() => close()}>
-      <Box width='100vw' sx={{}} color='#fff'>
+    <NavLink to={path}>
+      {({ isActive }) => (
         <Box
+          p={2}
+          color={isActive ? "#001D4B" : "#47454C"}
+          mt={2}
           display='flex'
           alignItems='center'
-          justifyContent='space-between'
-          p={3}
-          bgcolor='#2574F5'
+          sx={{
+            bgcolor: isActive ? "#EFF3FF" : "#fff",
+            p: 3,
+          }}
         >
-          <img
-            src={logo}
-            alt='logo'
-            width={isSmallScreen ? 100 : 129}
-            style={{
-              cursor: "pointer",
+          <Icon
+            sx={{
+              borderRadius: "40px",
             }}
           />
+          <Typography ml={2}>{label}</Typography>
+        </Box>
+      )}
+    </NavLink>
+  );
+}
 
-          <IconButton onClick={() => close()}>
-            <CloseIcon sx={{ color: "#fff" }} />
-          </IconButton>
-        </Box>
-        <Box height='90vh' bgcolor='#001D4B'>
-          <Box
-            display='flex'
-            alignItems='flex-start'
-            flexDirection='column'
-            justifyContent='space-around'
-            p={5}
+export default function MenuDrawer({ open, close }: IMenuProps) {
+  return (
+    <div
+      style={{
+        zIndex: 1,
+      }}
+    >
+      <React.Fragment>
+        <Box width='100%'>
+          <Drawer
+            open={open}
+            sx={{
+              zIndex: 1,
+            }}
+            onClose={() => close()}
           >
-            {[
-              { label: "Dashboard", close: () => close(), path: "/" },
-              { label: "Sell", close: () => close(), path: "/sell" },
-              { label: "Referral", close: () => close(), path: "/referrals" },
-              {
-                label: "All Transactions",
-                close: () => close(),
-                path: "/all-transactions",
-              },
-            ].map((x) => (
-              <NavClick {...x} />
-            ))}
-          </Box>
+            <Box width='70vw' px={2} mt={15}>
+              {menuLink.map((x) => (
+                <MenuItem {...x} />
+              ))}
+            </Box>
+          </Drawer>
         </Box>
-      </Box>
-    </Drawer>
+      </React.Fragment>
+    </div>
   );
 }
