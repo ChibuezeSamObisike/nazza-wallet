@@ -1,5 +1,4 @@
 import React from "react";
-import AppModal from "components/AppModal";
 import {
   Box,
   TextField,
@@ -8,20 +7,24 @@ import {
   Select,
   Button,
   MenuItem,
+  Checkbox,
   IconButton,
 } from "@mui/material";
 import { pxToRem } from "utils/pxToRem";
 import { ReactComponent as Bitcoin } from "assets/Bitcoin.svg";
 import SwapVerticalCircleOutlinedIcon from "@mui/icons-material/SwapVerticalCircleOutlined";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-export default function SellModal({
+export default function CashDestination({
   open,
   close,
   openNext,
+  back,
 }: {
   open?: boolean;
   close?: VoidFunction;
   openNext?: VoidFunction;
+  back?: VoidFunction;
 }) {
   return (
     <Box
@@ -32,6 +35,11 @@ export default function SellModal({
       borderRadius='16px'
       border='1px solid #A4A3A7'
     >
+      <Box mb={2} width='100%' display='flex'>
+        <IconButton onClick={back}>
+          <ArrowBackIcon />
+        </IconButton>
+      </Box>
       <Typography fontSize={pxToRem(52)} pt={4} mb={2} fontWeight='bold'>
         0{" "}
         <span
@@ -65,49 +73,49 @@ export default function SellModal({
 
       <Typography>1 BTC ~ N1</Typography>
 
-      <TextField
-        placeholder='Select coin you want to sell'
+      <Box
+        bgcolor='#E9F1FF'
+        p={2}
+        px={4}
+        mb={4}
+        mt={3}
+        display='flex'
+        color='#001D4B'
+        alignItems='center'
+      >
+        <Checkbox
+          defaultChecked
+          sx={{
+            mr: 3,
+          }}
+        />
+        <Typography fontWeight='bold'>Ologwu Samuel</Typography>
+        <Typography
+          ml={6}
+          variant='body2'
+          fontWeight={400}
+          display='flex'
+          alignItems='center'
+        >
+          12********85 <Typography mx={3}> |</Typography> First Bank
+        </Typography>
+      </Box>
+
+      <Box
+        color='#001D4B'
+        component={Button}
+        fullWidth
+        bgcolor='#E9F1FF'
+        mt={2}
+        mb={4}
         sx={{
-          width: "100%",
-          mt: 3,
+          p: 2,
         }}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position='end'>
-              <Select
-                labelId='demo-simple-select-helper-label'
-                id='demo-simple-select-helper'
-                //   value={age}
-                label='Age'
-                //   onChange={handleChange}
-                placeholder='Hello Woerld'
-                sx={{
-                  boxShadow: "none",
-                  ".MuiOutlinedInput-notchedOutline": { border: 0 },
-                  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                    border: "0px solid #484850",
-                    borderRadius: "0px",
-                  },
-                }}
-              >
-                <MenuItem defaultValue={0} value={0}>
-                  <Box
-                    display='flex'
-                    justifyContent={"space-between"}
-                    alignItems='center'
-                  >
-                    <Bitcoin />
-                    <Typography ml={2}>Bitcoin</Typography>
-                  </Box>
-                </MenuItem>
-                {/* <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem> */}
-              </Select>
-            </InputAdornment>
-          ),
-        }}
-      />
+      >
+        <Typography variant='body1' fontWeight='bold'>
+          + Add payment destination
+        </Typography>
+      </Box>
 
       <Button
         sx={{

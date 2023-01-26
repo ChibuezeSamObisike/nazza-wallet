@@ -6,8 +6,6 @@ import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import SellModal from "components/modals/SellModal";
-import CashDestination from "components/modals/CashDestination";
-import SummaryModal from "components/modals/SummaryModal";
 
 const steps = [
   { title: "Choose amount", subtitle: "Enter the amount you want to sell " },
@@ -125,13 +123,7 @@ export default function HorizontalLinearStepper() {
       )} */}
 
       <Box mt={10} mx={20}>
-        {activeStep === 0 && <SellModal openNext={handleNext} />}
-        {activeStep === 1 && (
-          <CashDestination back={handleBack} openNext={handleNext} />
-        )}
-        {activeStep === 2 && (
-          <SummaryModal back={handleBack} openNext={handleNext} />
-        )}
+        <SellModal />
       </Box>
     </Box>
   );

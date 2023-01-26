@@ -178,7 +178,7 @@ export default function Login() {
           sx={{
             cursor: "pointer",
           }}
-          onClick={() => navigate("/account-setup")}
+          onClick={() => navigate("/create-account")}
         >
           Create Account
         </Typography>

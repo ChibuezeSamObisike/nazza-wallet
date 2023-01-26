@@ -59,17 +59,19 @@ export default function ConfirmSellModal({
   );
 }
 
-function renderPrice(title: string, result: string) {
+export function renderPrice(title: string, result: string) {
   return (
     <Box
       display='flex'
       alignItems='center'
       justifyContent='space-between'
       my={2}
-      color='#101628'
+      color='#47454C'
     >
-      <Typography>{title}</Typography>
-      <Typography>{result}</Typography>
+      <Typography fontWeight='bold'>{title}</Typography>
+      <Typography fontWeight={400} color='#47454C'>
+        {result}
+      </Typography>
     </Box>
   );
 }
