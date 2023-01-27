@@ -2,7 +2,14 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import nazaLogo from "assets/naza-logo.svg";
 
+import { useLocation } from "react-router-dom";
+
 export default function VerifyEmail() {
+  const location = useLocation();
+
+  React.useEffect(() => {
+    console.log(location);
+  }, [location]);
   return (
     <Box sx={{ width: { md: "60%", xs: "100%" } }}>
       <img
@@ -20,9 +27,9 @@ export default function VerifyEmail() {
       </Typography>
 
       <Typography mt={4}>
-        We have sent a verification link to <b>nazapay@gmail.com.</b> <br />{" "}
-        Click the link in the email to verify your account and set up your
-        profile
+        We have sent a verification link to <b>{location?.state?.email}</b>{" "}
+        <br /> Click the link in the email to verify your account and set up
+        your profile
       </Typography>
 
       <Typography display='flex' mt={4} alignItems='center'>

@@ -8,7 +8,6 @@ import { Breadcrumbs, Link, Typography } from "@mui/material";
 // }
 
 export default function AppBreadCrumb({ links, current }: any) {
-  console.log(links);
   return (
     <Breadcrumbs aria-label='breadcrumb'>
       {links.map((x: any) => (

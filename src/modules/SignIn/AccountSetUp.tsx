@@ -50,10 +50,9 @@ export default function AccountSetUp() {
     onSuccess(data) {
       showNotification?.("Success", { type: "success" });
 
-      navigate("/verify");
+      navigate("/verify", { state: { email: emailVal ?? "Hello world" } });
     },
     onError(error: AxiosError) {
-      console.log("onError", error.response);
       showNotification?.(handleAppError(error), {
         type: "error",
       });
@@ -76,10 +75,12 @@ export default function AccountSetUp() {
     register,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm({ resolver, defaultValues });
 
+  const emailVal = getValues("email");
+
   const onSubmit = (data: FieldValues) => {
-    console.log("data", data);
     mutate({ data });
   };
   return (
@@ -94,14 +95,17 @@ export default function AccountSetUp() {
         }}
       />
       <Typography variant='subtitle1' fontWeight='bold'>
-        Let’s setup your profile!
+        Let’s get to know you
       </Typography>
-
-      <Typography variant='subtitle2' fontWeight={400} fontSize={pxToRem(22)}>
+      <Typography
+        variant='subtitle2'
+        color='#47454C'
+        fontWeight={400}
+        fontSize={pxToRem(18)}
+      >
         Please make sure the details are correct as they will be use used to
         verify your identity.
       </Typography>
-
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
           placeholder='Name'
@@ -169,8 +173,29 @@ export default function AccountSetUp() {
         </Button>
       </form>
 
+      <Box mt={2}>
+        <Typography textAlign='left'>
+          Must contain at least 8 characters,{" "}
+          <span
+            style={{
+              color: "#52C41A",
+            }}
+          >
+            {" "}
+            one uppercase, one lowercase,
+          </span>{" "}
+          and{" "}
+          <span
+            style={{
+              color: "#52C41A",
+            }}
+          >
+            one number or special character
+          </span>
+        </Typography>
+      </Box>
       {/* <ReactPasswordChecklist /> */}
-      <Box mt={3}>
+      {/* <Box mt={3}>
         <Box display='flex' mb={2} alignItems='center'>
           <DoneIcon
             sx={{
@@ -205,7 +230,7 @@ export default function AccountSetUp() {
             At least one number or special character (!@#&$)
           </Typography>
         </Box>
-      </Box>
+      </Box> */}
     </Box>
   );
 }

@@ -40,20 +40,18 @@ export default function Login() {
     onSuccess(data) {
       showNotification?.("Login Successful", { type: "success" });
       navigate("/");
-      console.log("auth data", data);
+
       setToken(data?.accessToken?.token);
       getDecodedJwt();
     },
     onError(error) {
       showNotification?.(handleAppError(error), { type: "error" });
-      console.log("onError", error);
     },
   });
 
   const navigate = useNavigate();
 
   const onSubmit = (data: FieldValues) => {
-    console.log("Data payload", data);
     return mutate({ data });
   };
 

@@ -33,11 +33,10 @@ export default function Index() {
   const { mutate, isLoading, error } = useMutation(verify, {
     onSuccess(data) {
       showNotification?.("Success", { type: "success" });
-      console.log("auth data", data);
+
       navigate("/verify");
     },
     onError(error: AxiosError) {
-      console.log("onError", error.response);
       showNotification?.(handleAppError(error), {
         type: "error",
       });

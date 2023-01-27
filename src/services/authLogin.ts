@@ -13,14 +13,12 @@ export const register = async (payload: any) => {
 };
 
 export const verify = async ({ data }: any) => {
-  console.log("verify data", data);
   return http.post("user/verify/", data).then((res) => {
     return res.data;
   });
 };
 
 export const reset = async ({ data }: any) => {
-  console.log("verify data", data);
   return http.post("user/reset/", data).then((res) => {
     return res.data;
   });

@@ -1,16 +1,5 @@
 import React from "react";
-import {
-  Box,
-  TextField,
-  Typography,
-  InputAdornment,
-  Select,
-  Button,
-  MenuItem,
-  Checkbox,
-  IconButton,
-  Divider,
-} from "@mui/material";
+import { Box, Typography, Button, IconButton, Divider } from "@mui/material";
 import { pxToRem } from "utils/pxToRem";
 import { ReactComponent as Bitcoin } from "assets/Bitcoin.svg";
 import SwapVerticalCircleOutlinedIcon from "@mui/icons-material/SwapVerticalCircleOutlined";

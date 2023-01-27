@@ -13,10 +13,10 @@ export const getToken = (): string | null => {
 export const getDecodedJwt = (tokn: string = "") => {
   try {
     const token = getToken();
-    console.log("token", token);
+
     const t = token || tokn;
     const decoded = jwtDecode(t);
-    console.log("Decoded token", decoded);
+
     return decoded;
   } catch (e) {
     return {};
@@ -48,7 +48,7 @@ export const logOut = (cb: VoidFunction): void => {
 export const isAuthenticated = () => {
   try {
     const decodedToken = getDecodedJwt();
-    console.log("decoded token", decodedToken);
+
     if (decodedToken && Object.keys(decodedToken).length !== 0) {
       return true;
     }

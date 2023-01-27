@@ -38,11 +38,9 @@ export default function ForgotPassword() {
     onSuccess(data) {
       showNotification?.("Sent Reset Email", { type: "success" });
       navigate("/reset-password");
-      console.log("auth data", data);
     },
     onError(error) {
       showNotification?.(handleAppError(error), { type: "error" });
-      console.log("onError", error);
     },
   });
 

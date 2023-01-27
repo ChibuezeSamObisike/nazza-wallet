@@ -28,7 +28,7 @@ export default function SignInLayout({ children }: IProps) {
       >
         <PatternBg />
       </Box>
-      <Box width='100%' pl={{ xs: 4, md: 8 }} pt={6}>
+      <Box width='100%' pl={{ xs: 4, md: 8 }} pt={2}>
         <IconButton disableRipple onClick={() => navigate(-1)}>
           <ArrowBackIosIcon /> Back
         </IconButton>
@@ -36,7 +36,7 @@ export default function SignInLayout({ children }: IProps) {
       <Container>
         <Box
           display='flex'
-          mt='25%'
+          mt='15%'
           alignItems='center'
           justifyContent='center'
         >
