@@ -66,6 +66,7 @@ export default function Login() {
       .email("Type must be email"),
     password: Yup.string()
       .required("Password is Required")
+      // .matches(/[0-9]/, "Must have a number")
       .min(6, "Minimum of 6 text"),
   });
 
@@ -176,7 +177,7 @@ export default function Login() {
           sx={{
             cursor: "pointer",
           }}
-          onClick={() => navigate("/create-account")}
+          onClick={() => navigate("/account-setup")}
         >
           Create Account
         </Typography>
