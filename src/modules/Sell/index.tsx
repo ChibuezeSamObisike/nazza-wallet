@@ -26,7 +26,7 @@ export default function HorizontalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
 
-  const isMobile = useSmallScreen;
+  const isMobile = useSmallScreen();
 
   const isStepOptional = (step: number) => {
     return step === 1;
@@ -72,6 +72,23 @@ export default function HorizontalLinearStepper() {
 
   return (
     <Box sx={{ width: "100%" }}>
+      {isMobile && (
+        <Box
+          bgcolor='#D4D4D4'
+          sx={{
+            height: "2px",
+          }}
+        >
+          <Box
+            bgcolor='#2574F5'
+            sx={{
+              height: "2px",
+              transition: (theme) => theme.transitions.easing.easeIn,
+              width: `${((activeStep + 0.5) / 5) * 100}%`,
+            }}
+          ></Box>
+        </Box>
+      )}
       {!isMobile && (
         <Stepper activeStep={activeStep}>
           {steps.map((label, index) => {

@@ -83,19 +83,7 @@ function App() {
             width: "100%",
           }}
         >
-          <Button
-            fullWidth
-            sx={{
-              bgcolor: "#FFD8C2",
-              color: "#441D07",
-              fontWeight: 400,
-              ":hover": {
-                bgcolor: "#FFD8C2",
-                color: "#441D07",
-              },
-            }}
-            onClick={() => navigate("/sell")}
-          >
+          <Button fullWidth onClick={() => navigate("/sell")}>
             <OpenInNewIcon
               sx={{
                 mr: 1,
