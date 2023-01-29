@@ -35,8 +35,9 @@ export default function VerifyEmail() {
           color='#47454C'
           fontWeight={400}
         >
-          Input the code sent to {location?.state?.email ?? "your email"} to
-          complete your sign up.
+          Input the code sent to{" "}
+          <b> {location?.state?.email ?? "your email"}</b> <br /> to complete
+          your sign up.
         </Typography>
         <Box
           mt={2}
