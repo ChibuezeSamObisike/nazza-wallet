@@ -65,7 +65,8 @@ export default function AccountSetUp() {
       .email("Type must be email"),
     password: Yup.string()
       .required("Password is Required")
-      .min(6, "Minimum of 6 text"),
+      .min(6, "Minimum of 6 text")
+      .matches(/[0-9]/, "Must have a number"),
     name: Yup.string().required("Name is Required"),
   });
 

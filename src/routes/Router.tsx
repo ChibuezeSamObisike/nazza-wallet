@@ -49,6 +49,12 @@ const routes: IRoute[] = [
     layout: NavLayOut,
   },
   {
+    path: "/reset-email",
+    component: lazy(() => import("modules/SignIn/ResetEmailSent")),
+    auth: false,
+    layout: SignInLayout,
+  },
+  {
     path: "/reset-password",
     component: lazy(() => import("modules/SignIn/ResetPassword")),
     auth: false,

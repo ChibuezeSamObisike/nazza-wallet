@@ -37,7 +37,7 @@ export default function ForgotPassword() {
   const { mutate, isLoading } = useMutation(reset, {
     onSuccess(data) {
       showNotification?.("Sent Reset Email", { type: "success" });
-      navigate("/reset-password");
+      navigate("/reset-email");
     },
     onError(error) {
       showNotification?.(handleAppError(error), { type: "error" });

@@ -73,7 +73,7 @@ export default function Login() {
         }}
       />
       <Typography variant='subtitle1' fontWeight='bold'>
-        Login to your account
+        Enter your new password
       </Typography>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -139,9 +139,31 @@ export default function Login() {
             )
           }
         >
-          Enter new password
+          Change Password
         </Button>
       </form>
+
+      <Box mt={2}>
+        <Typography textAlign='left'>
+          Must contain at least 8 characters,{" "}
+          <span
+            style={{
+              color: "#52C41A",
+            }}
+          >
+            {" "}
+            one uppercase, one lowercase,
+          </span>{" "}
+          and{" "}
+          <span
+            style={{
+              color: "#52C41A",
+            }}
+          >
+            one number or special character
+          </span>
+        </Typography>
+      </Box>
     </Box>
   );
 }
