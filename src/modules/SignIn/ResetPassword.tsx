@@ -42,13 +42,15 @@ export default function Login() {
   useEffect(() => {
     if (!id && !code) {
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   console.log("id>", id);
   console.log("location", location);
 
   const { mutate, isLoading } = useMutation(
-    async ({ data }: any) => {
+    async (data: any) => {
+      console.log("data reset", data);
       return http.put(`user/newpassword/${id}/${code}`, data).then((res) => {
         return res.data;
       });

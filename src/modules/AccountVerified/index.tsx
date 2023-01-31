@@ -32,11 +32,11 @@ export default function Index() {
 
   console.log(id, code);
 
-  const { mutate, isLoading, error } = useMutation(verify, {
+  const { mutate, isLoading } = useMutation(verify, {
     onSuccess(data) {
       showNotification?.("Success", { type: "success" });
 
-      navigate("/verify");
+      navigate("/login");
     },
     onError(error: AxiosError) {
       showNotification?.(handleAppError(error), {
@@ -47,6 +47,8 @@ export default function Index() {
 
   React.useEffect(() => {
     mutate({ id, code });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, code]);
 
   if (isLoading) {
