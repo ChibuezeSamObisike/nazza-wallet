@@ -55,6 +55,12 @@ const routes: IRoute[] = [
     layout: SignInLayout,
   },
   {
+    path: "/error",
+    component: lazy(() => import("modules/SignIn/Error")),
+    auth: false,
+    layout: SignInLayout,
+  },
+  {
     path: "/reset-password",
     component: lazy(() => import("modules/SignIn/ResetPassword")),
     auth: false,

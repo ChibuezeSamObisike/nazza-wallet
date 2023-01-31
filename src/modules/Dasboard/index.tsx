@@ -1,18 +1,14 @@
 import TotalCard from "components/dashboard/TotalCard";
 
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import { ReactComponent as Invite } from "assets/invite.svg";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import BasicTable from "shared/Table";
 import TextTag from "shared/TextTag";
 import { useNavigate } from "react-router-dom";
 
-import { useState } from "react";
-
 import useSmallScreen from "hooks/useSmallScreen";
 
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import SuccessModal from "shared/SuccessModal";
 
 function App() {
   const navigate = useNavigate();

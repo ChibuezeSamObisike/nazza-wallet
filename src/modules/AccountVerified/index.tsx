@@ -30,6 +30,8 @@ export default function Index() {
 
   const [id, code] = useSeparateParams(location.search);
 
+  console.log(id, code);
+
   const { mutate, isLoading, error } = useMutation(verify, {
     onSuccess(data) {
       showNotification?.("Success", { type: "success" });

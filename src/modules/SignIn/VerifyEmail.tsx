@@ -35,11 +35,10 @@ export default function VerifyEmail() {
           color='#47454C'
           fontWeight={400}
         >
-          Input the code sent to{" "}
-          <b> {location?.state?.email ?? "your email"}</b> <br /> to complete
-          your sign up.
+          An email was sent to <b> {location?.state?.email ?? "your email"}</b>{" "}
+          <br /> to complete your sign up.
         </Typography>
-        <Box
+        {/* <Box
           mt={2}
           display='flex'
           alignItems='center'
@@ -72,7 +71,7 @@ export default function VerifyEmail() {
           >
             Confirm
           </Button>
-        </Box>
+        </Box> */}
       </Box>
     </>
   );

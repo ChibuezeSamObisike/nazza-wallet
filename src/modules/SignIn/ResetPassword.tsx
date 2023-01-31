@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Typography,
@@ -10,10 +10,12 @@ import {
   IconButton,
 } from "@mui/material";
 import nazaLogo from "assets/naza-logo.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { useMutation } from "react-query";
-import { login } from "services/authLogin";
+import { newPassword } from "services/authLogin";
+import http from "utils/http";
+import { AxiosError } from "axios";
 import * as Yup from "yup";
 
 import { useForm, FieldValues } from "react-hook-form";
@@ -25,7 +27,48 @@ import { handleAppError } from "utils/handleApiError";
 import { useAlert } from "hooks/useAlert";
 
 export default function Login() {
+  function useSeparateParams(urlParam: string) {
+    return [
+      urlParam.split("&")[0].replace("?", "").split("=")[1],
+      urlParam.split("&")[1].split("=")[1],
+    ];
+  }
+
+  const location = useLocation();
   const { showNotification } = useAlert();
+
+  const [id, code] = useSeparateParams(location.search);
+
+  useEffect(() => {
+    if (!id && !code) {
+    }
+  }, []);
+
+  console.log("id>", id);
+  console.log("location", location);
+
+  const { mutate, isLoading } = useMutation(
+    async ({ data }: any) => {
+      return http.put(`user/newpassword/${id}/${code}`, data).then((res) => {
+        return res.data;
+      });
+    },
+    {
+      onSuccess(data) {
+        console.log("Reset Data", data);
+        showNotification?.("Success", { type: "success" });
+
+        navigate("/login");
+      },
+      onError(error: AxiosError) {
+        console.log("Reset Data Error", error);
+        showNotification?.(handleAppError(error), {
+          type: "error",
+        });
+      },
+    }
+  );
+
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -35,7 +78,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   const onSubmit = (data: FieldValues) => {
-    console.log("Data payload", data);
+    mutate({ data });
   };
 
   const defaultValues = {
@@ -128,7 +171,7 @@ export default function Login() {
           }}
           type='submit'
           startIcon={
-            false && (
+            isLoading && (
               <CircularProgress
                 size={16}
                 sx={{
