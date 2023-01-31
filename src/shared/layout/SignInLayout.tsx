@@ -20,7 +20,7 @@ export default function SignInLayout({ children }: IProps) {
     >
       <Box
         position='absolute'
-        top={{ md: -95, xs: -90 }}
+        top={{ md: -125, xs: -90 }}
         sx={{
           opacity: { xs: "30%", md: "80%" },
         }}

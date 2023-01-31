@@ -78,7 +78,11 @@ export default function Login() {
   const navigate = useNavigate();
 
   const onSubmit = (data: FieldValues) => {
-    mutate({ data });
+    console.log("Data Values", data);
+    mutate({
+      new_password: data?.password,
+      confirm_password: data?.passwordConfirmation,
+    });
   };
 
   const defaultValues = {
