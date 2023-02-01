@@ -64,7 +64,7 @@ export default function AccountSetUp() {
       .email("Type must be email"),
     password: Yup.string()
       .required("Password is Required")
-      .min(6, "Minimum of 6 text")
+      .min(8, "Minimum of 8 text")
       .matches(/[0-9]/, "Must have a number"),
     name: Yup.string().required("Name is Required"),
   });
@@ -84,7 +84,7 @@ export default function AccountSetUp() {
     mutate({ data });
   };
   return (
-    <Box sx={{ width: { md: "60%", xs: "100%" } }} textAlign='center'>
+    <Box sx={{ width: { md: "60%", xs: "100%" }, mt: -12 }} textAlign='center'>
       <img
         src={nazaLogo}
         alt='logo'

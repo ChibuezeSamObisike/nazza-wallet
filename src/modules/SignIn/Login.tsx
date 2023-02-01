@@ -38,6 +38,7 @@ export default function Login() {
 
   const { mutate, isLoading } = useMutation(login, {
     onSuccess(data) {
+      console.log("Data info", data);
       showNotification?.("Login Successful", { type: "success" });
       navigate("/");
 
@@ -66,7 +67,7 @@ export default function Login() {
       .email("Type must be email"),
     password: Yup.string()
       .required("Password is Required")
-      .min(6, "Minimum of 6 text"),
+      .min(8, "Minimum of 8 text"),
   });
 
   const resolver = yupResolver(schema);

@@ -9,10 +9,17 @@ import { useNavigate } from "react-router-dom";
 import useSmallScreen from "hooks/useSmallScreen";
 
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import { getDecodedJwt } from "utils/auth";
+import { useEffect } from "react";
 
 function App() {
   const navigate = useNavigate();
   const isSmallScreen = useSmallScreen();
+  const tD = getDecodedJwt();
+
+  useEffect(() => {
+    console.log("Decoded Token", tD);
+  }, []);
 
   return (
     <div>

@@ -7,7 +7,13 @@ export default function NavLayOut({ children }: { children: React.ReactNode }) {
     <div>
       <Navbar />
 
-      <Container>{children}</Container>
+      <Container
+        sx={{
+          marginBottom: 5,
+        }}
+      >
+        {children}
+      </Container>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import TablePagination from "@mui/material/TablePagination";
 import Paper from "@mui/material/Paper";
 import { Box, Chip, Typography } from "@mui/material";
 import getChipColor from "utils/getChipColor";
@@ -27,14 +28,14 @@ function createData(
       <Box display='flex' alignItems='center'>
         <img src={getIcon(crypto)} style={{ marginRight: "15px" }} alt='Icon' />
         {crypto}{" "}
-        <Chip
+        {/* <Chip
           label={type}
           sx={{
             color: getChipColor(type).text,
             bgcolor: getChipColor(type).bg,
             marginLeft: "15px",
           }}
-        />
+        /> */}
       </Box>
     ),
     number,
@@ -142,6 +143,22 @@ const tableMobile = [
 
 export default function BasicTable() {
   const isMobile = useSmallScreen();
+  const [page, setPage] = React.useState(2);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   if (isMobile) {
     return (
@@ -155,80 +172,90 @@ export default function BasicTable() {
     );
   }
   return (
-    <TableContainer
-      component={Paper}
-      sx={{ borderRadius: "0px" }}
-      elevation={0}
-    >
-      <Table
-        sx={{ minWidth: 650, borderRadius: "0px" }}
-        aria-label='simple table'
+    <>
+      <TableContainer
+        component={Paper}
+        sx={{ borderRadius: "0px" }}
+        elevation={0}
       >
-        <TableHead
-          sx={{
-            backgroundColor: "#EFF0F4",
-            borderRadius: "0px",
-          }}
+        <Table
+          sx={{ minWidth: 650, borderRadius: "0px" }}
+          aria-label='simple table'
         >
-          <TableRow>
-            {header.map((head) => (
+          <TableHead
+            sx={{
+              backgroundColor: "#EFF0F4",
+              borderRadius: "0px",
+            }}
+          >
+            <TableRow>
+              {header.map((head) => (
+                <TableCell
+                  key={head.id}
+                  sx={{ color: "#5D5C63", fontWeight: 500 }}
+                  align='left'
+                >
+                  {head.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          {rows.length >= 0 && (
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow
+                  key={row.price}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component='th' scope='row'>
+                    {row.crypto}
+                  </TableCell>
+                  <TableCell component='th' scope='row'>
+                    {row.number}
+                  </TableCell>
+                  <TableCell align='left'>{row.price}</TableCell>
+                  <TableCell align='left'>{row.date}</TableCell>
+                  <TableCell align='left'>{row.network}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          )}
+
+          {rows.length < 0 && (
+            <TableRow>
               <TableCell
-                key={head.id}
-                sx={{ color: "#5D5C63", fontWeight: 500 }}
-                align='left'
+                component='td'
+                scope='row'
+                colSpan={40}
+                sx={{
+                  textAlign: "center",
+                  height: "35vh",
+                }}
               >
-                {head.label}
+                <>
+                  <EmptyIcon />
+
+                  <Box marginX='auto' width='70%'>
+                    <Typography mt='20px' variant='subtitle2'>
+                      When you start using your wallet, transactions Your recent
+                      transaction activities show up here, but you haven’t done
+                      any transactions yet.ill show here
+                    </Typography>
+                  </Box>
+                </>
               </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        {rows.length >= 0 && (
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow
-                key={row.price}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component='th' scope='row'>
-                  {row.crypto}
-                </TableCell>
-                <TableCell component='th' scope='row'>
-                  {row.number}
-                </TableCell>
-                <TableCell align='left'>{row.price}</TableCell>
-                <TableCell align='left'>{row.date}</TableCell>
-                <TableCell align='left'>{row.network}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        )}
-
-        {rows.length < 0 && (
-          <TableRow>
-            <TableCell
-              component='td'
-              scope='row'
-              colSpan={40}
-              sx={{
-                textAlign: "center",
-                height: "35vh",
-              }}
-            >
-              <>
-                <EmptyIcon />
-
-                <Box marginX='auto' width='70%'>
-                  <Typography mt='20px' variant='subtitle2'>
-                    When you start using your wallet, transactions Your recent
-                    transaction activities show up here, but you haven’t done
-                    any transactions yet.ill show here
-                  </Typography>
-                </Box>
-              </>
-            </TableCell>
-          </TableRow>
-        )}
-      </Table>
-    </TableContainer>
+            </TableRow>
+          )}
+        </Table>
+      </TableContainer>
+      <TablePagination
+        component='div'
+        count={100}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+    </>
   );
 }

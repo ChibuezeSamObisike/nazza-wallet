@@ -113,7 +113,7 @@ export default function HorizontalLinearStepper() {
         </Stepper>
       )}
 
-      <Box mt={10} mx={{ xs: 2, md: 20 }}>
+      <Box mt={10} mx={{ xs: 2, md: 40 }}>
         {activeStep === 0 && <SellModal openNext={handleNext} />}
         {activeStep === 1 && (
           <CashDestination back={handleBack} openNext={handleNext} />
