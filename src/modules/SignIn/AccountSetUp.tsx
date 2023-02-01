@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import nazaLogo from "assets/naza-logo.svg";
-import DoneIcon from "@mui/icons-material/Done";
 import { pxToRem } from "utils/pxToRem";
 
 import { AxiosError } from "axios";

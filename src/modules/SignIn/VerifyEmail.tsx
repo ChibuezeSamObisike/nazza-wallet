@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { ReactComponent as ResetEmail } from "assets/mail-sent.svg";
 import { Box, Button, Typography } from "@mui/material";
-import { MuiOtpInput } from "mui-one-time-password-input";
+// import { MuiOtpInput } from "mui-one-time-password-input";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { pxToRem } from "utils/pxToRem";

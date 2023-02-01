@@ -13,7 +13,6 @@ import nazaLogo from "assets/naza-logo.svg";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { useMutation } from "react-query";
-import { newPassword } from "services/authLogin";
 import http from "utils/http";
 import { AxiosError } from "axios";
 import * as Yup from "yup";
