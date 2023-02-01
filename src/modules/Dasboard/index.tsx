@@ -9,16 +9,19 @@ import { useNavigate } from "react-router-dom";
 import useSmallScreen from "hooks/useSmallScreen";
 
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { getDecodedJwt } from "utils/auth";
+import { getDecodedJwt, getName } from "utils/auth";
 import { useEffect } from "react";
+
+import { useGetUser } from "contexts/UserProvider";
 
 function App() {
   const navigate = useNavigate();
   const isSmallScreen = useSmallScreen();
+  const { user } = useGetUser();
   const tD = getDecodedJwt();
 
   useEffect(() => {
-    console.log("Decoded Token", tD);
+    console.log("User det", getName());
   }, []);
 
   return (
@@ -31,7 +34,9 @@ function App() {
         justifyContent='space-between'
       >
         <Typography variant='h3' fontWeight='bold' color='#47454C'>
-          Welcome, Sam <span className='wave'>👋</span>
+          Welcome,{" "}
+          {JSON.parse(localStorage.getItem("name"))?.name.split(" ")[0]}{" "}
+          <span className='wave'>👋</span>
         </Typography>
 
         {!isSmallScreen && (

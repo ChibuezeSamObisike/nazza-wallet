@@ -26,10 +26,12 @@ import { setToken } from "utils/auth";
 
 import { useAlert } from "hooks/useAlert";
 
-import { getDecodedJwt } from "utils/auth";
+import { getDecodedJwt, setName } from "utils/auth";
+import { useGetUser } from "contexts/UserProvider";
 
 export default function Login() {
   const { showNotification } = useAlert();
+  const { setUser } = useGetUser();
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -39,6 +41,7 @@ export default function Login() {
   const { mutate, isLoading } = useMutation(login, {
     onSuccess(data) {
       console.log("Data info", data);
+      setName(JSON.stringify(data?.user));
       showNotification?.("Login Successful", { type: "success" });
       navigate("/");
 
