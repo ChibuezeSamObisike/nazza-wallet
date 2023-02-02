@@ -1,11 +1,20 @@
-import React from "react";
-import { Box, Typography, Button, Checkbox, IconButton } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Box,
+  Typography,
+  Button,
+  Checkbox,
+  IconButton,
+  TextField,
+} from "@mui/material";
 import { pxToRem } from "utils/pxToRem";
 
 import SwapVerticalCircleOutlinedIcon from "@mui/icons-material/SwapVerticalCircleOutlined";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import SellSmallScreen from "shared/layout/SellSmallScreen";
+import GenericModal from "./GenericModal";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 
 export default function CashDestination({
   open,
@@ -18,112 +27,206 @@ export default function CashDestination({
   openNext?: VoidFunction;
   back?: VoidFunction;
 }) {
+  const [openM1, setOpenM1] = useState(false);
+  const [openM2, setOpenM2] = useState(false);
+
+  const closeM1 = () => {
+    setOpenM1(false);
+  };
+  const closeM2 = () => {
+    setOpenM2(false);
+  };
   return (
-    <SellSmallScreen title='Account' subtitle='Select your cash destination'>
-      <Box
-        color='#5D5C63'
-        textAlign='center'
-        bgcolor='#fff'
-        p={4}
-        borderRadius='16px'
-        border='1px solid #A4A3A7'
-      >
-        <Box mb={2} width='100%' display='flex'>
-          <IconButton onClick={back}>
-            <ArrowBackIcon />
-          </IconButton>
-        </Box>
-        <Typography fontSize={pxToRem(52)} pt={4} mb={2} fontWeight='bold'>
-          0{" "}
-          <span
-            style={{
-              fontSize: pxToRem(18),
-              fontWeight: 500,
-            }}
-          >
-            USD
-          </span>
-        </Typography>
-
-        <Box display='flex' justifyContent='flex-end' mt={-10} mb={10} mr={5}>
-          <Box display='flex' alignItems='center' justifyContent='space-around'>
-            <IconButton>
-              <SwapVerticalCircleOutlinedIcon
-                sx={{
-                  fontSize: pxToRem(33),
-                  color: "#D4D4D4",
-                }}
-              />
-            </IconButton>
-            <Box>
-              <Typography fontSize={pxToRem(16)}>USD</Typography>
-              <Typography fontSize={pxToRem(12)} color='#D4D4D4'>
-                NGN
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-
-        <Typography>1 BTC ~ N1</Typography>
-
+    <>
+      <GenericModal open={openM1} close={closeM1}>
         <Box
-          bgcolor='#E9F1FF'
-          p={2}
-          px={4}
-          mb={4}
-          mt={3}
-          display='flex'
-          color='#001D4B'
+          textAlign='center'
           alignItems='center'
-          flexDirection={{ md: "row", xs: "column" }}
+          display='flex'
+          justifyContent='center'
+          flexDirection='column'
         >
-          <Box display='flex' alignItems='center'>
-            <Checkbox
-              defaultChecked
-              sx={{
-                mr: 3,
-              }}
-            />
-            <Typography fontWeight='bold'>Ologwu Samuel</Typography>
-          </Box>
-          <Typography
-            ml={6}
-            variant='body2'
-            fontWeight={400}
+          <Box
+            bgcolor='#E9F1FF'
+            height='53px'
+            width='53px'
+            borderRadius='50%'
             display='flex'
             alignItems='center'
+            justifyContent='center'
           >
-            12********85 <Typography mx={3}> |</Typography> First Bank
+            <AccountBalanceIcon sx={{ color: "#001D4B", fontSize: "32px" }} />
+          </Box>
+          <Typography my={2} fontWeight='bold'>
+            Add a bank Account
           </Typography>
-        </Box>
 
+          <TextField fullWidth name='Bank_name' label='Bank Name' />
+          <TextField
+            fullWidth
+            name='account_number'
+            label='Account Number'
+            sx={{
+              my: 2,
+            }}
+          />
+
+          <Button
+            fullWidth
+            onClick={() => {
+              setOpenM1(false);
+              setOpenM2(true);
+            }}
+          >
+            Confirm
+          </Button>
+        </Box>
+      </GenericModal>
+
+      <GenericModal open={openM2} close={closeM2}>
         <Box
-          color='#001D4B'
-          component={Button}
-          fullWidth
-          bgcolor='#E9F1FF'
-          mt={2}
-          mb={4}
-          sx={{
-            p: 2,
-          }}
+          textAlign='center'
+          alignItems='center'
+          display='flex'
+          justifyContent='center'
+          flexDirection='column'
         >
-          <Typography variant='body1' fontWeight='bold'>
-            + Add payment destination
+          <Box
+            bgcolor='#E9F1FF'
+            height='53px'
+            width='53px'
+            borderRadius='50%'
+            display='flex'
+            alignItems='center'
+            justifyContent='center'
+          >
+            <AccountBalanceIcon sx={{ color: "#001D4B", fontSize: "32px" }} />
+          </Box>
+          <Typography fontSize={pxToRem(18)} my={2} fontWeight='bold'>
+            You added a new bank account
           </Typography>
-        </Box>
 
-        <Button
-          sx={{
-            mt: 3,
-          }}
-          disabled={false}
-          fullWidth
-          onClick={() => openNext?.()}
+          <Typography color='#8C8B90' fontWeight={300} mb={2}>
+            You can now recieve funds to this bank accounts
+          </Typography>
+
+          <Button onClick={() => closeM2()} fullWidth>
+            Done
+          </Button>
+        </Box>
+      </GenericModal>
+      <SellSmallScreen title='Account' subtitle='Select your cash destination'>
+        <Box
+          color='#5D5C63'
+          textAlign='center'
+          bgcolor='#fff'
+          p={4}
+          borderRadius='16px'
+          border='1px solid #A4A3A7'
         >
-          Proceed to next step
-        </Button>
-      </Box>
-    </SellSmallScreen>
+          <Box mb={2} width='100%' display='flex'>
+            <IconButton onClick={back}>
+              <ArrowBackIcon />
+            </IconButton>
+          </Box>
+          <Typography fontSize={pxToRem(52)} pt={4} mb={2} fontWeight='bold'>
+            0{" "}
+            <span
+              style={{
+                fontSize: pxToRem(18),
+                fontWeight: 500,
+              }}
+            >
+              USD
+            </span>
+          </Typography>
+
+          <Box display='flex' justifyContent='flex-end' mt={-10} mb={10} mr={5}>
+            <Box
+              display='flex'
+              alignItems='center'
+              justifyContent='space-around'
+            >
+              <IconButton>
+                <SwapVerticalCircleOutlinedIcon
+                  sx={{
+                    fontSize: pxToRem(33),
+                    color: "#D4D4D4",
+                  }}
+                />
+              </IconButton>
+              <Box>
+                <Typography fontSize={pxToRem(16)}>USD</Typography>
+                <Typography fontSize={pxToRem(12)} color='#D4D4D4'>
+                  NGN
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+
+          <Typography>1 BTC ~ N1</Typography>
+
+          <Box
+            bgcolor='#E9F1FF'
+            p={2}
+            px={4}
+            mb={4}
+            mt={3}
+            display='flex'
+            color='#001D4B'
+            alignItems='center'
+            border='1px solid #E9F1FF'
+            flexDirection={{ md: "row", xs: "column" }}
+          >
+            <Box display='flex' alignItems='center'>
+              <Checkbox
+                defaultChecked
+                sx={{
+                  mr: 3,
+                }}
+              />
+              <Typography fontWeight='bold'>Ologwu Samuel</Typography>
+            </Box>
+            <Typography
+              ml={6}
+              variant='body2'
+              fontWeight={400}
+              display='flex'
+              alignItems='center'
+            >
+              12********85 <Typography mx={3}> |</Typography> First Bank
+            </Typography>
+          </Box>
+
+          <Box
+            color='#001D4B'
+            onClick={() => setOpenM1(true)}
+            component={Button}
+            fullWidth
+            bgcolor='#E9F1FF'
+            mt={2}
+            mb={4}
+            sx={{
+              p: 2,
+            }}
+          >
+            <Typography variant='body1' fontWeight='bold'>
+              + Add payment destination
+            </Typography>
+          </Box>
+
+          <Button
+            sx={{
+              mt: 3,
+            }}
+            disabled={false}
+            fullWidth
+            onClick={() => openNext?.()}
+          >
+            Proceed to next step
+          </Button>
+        </Box>
+      </SellSmallScreen>
+    </>
   );
 }
