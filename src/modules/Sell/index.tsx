@@ -3,11 +3,12 @@ import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import Button from "@mui/material/Button";
+
 import Typography from "@mui/material/Typography";
 import SellModal from "components/modals/SellModal";
 import CashDestination from "components/modals/CashDestination";
 import SummaryModal from "components/modals/SummaryModal";
+import TransferCrypto from "components/modals/TransferCrypto";
 
 import useSmallScreen from "hooks/useSmallScreen";
 
@@ -23,7 +24,7 @@ const steps = [
 ];
 
 export default function HorizontalLinearStepper() {
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = React.useState(3);
   const [skipped, setSkipped] = React.useState(new Set<number>());
 
   const isMobile = useSmallScreen();
@@ -84,7 +85,7 @@ export default function HorizontalLinearStepper() {
             sx={{
               height: "2px",
               transition: (theme) => theme.transitions.easing.easeIn,
-              width: `${((activeStep + 0.5) / 5) * 100}%`,
+              width: `${((activeStep + 1) / 5) * 100}%`,
             }}
           ></Box>
         </Box>
@@ -121,6 +122,7 @@ export default function HorizontalLinearStepper() {
         {activeStep === 2 && (
           <SummaryModal back={handleBack} openNext={handleNext} />
         )}
+        {activeStep === 3 && <TransferCrypto openNext={handleNext} />}
       </Box>
     </Box>
   );
