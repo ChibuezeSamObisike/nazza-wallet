@@ -34,8 +34,7 @@ function App() {
         justifyContent='space-between'
       >
         <Typography variant='h3' fontWeight='bold' color='#47454C'>
-          Welcome,{" "}
-          {JSON.parse(localStorage.getItem("name"))?.name.split(" ")[0]}{" "}
+          Welcome, Chibueze
           <span className='wave'>👋</span>
         </Typography>
 
