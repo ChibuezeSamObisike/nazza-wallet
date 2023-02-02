@@ -34,7 +34,7 @@ export default function SellModal({
           color='#5D5C63'
           textAlign='center'
           bgcolor='#fff'
-          p={4}
+          p={{ md: 4, xs: 2 }}
           borderRadius='16px'
           border='1px solid #A4A3A7'
         >
@@ -50,7 +50,13 @@ export default function SellModal({
             </span>
           </Typography>
 
-          <Box display='flex' justifyContent='flex-end' mt={-10} mb={10} mr={5}>
+          <Box
+            display='flex'
+            justifyContent='flex-end'
+            mt={-10}
+            mb={10}
+            mr={{ md: 5, xs: 0 }}
+          >
             <Box
               display='flex'
               alignItems='center'

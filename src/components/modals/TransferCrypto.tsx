@@ -112,6 +112,7 @@ export default function TransferCrypto({
 
             <Button
               fullWidth
+              onClick={() => openNext?.()}
               sx={{
                 mt: 3,
                 fontWeight: 400,

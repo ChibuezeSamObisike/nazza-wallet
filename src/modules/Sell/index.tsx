@@ -9,6 +9,7 @@ import SellModal from "components/modals/SellModal";
 import CashDestination from "components/modals/CashDestination";
 import SummaryModal from "components/modals/SummaryModal";
 import TransferCrypto from "components/modals/TransferCrypto";
+import TransferProcessing from "components/modals/TransferProcessing";
 
 import useSmallScreen from "hooks/useSmallScreen";
 
@@ -24,14 +25,10 @@ const steps = [
 ];
 
 export default function HorizontalLinearStepper() {
-  const [activeStep, setActiveStep] = React.useState(3);
+  const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
 
   const isMobile = useSmallScreen();
-
-  const isStepOptional = (step: number) => {
-    return step === 1;
-  };
 
   const isStepSkipped = (step: number) => {
     return skipped.has(step);
@@ -50,25 +47,6 @@ export default function HorizontalLinearStepper() {
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.");
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
   };
 
   return (
@@ -123,6 +101,7 @@ export default function HorizontalLinearStepper() {
           <SummaryModal back={handleBack} openNext={handleNext} />
         )}
         {activeStep === 3 && <TransferCrypto openNext={handleNext} />}
+        {activeStep === 4 && <TransferProcessing />}
       </Box>
     </Box>
   );
