@@ -9,20 +9,10 @@ import { useNavigate } from "react-router-dom";
 import useSmallScreen from "hooks/useSmallScreen";
 
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { getDecodedJwt, getName } from "utils/auth";
-import { useEffect } from "react";
-
-import { useGetUser } from "contexts/UserProvider";
 
 function App() {
   const navigate = useNavigate();
   const isSmallScreen = useSmallScreen();
-  const { user } = useGetUser();
-  const tD = getDecodedJwt();
-
-  useEffect(() => {
-    console.log("User det", getName());
-  }, []);
 
   return (
     <div>

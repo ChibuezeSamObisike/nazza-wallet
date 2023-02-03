@@ -1,5 +1,3 @@
-import React from "react";
-import AppModal from "components/AppModal";
 import {
   Box,
   TextField,

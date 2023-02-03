@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, IconButton, Modal, Typography } from "@mui/material";
+import { Box, IconButton, Modal } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
 

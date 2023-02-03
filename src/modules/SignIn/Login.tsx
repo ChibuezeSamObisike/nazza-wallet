@@ -27,11 +27,10 @@ import { setToken } from "utils/auth";
 import { useAlert } from "hooks/useAlert";
 
 import { getDecodedJwt, setName } from "utils/auth";
-import { useGetUser } from "contexts/UserProvider";
 
 export default function Login() {
   const { showNotification } = useAlert();
-  const { setUser } = useGetUser();
+
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
