@@ -14,7 +14,13 @@ export default function GenericModal({ children, open, close }: any) {
         justifyContent: "center",
       }}
     >
-      <Box width='50%' bgcolor='#fff' my='auto' p={3} borderRadius='8px'>
+      <Box
+        width={{ md: "50%", xs: "80%" }}
+        bgcolor='#fff'
+        my='auto'
+        p={3}
+        borderRadius='8px'
+      >
         <Box justifyContent='flex-end' display='flex'>
           <IconButton onClick={() => close()}>
             <CloseIcon
