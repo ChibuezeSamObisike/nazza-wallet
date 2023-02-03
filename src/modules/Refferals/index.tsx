@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Box, IconButton, Tabs } from "@mui/material";
+import { Box, Tabs } from "@mui/material";
 
 import Sidebar from "components/dashboard/Sidebar";
 import Security from "components/referrals/Security";
@@ -9,7 +9,7 @@ import KycVerification from "components/KycVerification";
 import ReferEarn from "components/ReferEarn";
 
 import { ReactComponent as Refer } from "assets/refer icons.svg";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+
 import Profile from "@mui/icons-material/Person";
 import Kyc from "@mui/icons-material/FactCheck";
 import SecurityIcon from "@mui/icons-material/Lock";
@@ -71,9 +71,6 @@ export default function Index({ children }: { children: any }) {
                 label='Profile'
                 onClick={() => handleChangeTabs(0)}
               />
-              <IconButton>
-                <ArrowForwardIosIcon />
-              </IconButton>
             </Box>
             <Box
               display='flex'
@@ -87,9 +84,6 @@ export default function Index({ children }: { children: any }) {
                 label='KYC (verify Identity)'
                 onClick={() => handleChangeTabs(1)}
               />
-              <IconButton>
-                <ArrowForwardIosIcon />
-              </IconButton>
             </Box>
             <Box
               display='flex'
@@ -103,9 +97,6 @@ export default function Index({ children }: { children: any }) {
                 label='Security'
                 onClick={() => handleChangeTabs(2)}
               />
-              <IconButton>
-                <ArrowForwardIosIcon />
-              </IconButton>
             </Box>{" "}
             <Box
               display='flex'
@@ -119,9 +110,6 @@ export default function Index({ children }: { children: any }) {
                 icon={Refer}
                 label='Refer and Earn'
               />{" "}
-              <IconButton>
-                <ArrowForwardIosIcon />
-              </IconButton>
             </Box>
           </Tabs>
         )}

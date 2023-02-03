@@ -1,7 +1,9 @@
 import React from "react";
-import { Box, TextField, Button, InputAdornment } from "@mui/material";
-import TextTag from "shared/TextTag";
+import { Box, TextField, Typography, Divider } from "@mui/material";
+
 import { DesktopDatePicker } from "@mui/x-date-pickers";
+
+import AppBreadCrumb from "shared/AppBreadCrumb";
 
 export default function ProfileDetails() {
   const [value, setValue] = React.useState<any | null>(null);
@@ -10,106 +12,76 @@ export default function ProfileDetails() {
     setValue(newValue);
   };
   return (
-    <Box bgcolor='#fff' p={3} pt={5}>
-      <TextTag
-        label='Profile Details'
-        style={{
-          color: "#573A00",
-          backgroundColor: "#FFF7E7",
-        }}
-      />
-      <TextField
-        id='outlined-required'
-        label='Name'
-        fullWidth
-        sx={{
-          marginTop: "30px",
-        }}
-        defaultValue='Olugwu Samuel'
-      />
-      <TextField
-        id='outlined-required'
-        label='Email'
-        fullWidth
-        sx={{
-          marginTop: "30px",
-        }}
-        defaultValue='Ogbonnasamuel67@gmail.com'
-      />
-
-      <TextField
-        id='input-with-icon-textfield'
-        label='Username'
-        fullWidth
-        sx={{
-          marginTop: "30px",
-        }}
-        defaultValue='sampato'
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position='end'>
-              <Button
-                sx={{
-                  p: 1,
-                  px: 3,
-                  backgroundColor: "#E9F1FF",
-                  color: "#000000",
-                  fontWeight: 500,
-                }}
-              >
-                Edit
-              </Button>
-            </InputAdornment>
-          ),
-        }}
-      />
-
-      <DesktopDatePicker
-        label='Date'
-        inputFormat='MM/DD/YYYY'
-        value={value}
-        onChange={handleChange}
-        renderInput={(params: any) => (
+    <>
+      <AppBreadCrumb links={[{ title: "Home", link: "/" }]} current='Profile' />
+      <Box bgcolor='#fff' p={3} pt={5} mt={2}>
+        <Box>
+          <Typography mb={2} variant='body1' fontWeight='bold'>
+            Personal Details
+          </Typography>
+          <Divider />
+        </Box>
+        <Box width='60%'>
           <TextField
+            id='outlined-required'
+            label='Name'
             fullWidth
             sx={{
-              backgroundColor: "#E9F1FF",
-              color: "#000000",
-              fontWeight: 500,
-              bgcolor: "#fff",
               marginTop: "30px",
             }}
-            {...params}
+            placeholder='Olugwu Samuel'
           />
-        )}
-      />
+          <TextField
+            id='outlined-required'
+            label='Email'
+            fullWidth
+            sx={{
+              marginTop: "30px",
+            }}
+            placeholder='Ogbonnasamuel67@gmail.com'
+          />
 
-      <TextField
-        id='input-with-icon-textfield'
-        label='Phone Number'
-        fullWidth
-        sx={{
-          marginTop: "30px",
-        }}
-        defaultValue='000000'
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position='end'>
-              <Button
+          <TextField
+            id='input-with-icon-textfield'
+            label='Username'
+            fullWidth
+            sx={{
+              marginTop: "30px",
+            }}
+            placeholder='sampato'
+          />
+
+          <DesktopDatePicker
+            label='Date'
+            inputFormat='MM/DD/YYYY'
+            value={value}
+            onChange={handleChange}
+            renderInput={(params: any) => (
+              <TextField
+                fullWidth
                 sx={{
-                  p: 1,
-                  px: 3,
                   backgroundColor: "#E9F1FF",
                   color: "#000000",
                   fontWeight: 500,
+                  bgcolor: "#fff",
+                  marginTop: "30px",
                 }}
-              >
-                Edit
-              </Button>
-            </InputAdornment>
-          ),
-        }}
-      />
-    </Box>
+                {...params}
+              />
+            )}
+          />
+
+          <TextField
+            id='input-with-icon-textfield'
+            label='Phone Number'
+            fullWidth
+            sx={{
+              marginTop: "30px",
+            }}
+            placeholder='000000'
+          />
+        </Box>
+      </Box>
+    </>
   );
 }

@@ -1,8 +1,7 @@
+import { useState } from "react";
 import {
   Box,
-  TextField,
   Typography,
-  InputAdornment,
   Select,
   Button,
   MenuItem,
@@ -22,6 +21,22 @@ export default function SellModal({
   close?: VoidFunction;
   openNext?: VoidFunction;
 }) {
+  const [toggleCurr, setToggleCurr] = useState("NGN");
+  const toggleCurrency = (): void => {
+    if (toggleCurr === "NGN") {
+      setToggleCurr("USD");
+    } else {
+      setToggleCurr("NGN");
+    }
+  };
+
+  const getAltCurrency = (): string => {
+    if (toggleCurr === "NGN") {
+      return "USD";
+    } else {
+      return "NGN";
+    }
+  };
   return (
     <Box>
       <SellSmallScreen
@@ -60,7 +75,7 @@ export default function SellModal({
               alignItems='center'
               justifyContent='space-around'
             >
-              <IconButton>
+              <IconButton onClick={() => toggleCurrency()}>
                 <SwapVerticalCircleOutlinedIcon
                   sx={{
                     fontSize: pxToRem(33),
@@ -69,9 +84,9 @@ export default function SellModal({
                 />
               </IconButton>
               <Box>
-                <Typography fontSize={pxToRem(16)}>USD</Typography>
+                <Typography fontSize={pxToRem(16)}>{toggleCurr}</Typography>
                 <Typography fontSize={pxToRem(12)} color='#D4D4D4'>
-                  NGN
+                  {getAltCurrency()}
                 </Typography>
               </Box>
             </Box>
@@ -79,49 +94,49 @@ export default function SellModal({
 
           <Typography>1 BTC ~ N1</Typography>
 
-          <TextField
-            placeholder='Select coin you want to sell'
-            sx={{
-              width: "100%",
-              mt: 3,
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position='end'>
-                  <Select
-                    labelId='demo-simple-select-helper-label'
-                    id='demo-simple-select-helper'
-                    //   value={age}
-                    label='Age'
-                    //   onChange={handleChange}
-                    placeholder='Hello Woerld'
-                    sx={{
-                      boxShadow: "none",
-                      ".MuiOutlinedInput-notchedOutline": { border: 0 },
-                      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                        border: "0px solid #484850",
-                        borderRadius: "0px",
-                      },
-                    }}
-                  >
-                    <MenuItem defaultValue={0} value={0}>
-                      <Box
-                        display='flex'
-                        justifyContent={"space-between"}
-                        alignItems='center'
-                      >
-                        <Bitcoin />
-                        <Typography ml={2}>Bitcoin</Typography>
-                      </Box>
-                    </MenuItem>
-                    {/* <MenuItem value={10}>Ten</MenuItem>
+          <Box
+            display='flex'
+            alignItems='center'
+            justifyContent='space-between'
+            border='1px solid #A4A3A7'
+            p={1}
+            borderRadius={"4px"}
+            mt={2}
+          >
+            <Typography color='#8C8B90' fontWeight={300}>
+              Select coin you want to sell
+            </Typography>
+            <Select
+              labelId='demo-simple-select-helper-label'
+              id='demo-simple-select-helper'
+              //   value={age}
+              label='Age'
+              //   onChange={handleChange}
+              placeholder='Hello Woerld'
+              sx={{
+                boxShadow: "none",
+                ".MuiOutlinedInput-notchedOutline": { border: 0 },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  border: "0px solid #484850",
+                  borderRadius: "0px",
+                },
+              }}
+            >
+              <MenuItem defaultValue={0} value={0}>
+                <Box
+                  display='flex'
+                  justifyContent={"space-between"}
+                  alignItems='center'
+                >
+                  <Bitcoin />
+                  <Typography ml={2}>Bitcoin</Typography>
+                </Box>
+              </MenuItem>
+              {/* <MenuItem value={10}>Ten</MenuItem>
                   <MenuItem value={20}>Twenty</MenuItem>
                   <MenuItem value={30}>Thirty</MenuItem> */}
-                  </Select>
-                </InputAdornment>
-              ),
-            }}
-          />
+            </Select>
+          </Box>
 
           <Button
             sx={{

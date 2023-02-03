@@ -30,6 +30,24 @@ export default function CashDestination({
   const [openM1, setOpenM1] = useState(false);
   const [openM2, setOpenM2] = useState(false);
 
+  const [toggleCurr, setToggleCurr] = useState("NGN");
+
+  const toggleCurrency = (): void => {
+    if (toggleCurr === "NGN") {
+      setToggleCurr("USD");
+    } else {
+      setToggleCurr("NGN");
+    }
+  };
+
+  const getAltCurrency = (): string => {
+    if (toggleCurr === "NGN") {
+      return "USD";
+    } else {
+      return "NGN";
+    }
+  };
+
   const closeM1 = () => {
     setOpenM1(false);
   };
@@ -153,7 +171,7 @@ export default function CashDestination({
               alignItems='center'
               justifyContent='space-around'
             >
-              <IconButton>
+              <IconButton onClick={() => toggleCurrency()}>
                 <SwapVerticalCircleOutlinedIcon
                   sx={{
                     fontSize: pxToRem(33),
@@ -162,9 +180,9 @@ export default function CashDestination({
                 />
               </IconButton>
               <Box>
-                <Typography fontSize={pxToRem(16)}>USD</Typography>
+                <Typography fontSize={pxToRem(16)}>{toggleCurr}</Typography>
                 <Typography fontSize={pxToRem(12)} color='#D4D4D4'>
-                  NGN
+                  {getAltCurrency()}
                 </Typography>
               </Box>
             </Box>
