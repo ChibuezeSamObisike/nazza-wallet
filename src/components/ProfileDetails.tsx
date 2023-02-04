@@ -21,7 +21,7 @@ export default function ProfileDetails() {
           </Typography>
           <Divider />
         </Box>
-        <Box width='60%'>
+        <Box width={{ xs: "100%", md: "60%" }}>
           <TextField
             id='outlined-required'
             label='Name'
