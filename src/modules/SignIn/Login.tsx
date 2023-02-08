@@ -27,6 +27,7 @@ import { setToken } from "utils/auth";
 import { useAlert } from "hooks/useAlert";
 
 import { getDecodedJwt, setName } from "utils/auth";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export default function Login() {
   const { showNotification } = useAlert();
@@ -118,7 +119,7 @@ export default function Login() {
             endAdornment: (
               <InputAdornment position='end'>
                 <IconButton onClick={() => togglePasswordVisibility()}>
-                  <VisibilityOffIcon />
+                  {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
                 </IconButton>
               </InputAdornment>
             ),

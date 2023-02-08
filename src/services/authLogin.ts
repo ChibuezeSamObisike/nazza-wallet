@@ -37,3 +37,13 @@ export const profile = async () => {
     return res.data;
   });
 };
+
+export const getHistory = async ({ queryKey }: any) => {
+  const [, { rowsPerPage, currPage }] = queryKey;
+  console.log("QueryKey", rowsPerPage, currPage);
+  return http
+    .get(`trade/history?page=${1}&limit=${rowsPerPage}`)
+    .then((res) => {
+      return res.data;
+    });
+};

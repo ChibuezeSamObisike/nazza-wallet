@@ -26,6 +26,7 @@ import { handleAppError } from "utils/handleApiError";
 import { useAlert } from "hooks/useAlert";
 
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 // import ReactPasswordChecklist from "react-password-checklist";
 
@@ -140,7 +141,7 @@ export default function AccountSetUp() {
             endAdornment: (
               <InputAdornment position='end'>
                 <IconButton onClick={() => togglePasswordVisibility()}>
-                  <VisibilityOffIcon />
+                  {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
                 </IconButton>
               </InputAdornment>
             ),

@@ -7,9 +7,8 @@ const UserContext = createContext<any>(null);
 export default function UserProvider({ children }: any) {
   const [user, setUser] = useState({});
 
-  const { data, isLoading } = useQuery("userData", profile, {
+  useQuery("userData", profile, {
     onSuccess(data) {
-      console.log(data);
       setUser(data);
     },
     onError(error) {

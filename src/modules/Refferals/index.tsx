@@ -8,10 +8,10 @@ import ProfileDetails from "components/ProfileDetails";
 import KycVerification from "components/KycVerification";
 import ReferEarn from "components/ReferEarn";
 import Logout from "modules/SignIn/Logout";
+import Banks from "components/referrals/Banks";
 
 import { ReactComponent as Refer } from "assets/refer icons.svg";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 import Profile from "@mui/icons-material/Person";
@@ -148,6 +148,7 @@ export default function Index({ children }: { children: any }) {
         {value === 1 && <KycVerification />}
         {value === 2 && <Security />}
         {value === 3 && <ReferEarn />}
+        {value === 4 && <Banks />}
         {value === 5 && <Logout />}
       </Box>
     </Box>

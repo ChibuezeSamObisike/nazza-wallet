@@ -8,7 +8,7 @@ import Ethereum from "../assets/ethereum.svg";
 function getIcon(currency: string): string {
   let icon: string = "";
 
-  if (currency === "Bitcoin") {
+  if (currency === "BTC") {
     icon = Bitcoin;
   } else if (currency === "USDT") {
     icon = USDT;

@@ -11,13 +11,67 @@ import useSmallScreen from "hooks/useSmallScreen";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 import { useGetUser } from "contexts/UserProvider";
-import { useEffect } from "react";
+
+import { getHistory } from "services/authLogin";
+import { useQuery } from "react-query";
+import { createData } from "shared/Table";
+import { useState } from "react";
+import { numberToFigure } from "utils/numberToFigure";
 
 function App() {
   const navigate = useNavigate();
   const isSmallScreen = useSmallScreen();
 
+  const [tableData, setTableData] = useState<any>([]);
+  const [currPage, setCurrPage] = useState<number>(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [pageSize, setPageSize] = useState<number | null>(0);
+
   const user = useGetUser();
+
+  const { isLoading } = useQuery(
+    [
+      "getHistory",
+      {
+        rowsPerPage,
+        currPage,
+      },
+    ],
+    getHistory,
+    {
+      onSuccess(data) {
+        setPageSize(data?.paginationMeta.totalPages);
+        setTableData(data?.trades);
+      },
+    }
+  );
+
+  const dataTable = tableData?.map((x: any) =>
+    createData(
+      x?.coin?.name,
+      `${x?.amount} ${x?.coin?.name}`,
+      `N ${numberToFigure(x?.amount_ngn)}`,
+      `${x?.createdAt.split("T")[0]}`,
+      `${x?.coin.network}`,
+      "Deposit"
+    )
+  );
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    console.log("New  Page", newPage);
+    setCurrPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    console.log("Rows per page val", event.target.value);
+    setRowsPerPage(parseInt(event.target.value, 10));
+    // setCurrPage(0);
+  };
 
   return (
     <div>
@@ -123,7 +177,15 @@ function App() {
       <div style={{ marginTop: "40px" }}>
         <TextTag label='Transaction History' />
         <div style={{ marginBottom: "50px" }}></div>
-        <BasicTable />
+        <BasicTable
+          rows={dataTable}
+          isLoading={isLoading}
+          pageSize={pageSize}
+          rowsPerPage={rowsPerPage}
+          page={currPage}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
+        />
       </div>
     </div>
   );

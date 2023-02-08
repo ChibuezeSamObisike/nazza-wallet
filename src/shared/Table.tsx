@@ -9,13 +9,15 @@ import TablePagination from "@mui/material/TablePagination";
 import Paper from "@mui/material/Paper";
 import { Box, Chip, Typography } from "@mui/material";
 import getChipColor from "utils/getChipColor";
+
+import Loader from "./Loader";
 import getIcon from "utils/getIcon";
 import useSmallScreen from "hooks/useSmallScreen";
 
 import { ReactComponent as EmptyIcon } from "assets/EmptyStateIcon.svg";
 import MobileTransactionCard from "./MobileTransaction";
 
-function createData(
+export function createData(
   crypto: string,
   number: string,
   price: string,
@@ -45,7 +47,7 @@ function createData(
   };
 }
 
-const rows = [
+const ros = [
   createData(
     "Bitcoin",
     "1.6BTC",
@@ -141,24 +143,16 @@ const tableMobile = [
   },
 ];
 
-export default function BasicTable() {
+export default function BasicTable({
+  rows,
+  isLoading,
+  pageSize,
+  page,
+  rowsPerPage,
+  handleChangePage,
+  handleChangeRowsPerPage,
+}: any) {
   const isMobile = useSmallScreen();
-  const [page, setPage] = React.useState(2);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
 
   if (isMobile) {
     return (
@@ -202,7 +196,7 @@ export default function BasicTable() {
           </TableHead>
           {rows.length >= 0 && (
             <TableBody>
-              {rows.map((row) => (
+              {rows.map((row: any) => (
                 <TableRow
                   key={row.price}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -246,13 +240,29 @@ export default function BasicTable() {
               </TableCell>
             </TableRow>
           )}
+          {isLoading && (
+            <TableRow>
+              <TableCell
+                component='td'
+                scope='row'
+                colSpan={40}
+                sx={{
+                  textAlign: "center",
+                  height: "35vh",
+                }}
+              >
+                <Loader height='30%' />
+              </TableCell>
+            </TableRow>
+          )}
         </Table>
       </TableContainer>
       <TablePagination
         component='div'
-        count={100}
+        count={pageSize}
         page={page}
         onPageChange={handleChangePage}
+        // rowsPerPageOptions={[5, 10, 20]}
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
