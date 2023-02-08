@@ -17,6 +17,7 @@ import { useQuery } from "react-query";
 import { createData } from "shared/Table";
 import { useState } from "react";
 import { numberToFigure } from "utils/numberToFigure";
+import { getTotalPayout } from "services/authLogin";
 
 function App() {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ function App() {
   const [currPage, setCurrPage] = useState<number>(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [pageSize, setPageSize] = useState<number | null>(0);
+  const [payOutData, setPayOutData] = useState<any | null | undefined>(null);
 
   const user = useGetUser();
 
@@ -45,6 +47,14 @@ function App() {
       },
     }
   );
+
+  useQuery("getTotalPayout", getTotalPayout, {
+    onSuccess(data) {
+      setPayOutData(data);
+
+      console.log(payOutData);
+    },
+  });
 
   const dataTable = tableData?.map((x: any) =>
     createData(
@@ -127,7 +137,7 @@ function App() {
         )}
       </Box>
 
-      <TotalCard />
+      <TotalCard naira={payOutData?.total_ngn} usd={payOutData?.total_usd} />
       {isSmallScreen && (
         <Box
           alignItems='center'

@@ -47,3 +47,9 @@ export const getHistory = async ({ queryKey }: any) => {
       return res.data;
     });
 };
+
+export const getTotalPayout = async () => {
+  return http.get(`trade/totalpayout`).then((res) => {
+    return res.data;
+  });
+};

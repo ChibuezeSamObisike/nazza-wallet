@@ -5,7 +5,13 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { pxToRem } from "utils/pxToRem";
 import useSmallScreen from "hooks/useSmallScreen";
 
-export default function TotalCard() {
+export default function TotalCard({
+  naira,
+  usd,
+}: {
+  naira: string | number;
+  usd: string | number;
+}) {
   const [viewPrice, setViewPrice] = useState(true);
 
   const isMobile = useSmallScreen();
@@ -48,12 +54,12 @@ export default function TotalCard() {
           </Box>
           <Box>
             <Typography fontSize={pxToRem(isMobile ? 22 : 48)} fontWeight={700}>
-              {viewPrice ? " $ 180.34" : "*********"}
+              {viewPrice ? `$ ${usd ?? 0}` : "*********"}
             </Typography>
           </Box>
 
           <Typography color='#7587a5' fontWeight={700} fontSize={pxToRem(18)}>
-            {viewPrice ? "NGN 23,000.34" : "-------"}
+            {viewPrice ? `N ${naira ?? 0}` : "-------"}
           </Typography>
         </Box>
 
