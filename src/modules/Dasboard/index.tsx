@@ -10,9 +10,14 @@ import useSmallScreen from "hooks/useSmallScreen";
 
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
+import { useGetUser } from "contexts/UserProvider";
+import { useEffect } from "react";
+
 function App() {
   const navigate = useNavigate();
   const isSmallScreen = useSmallScreen();
+
+  const user = useGetUser();
 
   return (
     <div>
@@ -24,7 +29,7 @@ function App() {
         justifyContent='space-between'
       >
         <Typography variant='h3' fontWeight='bold' color='#47454C'>
-          Welcome, Chibueze
+          Welcome, {user?.user?.name?.split(" ")?.[0] ?? "---"}{" "}
           <span className='wave'>👋</span>
         </Typography>
 

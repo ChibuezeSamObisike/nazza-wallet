@@ -1,6 +1,4 @@
-import { useEffect } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Profile from "@mui/icons-material/Person";
 import Kyc from "@mui/icons-material/FactCheck";
 import Security from "@mui/icons-material/Lock";
@@ -8,17 +6,12 @@ import { ReactComponent as Refer } from "assets/refer icons.svg";
 import { Box, Typography, IconButton } from "@mui/material";
 import { pxToRem } from "utils/pxToRem";
 import AppTabs from "shared/Tabs";
-import useSmallScreen from "hooks/useSmallScreen";
-import { useNavigate } from "react-router-dom";
 
 export default function KycSideBar({
   handleChangeTabs,
 }: {
   handleChangeTabs?: any;
 }) {
-  const navigate = useNavigate();
-  const isMobile = useSmallScreen();
-
   return (
     <Box p={2}>
       <Box display='flex' textAlign='center' alignItems='center'>
@@ -56,9 +49,6 @@ export default function KycSideBar({
           label='Profile'
           onClick={() => handleChangeTabs(0)}
         />
-        <IconButton>
-          <ArrowForwardIosIcon />
-        </IconButton>
       </Box>
       <Box
         display='flex'
@@ -72,9 +62,6 @@ export default function KycSideBar({
           label='KYC (verify Identity)'
           onClick={() => handleChangeTabs(1)}
         />
-        <IconButton>
-          <ArrowForwardIosIcon />
-        </IconButton>
       </Box>
       <Box
         display='flex'
@@ -88,9 +75,6 @@ export default function KycSideBar({
           label='Security'
           onClick={() => handleChangeTabs(2)}
         />
-        <IconButton>
-          <ArrowForwardIosIcon />
-        </IconButton>
       </Box>{" "}
       <Box
         display='flex'
@@ -104,9 +88,32 @@ export default function KycSideBar({
           icon={Refer}
           label='Refer and Earn'
         />{" "}
-        <IconButton>
-          <ArrowForwardIosIcon />
-        </IconButton>
+      </Box>
+      <Box
+        display='flex'
+        alignItems='center'
+        justifyContent='space-between'
+        py={1}
+      >
+        <AppTabs
+          onClick={() => handleChangeTabs()}
+          active={40}
+          icon={Refer}
+          label='Refer and Earn'
+        />{" "}
+      </Box>
+      <Box
+        display='flex'
+        alignItems='center'
+        justifyContent='space-between'
+        py={1}
+      >
+        <AppTabs
+          onClick={() => handleChangeTabs()}
+          active={40}
+          icon={Refer}
+          label='Refer and Earn'
+        />{" "}
       </Box>
     </Box>
   );

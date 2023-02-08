@@ -15,7 +15,7 @@ http.defaults.headers.common["x-auth-apiKey"] = 1;
 http.interceptors.request.use(
   async (config: AxiosRequestConfig) => {
     config.headers = {
-      Authorization: isAuthenticated() ? `Bearer ${getToken()}` : "",
+      "x-auth-token": isAuthenticated() ? `${getToken()}` : "",
       "x-auth-apiKey": "1",
     };
     return config;

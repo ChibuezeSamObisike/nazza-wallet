@@ -30,3 +30,10 @@ export const reset = async ({ data }: any) => {
     return res.data;
   });
 };
+
+export const profile = async () => {
+  return http.get("user/profile").then((res) => {
+    console.log("Res data", res?.data);
+    return res.data;
+  });
+};

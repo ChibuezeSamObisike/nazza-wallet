@@ -44,6 +44,8 @@ export default function Login() {
       showNotification?.("Login Successful", { type: "success" });
       navigate("/");
 
+      console.log("Access Token>", data?.accessToken?.token);
+
       setToken(data?.accessToken?.token);
       getDecodedJwt();
     },

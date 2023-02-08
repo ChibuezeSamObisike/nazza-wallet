@@ -7,8 +7,12 @@ import Security from "components/referrals/Security";
 import ProfileDetails from "components/ProfileDetails";
 import KycVerification from "components/KycVerification";
 import ReferEarn from "components/ReferEarn";
+import Logout from "modules/SignIn/Logout";
 
 import { ReactComponent as Refer } from "assets/refer icons.svg";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 import Profile from "@mui/icons-material/Person";
 import Kyc from "@mui/icons-material/FactCheck";
@@ -111,6 +115,32 @@ export default function Index({ children }: { children: any }) {
                 label='Refer and Earn'
               />{" "}
             </Box>
+            <Box
+              display='flex'
+              alignItems='center'
+              justifyContent='space-between'
+              py={1}
+            >
+              <AppTabs
+                label='Banks'
+                icon={AccountBalanceIcon}
+                index={4}
+                onClick={() => handleChangeTabs(4)}
+              />
+            </Box>
+            <Box
+              display='flex'
+              alignItems='center'
+              justifyContent='space-between'
+              py={1}
+            >
+              <AppTabs
+                label='Logout'
+                icon={LogoutIcon}
+                index={5}
+                onClick={() => handleChangeTabs(5)}
+              />
+            </Box>
           </Tabs>
         )}
 
@@ -118,6 +148,7 @@ export default function Index({ children }: { children: any }) {
         {value === 1 && <KycVerification />}
         {value === 2 && <Security />}
         {value === 3 && <ReferEarn />}
+        {value === 5 && <Logout />}
       </Box>
     </Box>
   );

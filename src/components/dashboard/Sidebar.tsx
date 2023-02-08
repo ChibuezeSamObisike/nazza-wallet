@@ -4,6 +4,8 @@ import Profile from "@mui/icons-material/Person";
 import Kyc from "@mui/icons-material/FactCheck";
 import Security from "@mui/icons-material/Lock";
 import { ReactComponent as Refer } from "assets/refer icons.svg";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import AppTabs from "shared/Tabs";
 
 export default function Sidebar({
@@ -65,6 +67,20 @@ export default function Sidebar({
             index={3}
             active={active}
             onClick={() => handleChangeTabs(3)}
+          />
+          <AppTabs
+            label='Banks'
+            icon={AccountBalanceIcon}
+            index={4}
+            active={active}
+            onClick={() => handleChangeTabs(4)}
+          />
+          <AppTabs
+            label='Logout'
+            icon={LogoutRoundedIcon}
+            index={5}
+            active={active}
+            onClick={() => handleChangeTabs(5)}
           />
         </Box>
       </Box>
