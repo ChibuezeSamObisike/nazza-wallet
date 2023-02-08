@@ -2,7 +2,7 @@ import React from "react";
 import { Box } from "@mui/material";
 import { PropagateLoader } from "react-spinners";
 
-const Loader = ({ height = "10ovh" }: { height?: string }) => {
+const Loader = ({ height = "100vh" }: { height?: string }) => {
   return (
     <Box
       display='flex'
