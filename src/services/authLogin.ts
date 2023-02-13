@@ -33,7 +33,6 @@ export const reset = async ({ data }: any) => {
 
 export const profile = async () => {
   return http.get("user/profile").then((res) => {
-    console.log("Res data", res?.data);
     return res.data;
   });
 };
@@ -50,6 +49,12 @@ export const getHistory = async ({ queryKey }: any) => {
 
 export const getTotalPayout = async () => {
   return http.get(`trade/totalpayout`).then((res) => {
+    return res.data;
+  });
+};
+
+export const getProfileDetails = async () => {
+  return http.get(`user/profile`).then((res) => {
     return res.data;
   });
 };

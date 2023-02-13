@@ -35,9 +35,11 @@ export default function Index({ children }: { children: any }) {
       {!isMobile && (
         <Box
           height='100vh'
-          sx={{
-            position: "fixed",
-          }}
+          sx={
+            {
+              // position: "fixed",
+            }
+          }
           borderRight='1px solid #EBEBEB'
           minWidth='30%'
         >
@@ -46,7 +48,7 @@ export default function Index({ children }: { children: any }) {
       )}
 
       <Box
-        ml={{ md: "30%", sm: 0 }}
+        ml={{ md: "0%", sm: 0 }}
         paddingRight={{ md: "20%", sm: 0 }}
         pt={6}
         pl={{ md: 6, sm: 0 }}

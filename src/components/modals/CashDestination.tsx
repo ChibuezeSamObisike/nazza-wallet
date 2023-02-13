@@ -148,12 +148,47 @@ export default function CashDestination({
               <ArrowBackIcon />
             </IconButton>
           </Box>
-          <Typography fontSize={pxToRem(52)} pt={4} mb={2} fontWeight='bold'>
-            0{" "}
+          <Typography
+            fontSize={pxToRem(52)}
+            pt={3}
+            mb={2}
+            fontWeight='bold'
+            sx={{
+              position: "relative",
+            }}
+          >
+            <TextField
+              placeholder='0'
+              variant='standard'
+              sx={{
+                fontWeight: "bold",
+                fontSize: 40,
+                textAlign: "center",
+                mx: "auto",
+                ".css-1x51dt5-MuiInputBase-input-MuiInput-input": {
+                  color: "#000",
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  fontSize: "40px",
+                },
+                ".css-1x51dt5-MuiInputBase-input-MuiInput-input::placeholder": {
+                  color: "#000",
+                  fontWeight: "bold",
+                  fontSize: "40px",
+                  textAlign: "center",
+                },
+              }}
+              InputProps={{
+                disableUnderline: true,
+              }}
+            />
             <span
               style={{
                 fontSize: pxToRem(18),
                 fontWeight: 500,
+                position: "absolute",
+                bottom: "0",
+                right: "140px",
               }}
             >
               USD

@@ -54,12 +54,12 @@ export default function TotalCard({
           </Box>
           <Box>
             <Typography fontSize={pxToRem(isMobile ? 22 : 48)} fontWeight={700}>
-              {viewPrice ? `$ ${usd ?? 0}` : "*********"}
+              {viewPrice ? `$ ${usd ?? "--"}` : "*********"}
             </Typography>
           </Box>
 
           <Typography color='#7587a5' fontWeight={700} fontSize={pxToRem(18)}>
-            {viewPrice ? `N ${naira ?? 0}` : "-------"}
+            {viewPrice ? `N ${naira ?? "--"}` : "-------"}
           </Typography>
         </Box>
 

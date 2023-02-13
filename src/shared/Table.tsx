@@ -7,8 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import Paper from "@mui/material/Paper";
-import { Box, Chip, Typography } from "@mui/material";
-import getChipColor from "utils/getChipColor";
+import { Box, Typography } from "@mui/material";
 
 import Loader from "./Loader";
 import getIcon from "utils/getIcon";

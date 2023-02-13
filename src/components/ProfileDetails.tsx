@@ -1,18 +1,48 @@
-import React from "react";
-import { Box, TextField, Typography, Divider } from "@mui/material";
+import React, { useEffect } from "react";
+import {
+  Box,
+  TextField,
+  Typography,
+  Divider,
+  Backdrop,
+  CircularProgress,
+  ThemeOptions,
+  ThemedProps,
+} from "@mui/material";
 
 import { DesktopDatePicker } from "@mui/x-date-pickers";
+import { useQuery } from "react-query";
 
 import AppBreadCrumb from "shared/AppBreadCrumb";
+import { getProfileDetails } from "services/authLogin";
 
 export default function ProfileDetails() {
   const [value, setValue] = React.useState<any | null>(null);
+
+  const { data, isLoading } = useQuery("fetchUserDetails", getProfileDetails, {
+    onSuccess(data) {
+      console.log("fetch user data", data);
+    },
+  });
+
+  useEffect(() => {
+    console.log("Data tool", data);
+  }, [data]);
 
   const handleChange = (newValue: any | null) => {
     setValue(newValue);
   };
   return (
     <>
+      <Backdrop
+        sx={{
+          color: "#fff",
+          zIndex: (theme: any) => theme.zIndex.drawer + 1,
+        }}
+        open={!!isLoading}
+      >
+        <CircularProgress color='inherit' />
+      </Backdrop>
       <AppBreadCrumb links={[{ title: "Home", link: "/" }]} current='Profile' />
       <Box bgcolor='#fff' p={3} pt={5} mt={2}>
         <Box>
@@ -25,7 +55,12 @@ export default function ProfileDetails() {
           <TextField
             id='outlined-required'
             label='Name'
+            value={data?.name}
             fullWidth
+            disabled
+            InputLabelProps={{
+              shrink: true,
+            }}
             sx={{
               marginTop: "30px",
             }}
@@ -34,6 +69,11 @@ export default function ProfileDetails() {
           <TextField
             id='outlined-required'
             label='Email'
+            disabled
+            value={data?.email}
+            InputLabelProps={{
+              shrink: true,
+            }}
             fullWidth
             sx={{
               marginTop: "30px",
