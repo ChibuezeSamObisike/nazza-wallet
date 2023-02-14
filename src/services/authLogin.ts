@@ -66,3 +66,8 @@ export const resetPassword = async ({ data }: any) => {
 export const toggle2fa = async () => {
   return http.put("user/toggle2fa").then((res) => res.data);
 };
+
+export const login2fa = async (data: any) => {
+  console.log("Login 2fa data", data);
+  return http.post("user/login/2fa", data).then((r) => r.data);
+};

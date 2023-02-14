@@ -88,6 +88,13 @@ const routes: IRoute[] = [
     path: "kyc-sidebar",
     component: lazy(() => import("modules/Sidebar")),
     auth: false,
+    layout: SignInLayout,
+  },
+  {
+    path: "verify-email-otp",
+    component: lazy(() => import("modules/SignIn/VerifyEmailOtp")),
+    auth: false,
+    layout: SignInLayout,
   },
   {
     path: "create-account",
