@@ -43,6 +43,7 @@ export default function AccountSetUp() {
     email: "",
     password: "",
     name: "",
+    lastname: "",
   };
   const navigate = useNavigate();
   const { showNotification } = useAlert();
@@ -67,7 +68,8 @@ export default function AccountSetUp() {
       .required("Password is Required")
       .min(8, "Minimum of 8 text")
       .matches(/[0-9]/, "Must have a number"),
-    name: Yup.string().required("Name is Required"),
+    name: Yup.string().required("First Name is Required"),
+    lastname: Yup.string().required("Last Name is Required"),
   });
 
   const resolver = yupResolver(schema);
@@ -111,17 +113,31 @@ export default function AccountSetUp() {
         verify your identity.
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <TextField
-          placeholder='Name'
-          label='Name'
-          fullWidth
-          {...register("name")}
-          sx={{
-            mt: 3,
-          }}
-          error={Boolean(errors["name"]?.message)}
-          helperText={errors.name?.message?.toString()}
-        />
+        <Box display='flex' flexDirection={{ xs: "column", md: "row" }}>
+          <TextField
+            placeholder='Name'
+            label='Name'
+            fullWidth
+            {...register("name")}
+            sx={{
+              mt: 3,
+              mr: { xs: 0, md: 2 },
+            }}
+            error={Boolean(errors["name"]?.message)}
+            helperText={errors.name?.message?.toString()}
+          />
+          <TextField
+            placeholder='Last Name'
+            label='Last Name'
+            fullWidth
+            {...register("lastname")}
+            sx={{
+              mt: 3,
+            }}
+            error={Boolean(errors["lastname"]?.message)}
+            helperText={errors.lastname?.message?.toString()}
+          />
+        </Box>
         <TextField
           placeholder='Email'
           label='Email'

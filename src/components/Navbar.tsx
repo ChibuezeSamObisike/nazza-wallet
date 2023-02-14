@@ -12,7 +12,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import logo from "assets/Nazza-logo.svg";
 import avatar from "assets/avatar.svg";
 import { Container } from "@mui/system";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import { ReactComponent as NotificationsIcon } from "assets/Notification.svg";
 import { NavLink, useNavigate, Link } from "react-router-dom";
 import MenuDrawer from "./dashboard/MenuDrawer";
 import AppMenuItem from "./menu/AppMenuItem";

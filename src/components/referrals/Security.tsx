@@ -9,10 +9,21 @@ import {
   Divider,
   styled,
   FormControlLabel,
+  CircularProgress,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useAlert } from "hooks/useAlert";
+
+import { useForm } from "react-hook-form";
+import { handleAppError } from "utils/handleApiError";
+
+import * as Yup from "yup";
 
 import Switch, { SwitchProps } from "@mui/material/Switch";
+import { useMutation } from "react-query";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { resetPassword, toggle2fa } from "services/authLogin";
+import { AxiosError } from "axios";
 
 export default function Security() {
   const IOSSwitch = styled((props: SwitchProps) => (
@@ -71,12 +82,77 @@ export default function Security() {
   }));
 
   const [showPassword, setShowPassword] = React.useState(false);
+  const [check2fa, setCheck2fa] = React.useState(false);
+
+  const defaultValues = {
+    old_password: "",
+    new_password: "",
+    confirm_password: "",
+  };
+
+  const schema = Yup.object({
+    old_password: Yup.string(),
+    new_password: Yup.string()
+      .required("Password is Required")
+      .min(6, "Minimum of 6 text"),
+    confirm_password: Yup.string().oneOf(
+      [Yup.ref("new_password"), null],
+      "Passwords must match"
+    ),
+  });
+
+  const resolver = yupResolver(schema);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver, defaultValues });
+  const { showNotification } = useAlert();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
+  };
+
+  const handleToggleChange = (): void => {
+    setCheck2fa((x) => !x);
+    mutate2fa();
+  };
+
+  const { mutate, isLoading } = useMutation(resetPassword, {
+    onSuccess(data) {
+      showNotification?.("Password change was successfull", {
+        type: "success",
+      });
+    },
+    onError(error: AxiosError) {
+      showNotification?.(handleAppError(error), {
+        type: "error",
+      });
+    },
+  });
+
+  const { mutate: mutate2fa, isLoading: is2faLoading } = useMutation(
+    toggle2fa,
+    {
+      onSuccess(data) {
+        showNotification?.("2FA toggled Successfully", {
+          type: "success",
+        });
+      },
+      onError(error: AxiosError) {
+        showNotification?.(handleAppError(error), {
+          type: "error",
+        });
+      },
+    }
+  );
+
+  const onSubmit = (data: any) => {
+    mutate({ data });
   };
   return (
     <>
@@ -90,7 +166,13 @@ export default function Security() {
         <Box display='flex' alignItems='center' justifyContent='space-between'>
           <Typography fontWeight={300}>Email OTP</Typography>
           <FormControlLabel
-            control={<IOSSwitch sx={{ m: 1 }} defaultChecked />}
+            control={
+              <IOSSwitch
+                sx={{ m: 1 }}
+                checked={check2fa}
+                onChange={handleToggleChange}
+              />
+            }
             label=''
           />
         </Box>
@@ -105,86 +187,132 @@ export default function Security() {
         </Box>
 
         <Box p={{ md: 6, xs: 0 }}>
-          <TextField
-            id='outlined-required'
-            label='Old password'
-            type={showPassword ? "text" : "password"}
-            fullWidth
-            sx={{
-              marginTop: "30px",
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position='end'>
-                  <IconButton>
-                    {" "}
-                    <IconButton
-                      aria-label='toggle password visibility'
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge='end'
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <TextField
+              label='Old password'
+              {...register("old_password")}
+              type={showPassword ? "text" : "password"}
+              fullWidth
+              sx={{
+                marginTop: "30px",
+              }}
+              error={Boolean(errors["old_password"]?.message)}
+              helperText={errors.old_password?.message?.toString()}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    <IconButton>
+                      {" "}
+                      <IconButton
+                        aria-label='toggle password visibility'
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge='end'
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
                     </IconButton>
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          <TextField
-            id='outlined-required'
-            label='New password'
-            fullWidth
-            sx={{
-              marginTop: "30px",
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position='end'>
-                  <IconButton>
-                    {" "}
-                    <IconButton
-                      aria-label='toggle password visibility'
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge='end'
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <TextField
+              label='New password'
+              fullWidth
+              {...register("new_password")}
+              sx={{
+                marginTop: "30px",
+              }}
+              error={Boolean(errors["new_password"]?.message)}
+              helperText={errors.new_password?.message?.toString()}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    <IconButton>
+                      {" "}
+                      <IconButton
+                        aria-label='toggle password visibility'
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge='end'
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
                     </IconButton>
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
+                  </InputAdornment>
+                ),
+              }}
+            />
 
-          <Typography mt={3} fontWeight={300}>
-            Must contain at least 8 characters,{" "}
-            <span
-              style={{
-                color: "#52C41A",
-                marginRight: "4px",
+            <TextField
+              label='Confirm password'
+              {...register("confirm_password")}
+              fullWidth
+              sx={{
+                marginTop: "30px",
+              }}
+              error={Boolean(errors["confirm_password"]?.message)}
+              helperText={errors.confirm_password?.message?.toString()}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    <IconButton>
+                      {" "}
+                      <IconButton
+                        aria-label='toggle password visibility'
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge='end'
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+            {/* <Typography mt={3} fontWeight={300}>
+              Must contain at least 8 characters,{" "}
+              <span
+                style={{
+                  color: "#52C41A",
+                  marginRight: "4px",
+                }}
+              >
+                one uppercase, one lowercase,
+              </span>
+              and{" "}
+              <span
+                style={{
+                  color: "#52C41A",
+                }}
+              >
+                one number or special character
+              </span>
+            </Typography> */}
+
+            <Button
+              fullWidth
+              type='submit'
+              startIcon={
+                isLoading && (
+                  <CircularProgress
+                    size={16}
+                    sx={{
+                      fontSize: 2,
+                      color: "#fff",
+                    }}
+                  />
+                )
+              }
+              sx={{
+                mt: 3,
               }}
             >
-              one uppercase, one lowercase,
-            </span>
-            and{" "}
-            <span
-              style={{
-                color: "#52C41A",
-              }}
-            >
-              one number or special character
-            </span>
-          </Typography>
-
-          <Button
-            fullWidth
-            sx={{
-              mt: 3,
-            }}
-          >
-            Change password
-          </Button>
+              Change password
+            </Button>
+          </form>
         </Box>
       </Box>
     </>

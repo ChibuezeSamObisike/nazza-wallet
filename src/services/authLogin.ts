@@ -58,3 +58,11 @@ export const getProfileDetails = async () => {
     return res.data;
   });
 };
+
+export const resetPassword = async ({ data }: any) => {
+  return http.put("user/changepassword", data).then((res) => res.data);
+};
+
+export const toggle2fa = async () => {
+  return http.put("user/toggle2fa").then((res) => res.data);
+};

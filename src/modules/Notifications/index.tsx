@@ -4,6 +4,8 @@ import { Box, Divider, Typography } from "@mui/material";
 import AppBreadCrumb from "shared/AppBreadCrumb";
 import QueryBuilderOutlinedIcon from "@mui/icons-material/QueryBuilderOutlined";
 
+import { ReactComponent as NotificationIcon } from "assets/NotificationItem.svg";
+
 import { pxToRem } from "utils/pxToRem";
 
 export default function index() {
@@ -15,43 +17,53 @@ export default function index() {
       />
 
       <Box>
-        <Box bgcolor='#fff' mt={3} py={{ xs: 2, md: 8 }}>
+        <Box bgcolor='#fff' mt={3} py={{ xs: 2, md: 2 }}>
           <Box p={{ xs: 3, md: 6 }}>
-            <Typography fontSize={pxToRem(18)} fontWeight={700} mb={3}>
-              Payment Received
-            </Typography>
-            <Box
-              display='flex'
-              alignItems='center'
-              justifyContent='space-between'
-              flexDirection={{ xs: "column", md: "row" }}
-            >
-              <Typography variant='body1' fontWeight={400}>
-                We have recieved your payment and required amount have been sent
-                to your account.
-              </Typography>
-
+            <Box>
+              <Box display='flex'>
+                <NotificationIcon />
+                <Typography
+                  fontSize={pxToRem(18)}
+                  ml={2}
+                  fontWeight={700}
+                  mb={3}
+                >
+                  Payment Received
+                </Typography>
+              </Box>
               <Box
                 display='flex'
-                alignItems={{ xs: "left", md: "center" }}
-                justifyContent={{ xs: "flex-start", md: "space-between" }}
-                color='#A4A3A7'
-                mt={{
-                  xs: 3,
-                  md: "auto",
-                }}
-                fontWeight={400}
-                // bgcolor='red'
-                width={{ xs: "100%", md: "auto" }}
+                alignItems='center'
+                justifyContent='space-between'
+                flexDirection={{ xs: "column", md: "row" }}
               >
-                <QueryBuilderOutlinedIcon
-                  sx={{
-                    color: "#A4A3A7",
+                <Typography variant='body1' fontWeight={400}>
+                  We have recieved your payment and required amount have been
+                  sent to your account.
+                </Typography>
+
+                <Box
+                  display='flex'
+                  alignItems={{ xs: "left", md: "center" }}
+                  justifyContent={{ xs: "flex-start", md: "space-between" }}
+                  color='#A4A3A7'
+                  mt={{
+                    xs: 3,
+                    md: "auto",
                   }}
-                />
-                <Typography ml={1}>7 :59 Pm</Typography>
-                <Typography mx={2}>|</Typography>
-                <Typography ml={1}>12th June, 2023</Typography>
+                  fontWeight={400}
+                  // bgcolor='red'
+                  width={{ xs: "100%", md: "auto" }}
+                >
+                  <QueryBuilderOutlinedIcon
+                    sx={{
+                      color: "#A4A3A7",
+                    }}
+                  />
+                  <Typography ml={1}>7 :59 Pm</Typography>
+                  <Typography mx={2}>|</Typography>
+                  <Typography ml={1}>12th June, 2023</Typography>
+                </Box>
               </Box>
             </Box>
           </Box>
