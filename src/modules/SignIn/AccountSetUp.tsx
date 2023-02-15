@@ -152,7 +152,7 @@ export default function AccountSetUp() {
         <TextField
           placeholder='Password'
           label='Password'
-          type={showPassword ? "" : "password"}
+          type={showPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (
               <InputAdornment position='end'>

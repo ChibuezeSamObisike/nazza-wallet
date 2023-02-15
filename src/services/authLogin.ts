@@ -59,6 +59,12 @@ export const getProfileDetails = async () => {
   });
 };
 
+export const getNotifications = async () => {
+  return http.get(`user/notifications`).then((res) => {
+    return res.data;
+  });
+};
+
 export const resetPassword = async ({ data }: any) => {
   return http.put("user/changepassword", data).then((res) => res.data);
 };

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { ReactComponent as Avatar } from "assets/Avatar profile-upload.svg";
 import Profile from "@mui/icons-material/Person";
@@ -6,6 +7,8 @@ import Security from "@mui/icons-material/Lock";
 import { ReactComponent as Refer } from "assets/refer icons.svg";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import { getProfileDetails } from "services/authLogin";
+import { useQuery } from "react-query";
 import AppTabs from "shared/Tabs";
 
 export default function Sidebar({
@@ -15,6 +18,15 @@ export default function Sidebar({
   handleChangeTabs: (val: number) => void;
   active?: number;
 }) {
+  const { data, isLoading } = useQuery("fetchUserDetails", getProfileDetails, {
+    onSuccess(data) {
+      console.log("fetch user data", data);
+    },
+  });
+
+  useEffect(() => {
+    console.log("Data tool", data);
+  }, [data]);
   return (
     <Box
       width='100%'
@@ -32,10 +44,10 @@ export default function Sidebar({
       >
         <Avatar />
         <Typography variant='h3' pt={4} fontWeight='bold'>
-          Olugwu Samuel
+          {data?.name} {data?.lastname}
         </Typography>
         <Typography mt={1} color='#5D5C63' fontWeight='400'>
-          Ogbonnasamuel67@gmail.com
+          {data?.email}
         </Typography>
       </Box>
       <Box mt={10} width='100%' display='flex' justifyContent='flex-end'>

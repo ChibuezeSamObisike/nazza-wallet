@@ -6,6 +6,7 @@ import {
   Divider,
   Backdrop,
   CircularProgress,
+  Alert,
   ThemeOptions,
   ThemedProps,
 } from "@mui/material";
@@ -91,6 +92,25 @@ export default function ProfileDetails() {
             placeholder='sampato'
           />
 
+          <TextField
+            id='input-with-icon-textfield'
+            label='Phone Number'
+            fullWidth
+            sx={{
+              marginTop: "30px",
+            }}
+            placeholder='000000'
+          />
+          <Alert
+            sx={{
+              mt: 2,
+              fontWeight: "bold",
+            }}
+            severity='info'
+          >
+            We recommend you use your WhatsApp number
+          </Alert>
+
           <DesktopDatePicker
             label='Date'
             inputFormat='MM/DD/YYYY'
@@ -109,16 +129,6 @@ export default function ProfileDetails() {
                 {...params}
               />
             )}
-          />
-
-          <TextField
-            id='input-with-icon-textfield'
-            label='Phone Number'
-            fullWidth
-            sx={{
-              marginTop: "30px",
-            }}
-            placeholder='000000'
           />
         </Box>
       </Box>
