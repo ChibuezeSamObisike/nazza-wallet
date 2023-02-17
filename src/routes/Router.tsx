@@ -72,6 +72,7 @@ const routes: IRoute[] = [
     auth: false,
     layout: NavLayOut,
   },
+
   {
     path: "/sell",
     component: lazy(() => import("modules/Sell")),

@@ -195,22 +195,17 @@ export default function AccountSetUp() {
 
       <Box mt={2}>
         <Typography textAlign='left'>
-          Must contain at least 8 characters,{" "}
+          Have an account?{" "}
           <span
+            role='link'
+            onClick={() => navigate("/login")}
             style={{
-              color: "#52C41A",
+              color: "#2574F5",
+              cursor: "pointer",
             }}
           >
             {" "}
-            one uppercase, one lowercase,
-          </span>{" "}
-          and{" "}
-          <span
-            style={{
-              color: "#52C41A",
-            }}
-          >
-            one number or special character
+            Sign in
           </span>
         </Typography>
       </Box>

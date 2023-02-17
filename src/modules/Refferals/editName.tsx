@@ -3,12 +3,6 @@ import React from "react";
 import { Box, Tabs } from "@mui/material";
 
 import Sidebar from "components/dashboard/Sidebar";
-import Security from "components/referrals/Security";
-import ProfileDetails from "components/ProfileDetails";
-import KycVerification from "components/KycVerification";
-import ReferEarn from "components/ReferEarn";
-import Logout from "modules/SignIn/Logout";
-import Banks from "components/referrals/Banks";
 
 import { ReactComponent as Refer } from "assets/refer icons.svg";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
@@ -146,14 +140,7 @@ export default function Index({ children }: { children: any }) {
           </Tabs>
         )}
 
-        <Box width={{ xs: "90%", md: "100%" }} mx='auto' mt={2}>
-          {value === 0 && <ProfileDetails />}
-          {value === 1 && <KycVerification />}
-          {value === 2 && <Security />}
-          {value === 3 && <ReferEarn />}
-          {value === 4 && <Banks />}
-          {value === 5 && <Logout />}
-        </Box>
+        <div>Hello world</div>
       </Box>
     </Box>
   );

@@ -42,42 +42,25 @@ function KycBox() {
 
 export default function KycVerification() {
   return (
-    <Box bgcolor='#fff' p={3} pt={5}>
+    <Box bgcolor='#fff' p={3} pt={1}>
       <Box mt={1}>
-        <div
-          style={{
-            marginBottom: "60px",
-          }}
-        >
-          <KycBox />
-        </div>
-        <KycBox />
-        <Alert
-          sx={{
-            mt: 3,
-          }}
-          severity='info'
-        >
-          Please add requested info to complete your account setup
-        </Alert>
-
         <Box
           display='flex'
           my={6}
           alignItems={{ xs: "flex-start", md: "center" }}
+          justifyContent='space-between'
           flexDirection={{ xs: "column", md: "row" }}
         >
           <Box color='#47454C'>
             <Typography fontWeight='bold' mb={2}>
-              Verify Email completed
+              Level 1 - Verification
             </Typography>
-            <Typography>
-              Verification has been sent to your email address
-            </Typography>
+            <Typography>Sell Limit : NGN 50,000</Typography>
           </Box>
           <Box>
             <Box
               ml={{ md: 2, xs: 0 }}
+              mt={{ xs: 2, md: 0 }}
               bgcolor='#D53A32'
               p={1}
               px={2}
@@ -88,6 +71,39 @@ export default function KycVerification() {
           </Box>
         </Box>
 
+        <Button fullWidth>Update</Button>
+
+        <Divider
+          sx={{
+            my: 2,
+          }}
+        />
+        <Box
+          display='flex'
+          my={6}
+          alignItems={{ xs: "flex-start", md: "center" }}
+          justifyContent='space-between'
+          flexDirection={{ xs: "column", md: "row" }}
+        >
+          <Box color='#47454C'>
+            <Typography fontWeight='bold' mb={2}>
+              Level 1 - Unlimited
+            </Typography>
+            <Typography>Sell Limit : NGN 50,000</Typography>
+          </Box>
+          <Box>
+            <Box
+              ml={{ md: 2, xs: 0 }}
+              mt={{ xs: 2, md: 0 }}
+              bgcolor='#D53A32'
+              p={1}
+              px={2}
+              borderRadius='16px'
+            >
+              <Typography color='white'>Complete</Typography>
+            </Box>
+          </Box>
+        </Box>
         <Box mt={4} border='1px solid #D4D4D4' borderRadius='4px' p={2}>
           <Typography mb={2} fontWeight={700}>
             Required Document

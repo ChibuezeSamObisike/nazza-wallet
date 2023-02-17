@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { ReactComponent as Avatar } from "assets/Avatar profile-upload.svg";
 import Profile from "@mui/icons-material/Person";
@@ -18,15 +17,8 @@ export default function Sidebar({
   handleChangeTabs: (val: number) => void;
   active?: number;
 }) {
-  const { data, isLoading } = useQuery("fetchUserDetails", getProfileDetails, {
-    onSuccess(data) {
-      console.log("fetch user data", data);
-    },
-  });
+  const { data } = useQuery("fetchUserDetails", getProfileDetails);
 
-  useEffect(() => {
-    console.log("Data tool", data);
-  }, [data]);
   return (
     <Box
       width='100%'

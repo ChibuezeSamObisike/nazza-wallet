@@ -9,7 +9,15 @@ import { Breadcrumbs, Link, Typography } from "@mui/material";
 
 export default function AppBreadCrumb({ links, current }: any) {
   return (
-    <Breadcrumbs aria-label='breadcrumb'>
+    <Breadcrumbs
+      aria-label='breadcrumb'
+      sx={{
+        display: {
+          xs: "none",
+          md: "block",
+        },
+      }}
+    >
       {links.map((x: any) => (
         <Link underline='none' color='inherit' href={x.link}>
           {x.title}

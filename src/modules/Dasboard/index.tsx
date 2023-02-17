@@ -25,7 +25,7 @@ function App() {
 
   const [tableData, setTableData] = useState<any>([]);
   const [currPage, setCurrPage] = useState<number>(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(0);
   const [pageSize, setPageSize] = useState<number | null>(0);
   const [payOutData, setPayOutData] = useState<any | null | undefined>(null);
 
@@ -42,8 +42,9 @@ function App() {
     getHistory,
     {
       onSuccess(data) {
+        console.log("Data table", data);
         setPageSize(data?.paginationMeta.totalPages);
-        setTableData(data?.trades);
+        setRowsPerPage(data?.paginationMeta.totalRecords);
       },
     }
   );
@@ -72,7 +73,7 @@ function App() {
     newPage: number
   ) => {
     console.log("New  Page", newPage);
-    setCurrPage(newPage);
+    setCurrPage(0);
   };
 
   const handleChangeRowsPerPage = (
@@ -80,7 +81,8 @@ function App() {
   ) => {
     console.log("Rows per page val", event.target.value);
     setRowsPerPage(parseInt(event.target.value, 10));
-    // setCurrPage(0);
+
+    setCurrPage(0);
   };
 
   return (
