@@ -145,13 +145,13 @@ const LazyLoad = ({
   const MainLayout = Layout ?? React.Fragment;
   const AuthLayout = auth ? AuthGuard : React.Fragment;
   return (
-    <Suspense fallback={<Loader />}>
-      <AuthLayout>
-        <MainLayout>
+    <MainLayout>
+      <Suspense fallback={<Loader />}>
+        <AuthLayout>
           <Component />
-        </MainLayout>
-      </AuthLayout>
-    </Suspense>
+        </AuthLayout>
+      </Suspense>
+    </MainLayout>
   );
 };
 
