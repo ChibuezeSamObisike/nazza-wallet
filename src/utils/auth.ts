@@ -31,7 +31,7 @@ export const getDecodedJwt = (tokn: string = "") => {
   }
 };
 
-export const setRefreshToken = (refreshToken: string) => {
+export const setRefreshToken = (refreshToken: string): void => {
   localStorage.setItem("refreshToken", refreshToken);
 };
 

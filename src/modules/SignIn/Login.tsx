@@ -117,7 +117,7 @@ export default function Login() {
         <TextField
           placeholder='Password'
           label='Password'
-          type={showPassword ? "" : "password"}
+          type={showPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (
               <InputAdornment position='end'>
@@ -177,7 +177,7 @@ export default function Login() {
         </Typography>
       </Box>
 
-      <Typography display='flex' mt={2} alignItems='center'>
+      <Typography display='flex' mt={2} alignItems='center' fontWeight={300}>
         Don't Have an account?{" "}
         <Typography
           ml={1}

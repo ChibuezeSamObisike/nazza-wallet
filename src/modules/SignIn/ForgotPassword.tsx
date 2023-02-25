@@ -70,7 +70,15 @@ export default function ForgotPassword() {
         Forgot your password ?
       </Typography>
 
-      <Typography mt={2} width={{ xs: "auto", md: 437 }} mx='auto'>
+      <Typography
+        mt={2}
+        width={{ xs: "auto", md: 437 }}
+        fontWeight={300}
+        sx={{
+          opacity: "70%",
+        }}
+        mx='auto'
+      >
         Don't worry, just enter enter your email address send a code to your
         email address to reset your password.
       </Typography>
