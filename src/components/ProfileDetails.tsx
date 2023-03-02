@@ -68,8 +68,7 @@ export default function ProfileDetails() {
           <TextField
             id='outlined-required'
             label='First Name'
-            disabled
-            value={data?.name}
+            defaultValue={data?.name}
             InputLabelProps={{
               shrink: true,
             }}
@@ -83,8 +82,7 @@ export default function ProfileDetails() {
           <TextField
             id='outlined-required'
             label='Last Name'
-            disabled
-            value={data?.lastname}
+            defaultValue={data?.lastname}
             InputLabelProps={{
               shrink: true,
             }}

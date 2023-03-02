@@ -1,7 +1,7 @@
 import TotalCard from "components/dashboard/TotalCard";
 
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, Skeleton } from "@mui/material";
 import BasicTable from "shared/Table";
 import TextTag from "shared/TextTag";
 import { useNavigate } from "react-router-dom";
@@ -49,13 +49,17 @@ function App() {
     }
   );
 
-  useQuery("getTotalPayout", getTotalPayout, {
-    onSuccess(data) {
-      setPayOutData(data);
+  const { isLoading: isTotalCardLoading } = useQuery(
+    "getTotalPayout",
+    getTotalPayout,
+    {
+      onSuccess(data) {
+        setPayOutData(data);
 
-      console.log(payOutData);
-    },
-  });
+        console.log(payOutData);
+      },
+    }
+  );
 
   const dataTable = tableData?.map((x: any) =>
     createData(
@@ -94,10 +98,14 @@ function App() {
         alignItems={{ xs: "flex-start", md: "center" }}
         justifyContent='space-between'
       >
-        <Typography variant='h3' fontWeight='bold' color='#47454C'>
-          Welcome, {user?.user?.name?.split(" ")?.[0] ?? "---"}{" "}
-          <span className='wave'>👋</span>
-        </Typography>
+        {user.isLoading || user.isFetching ? (
+          <Skeleton width={400} height={80} />
+        ) : (
+          <Typography variant='h3' fontWeight='bold' color='#47454C'>
+            Welcome, {user?.user?.name?.split(" ")?.[0] ?? "---"}{" "}
+            <span className='wave'>👋</span>
+          </Typography>
+        )}
 
         {!isSmallScreen && (
           <Box
@@ -139,7 +147,12 @@ function App() {
         )}
       </Box>
 
-      <TotalCard naira={payOutData?.total_ngn} usd={payOutData?.total_usd} />
+      <TotalCard
+        naira={payOutData?.total_ngn}
+        usd={payOutData?.total_usd}
+        isLoading={isTotalCardLoading}
+      />
+
       {isSmallScreen && (
         <Box
           alignItems='center'

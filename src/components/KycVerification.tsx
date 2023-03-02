@@ -40,9 +40,13 @@ function KycBox() {
   );
 }
 
-export default function KycVerification() {
+export default function KycVerification({
+  handleChangeTabs,
+}: {
+  handleChangeTabs?: Function;
+}) {
   return (
-    <Box bgcolor='#fff' p={3} pt={1}>
+    <Box bgcolor='#fff' border='1px solid #D4D4D4' p={3} pt={1}>
       <Box mt={1}>
         <Box
           display='flex'
@@ -71,7 +75,9 @@ export default function KycVerification() {
           </Box>
         </Box>
 
-        <Button fullWidth>Update</Button>
+        <Button onClick={() => handleChangeTabs?.(4)} fullWidth>
+          Update
+        </Button>
 
         <Divider
           sx={{
@@ -104,7 +110,7 @@ export default function KycVerification() {
             </Box>
           </Box>
         </Box>
-        <Box mt={4} border='1px solid #D4D4D4' borderRadius='4px' p={2}>
+        <Box mt={4} borderRadius='4px' p={2}>
           <Typography mb={2} fontWeight={700}>
             Required Document
           </Typography>

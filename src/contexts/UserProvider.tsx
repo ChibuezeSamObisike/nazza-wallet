@@ -7,7 +7,7 @@ const UserContext = createContext<any>(null);
 export default function UserProvider({ children }: any) {
   const [user, setUser] = useState({});
 
-  useQuery("userData", profile, {
+  const { isLoading, isFetching } = useQuery("userData", profile, {
     onSuccess(data) {
       setUser(data);
     },
@@ -21,6 +21,7 @@ export default function UserProvider({ children }: any) {
       value={{
         user,
         setUser,
+        isLoading,
       }}
     >
       {children}

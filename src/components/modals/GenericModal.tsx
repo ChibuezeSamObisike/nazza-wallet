@@ -15,7 +15,7 @@ export default function GenericModal({ children, open, close }: any) {
       }}
     >
       <Box
-        width={{ md: "50%", xs: "80%" }}
+        width={{ md: "30%", xs: "80%" }}
         bgcolor='#fff'
         my='auto'
         p={3}

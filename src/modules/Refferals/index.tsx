@@ -148,7 +148,9 @@ export default function Index({ children }: { children: any }) {
 
         <Box width={{ xs: "90%", md: "100%" }} mx='auto' mt={2}>
           {value === 0 && <ProfileDetails />}
-          {value === 1 && <KycVerification />}
+          {value === 1 && (
+            <KycVerification handleChangeTabs={handleChangeTabs} />
+          )}
           {value === 2 && <Security />}
           {value === 3 && <ReferEarn />}
           {value === 4 && <Banks />}

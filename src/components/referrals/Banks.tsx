@@ -102,7 +102,7 @@ export default function Banks() {
           </Button>
         </Box>
       </GenericModal>
-      <Box bgcolor='#fff' p={3} pt={5} mb={3}>
+      <Box bgcolor='#fff' p={3} pt={5} mb={3} border='1px solid #D4D4D4'>
         <Typography fontWeight='bold'>Banks</Typography>
         <Typography mt={2} fontWeight={300}>
           You can add your bank account where you will deposited

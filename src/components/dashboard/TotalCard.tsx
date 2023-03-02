@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Typography, Skeleton } from "@mui/material";
 import { ReactComponent as Bg } from "assets/card-svg.svg";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { pxToRem } from "utils/pxToRem";
@@ -8,9 +8,11 @@ import useSmallScreen from "hooks/useSmallScreen";
 export default function TotalCard({
   naira,
   usd,
+  isLoading,
 }: {
   naira: string | number;
   usd: string | number;
+  isLoading?: boolean;
 }) {
   const [viewPrice, setViewPrice] = useState(true);
 
@@ -53,28 +55,41 @@ export default function TotalCard({
             </Typography>
           </Box>
           <Box>
-            <Typography fontSize={pxToRem(isMobile ? 22 : 48)} fontWeight={700}>
-              {viewPrice ? `$ ${usd ?? "--"}` : "*********"}
-            </Typography>
+            {isLoading || !usd ? (
+              <Skeleton width={400} height={80} />
+            ) : (
+              <Typography
+                fontSize={pxToRem(isMobile ? 22 : 48)}
+                fontWeight={700}
+              >
+                {viewPrice ? `$ ${usd ?? "--"}` : "*********"}
+              </Typography>
+            )}
           </Box>
 
-          <Typography color='#7587a5' fontWeight={700} fontSize={pxToRem(18)}>
-            {viewPrice ? `N ${naira ?? "--"}` : "-------"}
-          </Typography>
+          {isLoading || !naira ? (
+            <Skeleton width={300} height={60} />
+          ) : (
+            <Typography color='#7587a5' fontWeight={700} fontSize={pxToRem(18)}>
+              {viewPrice ? `N ${naira ?? "--"}` : "-------"}
+            </Typography>
+          )}
         </Box>
 
-        <IconButton
-          sx={{
-            ml: 2,
-          }}
-          onClick={() => setViewPrice(!viewPrice)}
-        >
-          <VisibilityOffIcon
+        {!isLoading && (
+          <IconButton
             sx={{
-              color: "#7785B0",
+              ml: 2,
             }}
-          />
-        </IconButton>
+            onClick={() => setViewPrice(!viewPrice)}
+          >
+            <VisibilityOffIcon
+              sx={{
+                color: "#7785B0",
+              }}
+            />
+          </IconButton>
+        )}
       </Box>
     </Box>
   );

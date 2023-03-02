@@ -156,7 +156,7 @@ export default function Security() {
   };
   return (
     <>
-      <Box bgcolor='#fff' p={3} pt={5} mb={3}>
+      <Box bgcolor='#fff' border='1px solid #D4D4D4' p={3} pt={5} mb={3}>
         <Typography fontWeight='bold'>2Factor Authentication</Typography>
         <Typography mt={2} fontWeight={300}>
           Changing your password regularly increases your account security
@@ -177,7 +177,7 @@ export default function Security() {
           />
         </Box>
       </Box>
-      <Box bgcolor='#fff' p={3} pt={5}>
+      <Box bgcolor='#fff' border='1px solid #D4D4D4' p={3} pt={5}>
         <Box>
           <Typography fontWeight='bold'>Change password</Typography>
           <Typography mt={2} fontWeight={300}>
@@ -186,7 +186,7 @@ export default function Security() {
           <Divider sx={{ my: 3 }} />
         </Box>
 
-        <Box p={{ md: 6, xs: 0 }}>
+        <Box p={{ md: 0, xs: 0 }}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <TextField
               label='Old password'
