@@ -43,6 +43,7 @@ function App() {
     {
       onSuccess(data) {
         console.log("Data table", data);
+        setTableData(data?.trades);
         setPageSize(data?.paginationMeta.totalPages);
         setRowsPerPage(data?.paginationMeta.totalRecords);
       },
@@ -71,6 +72,14 @@ function App() {
       "Deposit"
     )
   );
+
+  const columns = [
+    { key: "crypto", align: "" },
+    { key: "number" },
+    { key: "price" },
+    { key: "date" },
+    { key: "network" },
+  ];
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -204,6 +213,7 @@ function App() {
         <div style={{ marginBottom: "50px" }}></div>
         <BasicTable
           rows={dataTable}
+          columns={columns}
           isLoading={isLoading}
           pageSize={pageSize}
           rowsPerPage={rowsPerPage}

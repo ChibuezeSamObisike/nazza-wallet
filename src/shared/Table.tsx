@@ -46,66 +46,6 @@ export function createData(
   };
 }
 
-const ros = [
-  createData(
-    "Bitcoin",
-    "1.6BTC",
-    "N23,000",
-    "27th June, 2022, 8:30 pm",
-    "BNB",
-    "Sell"
-  ),
-  createData(
-    "Bitcoin",
-    "1.6BTC",
-    "N23,000",
-    "27th June, 2022, 8:30 pm",
-    "BNB",
-    "Withdraw"
-  ),
-  createData(
-    "Matic",
-    "1.6BTC",
-    "N23,000",
-    "27th June, 2022, 8:30 pm",
-    "BNB",
-    "Deposit"
-  ),
-
-  createData(
-    "USDT",
-    "1.6BTC",
-    "N23,000",
-    "27th June, 2022, 8:30 pm",
-    "BNB",
-    "Deposit"
-  ),
-  createData(
-    "Ethereum",
-    "1.6BTC",
-    "N23,000",
-    "27th June, 2022, 8:30 pm",
-    "BNB",
-    "Deposit"
-  ),
-  createData(
-    "Lite Coin",
-    "1.6BTC",
-    "N23,000",
-    "27th June, 2022, 8:30 pm",
-    "BNB",
-    "Deposit"
-  ),
-];
-
-const header = [
-  { label: "Crypto", id: "crypto" },
-  { label: "Number", id: "number" },
-  { label: "Price (Naira)", id: "price" },
-  { label: "Transaction Date", id: "date" },
-  { label: "Network", id: "network" },
-];
-
 const tableMobile = [
   {
     chip: "Sell",
@@ -144,6 +84,7 @@ const tableMobile = [
 
 export default function BasicTable({
   rows,
+  columns,
   isLoading,
   pageSize,
   page,
@@ -152,6 +93,12 @@ export default function BasicTable({
   handleChangeRowsPerPage,
 }: any) {
   const isMobile = useSmallScreen();
+
+  function toTitleCase(str: string) {
+    return str.replace(/\w\S*/g, function (txt: string) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  }
 
   if (isMobile) {
     return (
@@ -182,35 +129,35 @@ export default function BasicTable({
             }}
           >
             <TableRow>
-              {header.map((head) => (
+              {columns.map((head: any) => (
                 <TableCell
-                  key={head.id}
+                  key={head.key}
                   sx={{ color: "#5D5C63", fontWeight: 500 }}
                   align='left'
                 >
-                  {head.label}
+                  {toTitleCase(head.key)}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
           {rows.length >= 0 && (
             <TableBody>
-              {rows.map((row: any) => (
-                <TableRow
-                  key={row.price}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component='th' scope='row'>
-                    {row.crypto}
-                  </TableCell>
-                  <TableCell component='th' scope='row'>
-                    {row.number}
-                  </TableCell>
-                  <TableCell align='left'>{row.price}</TableCell>
-                  <TableCell align='left'>{row.date}</TableCell>
-                  <TableCell align='left'>{row.network}</TableCell>
-                </TableRow>
-              ))}
+              {rows.map((row: any) => {
+                return (
+                  <TableRow
+                    key={row.price}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    {columns.map((x: any) => {
+                      return (
+                        <TableCell component='th' scope='row'>
+                          {row[x.key]}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
             </TableBody>
           )}
 

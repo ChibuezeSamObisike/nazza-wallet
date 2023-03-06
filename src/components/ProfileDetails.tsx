@@ -190,26 +190,6 @@ export default function ProfileDetails() {
           >
             We recommend you use your WhatsApp number
           </Alert>
-
-          <DesktopDatePicker
-            label='Date'
-            inputFormat='MM/DD/YYYY'
-            value={value}
-            onChange={handleChange}
-            renderInput={(params: any) => (
-              <TextField
-                fullWidth
-                sx={{
-                  backgroundColor: "#E9F1FF",
-                  color: "#000000",
-                  fontWeight: 500,
-                  bgcolor: "#fff",
-                  marginTop: "30px",
-                }}
-                {...params}
-              />
-            )}
-          />
         </Box>
       </Box>
       <Box bgcolor='#fff' p={3} pt={5} mb={3} mt={3} border='1px solid #EBEBEB'>

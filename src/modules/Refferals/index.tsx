@@ -22,6 +22,10 @@ import AppTabs from "shared/Tabs";
 
 import useSmallScreen from "hooks/useSmallScreen";
 
+import { getProfileDetails } from "services/authLogin";
+
+import { useQuery } from "react-query";
+
 export default function Index({ children }: { children: any }) {
   const isMobile = useSmallScreen();
   const [value, setValue] = React.useState(0);
@@ -29,6 +33,12 @@ export default function Index({ children }: { children: any }) {
   const handleChangeTabs = (val: number): void => {
     setValue(val);
   };
+
+  const { data, isLoading } = useQuery("fetchUserDetails", getProfileDetails, {
+    onSuccess(data) {
+      console.log("Profile Data>>", data);
+    },
+  });
 
   return (
     <Box display='flex' justifyContent='space-between'>
@@ -152,7 +162,7 @@ export default function Index({ children }: { children: any }) {
             <KycVerification handleChangeTabs={handleChangeTabs} />
           )}
           {value === 2 && <Security />}
-          {value === 3 && <ReferEarn />}
+          {value === 3 && <ReferEarn data={data} />}
           {value === 4 && <Banks />}
           {value === 5 && <Logout />}
         </Box>

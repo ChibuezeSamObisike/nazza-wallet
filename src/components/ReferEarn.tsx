@@ -5,7 +5,7 @@ import TextTag from "shared/TextTag";
 
 import { useAlert } from "hooks/useAlert";
 
-export default function ReferEarn() {
+export default function ReferEarn({ data }: any) {
   const { showNotification } = useAlert();
   return (
     <Box bgcolor='#fff' p={3} pt={5} border='1px solid #D4D4D4'>
@@ -17,15 +17,18 @@ export default function ReferEarn() {
         sx={{
           marginTop: "30px",
         }}
+        disabled
         label='Refferral Link'
-        placeholder='43673894773hkdgjvhhckjcjkchvhcmcw'
+        defaultValue={`https://nazza-wallet.vercel.app/account-setup?ref=${data?.referral_code}`}
         InputProps={{
           endAdornment: (
             <InputAdornment position='end'>
               <Button
                 onClick={() => {
                   navigator.clipboard
-                    .writeText("This text is now in the clipboard")
+                    .writeText(
+                      `https://nazza-wallet.vercel.app/account-setup?ref=${data?.referral_code}`
+                    )
                     .then(() =>
                       showNotification?.("Text copy successful", {
                         type: "success",
