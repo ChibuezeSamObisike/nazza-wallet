@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -11,17 +11,34 @@ import GenericModal from "components/modals/GenericModal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 
+import { getBanks } from "services/authLogin";
+import { useQuery } from "react-query";
 import { pxToRem } from "utils/pxToRem";
 
 export default function Banks() {
   const [openM1, setOpenM1] = useState(false);
   const [openM2, setOpenM2] = useState(false);
 
+  const { data } = useQuery("fetchBanks", getBanks, {
+    enabled: true,
+  });
+
+  useEffect(() => {
+    console.log("Data bank", data);
+  }, [data]);
+
   const closeM1 = () => {
     setOpenM1(false);
   };
   const closeM2 = () => {
     setOpenM2(false);
+  };
+
+  const coverSomeNums = (num: string) => {
+    let length = num?.length;
+    return `${num.split("")[0] + num.split("")[1]}*********${
+      num.split("")[length - 2] + num.split("")[length - 1]
+    }`;
   };
   return (
     <>
@@ -111,43 +128,46 @@ export default function Banks() {
         <Divider sx={{ my: 2 }} />
 
         <Box my={3}>
-          <Box
-            bgcolor='#E9F1FF'
-            p={2}
-            px={4}
-            mb={4}
-            mt={3}
-            display='flex'
-            color='#001D4B'
-            alignItems='center'
-            border='1px solid #E9F1FF'
-            flexDirection={{ md: "row", xs: "column" }}
-          >
+          {data?.map((x: any) => (
             <Box
+              bgcolor='#E9F1FF'
+              p={2}
+              px={4}
+              mb={4}
+              mt={3}
               display='flex'
+              color='#001D4B'
               alignItems='center'
-              justifyContent='space-between'
+              border='1px solid #E9F1FF'
+              flexDirection={{ md: "row", xs: "column" }}
             >
-              <Typography fontWeight='bold'>Ologwu Samuel</Typography>
+              <Box
+                display='flex'
+                alignItems='center'
+                justifyContent='space-between'
+              >
+                <Typography fontWeight='bold'>{x?.acc_name}</Typography>
+              </Box>
+              <Typography
+                ml={6}
+                variant='body2'
+                fontWeight={400}
+                display='flex'
+                alignItems='center'
+              >
+                {coverSomeNums(x?.acc_number?.toString())}{" "}
+                <Typography mx={3}> |</Typography> {x?.bank_name}
+              </Typography>
+              <IconButton>
+                <DeleteIcon
+                  sx={{
+                    color: "#D53A32",
+                    ml: { md: 3, xs: 0 },
+                  }}
+                />
+              </IconButton>
             </Box>
-            <Typography
-              ml={6}
-              variant='body2'
-              fontWeight={400}
-              display='flex'
-              alignItems='center'
-            >
-              12********85 <Typography mx={3}> |</Typography> First Bank
-            </Typography>
-            <IconButton>
-              <DeleteIcon
-                sx={{
-                  color: "#D53A32",
-                  ml: { md: 3, xs: 0 },
-                }}
-              />
-            </IconButton>
-          </Box>
+          ))}
 
           <Button
             sx={{

@@ -8,7 +8,7 @@ import {
   InputAdornment,
   IconButton,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import nazaLogo from "assets/naza-logo.svg";
 import { pxToRem } from "utils/pxToRem";
 
@@ -28,12 +28,14 @@ import { useAlert } from "hooks/useAlert";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
-// import ReactPasswordChecklist from "react-password-checklist";
-
 import * as Yup from "yup";
 
 export default function AccountSetUp() {
   const [showPassword, setShowPassword] = useState(false);
+
+  const location = useLocation();
+
+  const refferal_code = new URLSearchParams(location.search).get("ref");
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -84,7 +86,7 @@ export default function AccountSetUp() {
   const emailVal = getValues("email");
 
   const onSubmit = (data: FieldValues) => {
-    mutate({ data });
+    mutate({ ...data, referral: refferal_code });
   };
   return (
     <Box
@@ -209,43 +211,6 @@ export default function AccountSetUp() {
           </span>
         </Typography>
       </Box>
-      {/* <ReactPasswordChecklist /> */}
-      {/* <Box mt={3}>
-        <Box display='flex' mb={2} alignItems='center'>
-          <DoneIcon
-            sx={{
-              mr: 3,
-            }}
-          />
-          <Typography>At least 8 characters</Typography>
-        </Box>
-        <Box display='flex' mb={2} alignItems='center' color='#8C8B90'>
-          <DoneIcon
-            sx={{
-              mr: 3,
-            }}
-          />
-          <Typography>At one upper case character</Typography>
-        </Box>
-        <Box display='flex' mb={2} alignItems='center' color='#8C8B90'>
-          <DoneIcon
-            sx={{
-              mr: 3,
-            }}
-          />
-          <Typography>At least one number</Typography>
-        </Box>
-        <Box display='flex' mb={2} alignItems='center' color='#8C8B90'>
-          <DoneIcon
-            sx={{
-              mr: 3,
-            }}
-          />
-          <Typography>
-            At least one number or special character (!@#&$)
-          </Typography>
-        </Box>
-      </Box> */}
     </Box>
   );
 }

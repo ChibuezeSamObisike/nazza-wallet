@@ -1,44 +1,44 @@
-import { Box, Alert, Typography, Button, Divider } from "@mui/material";
+import { Box, Typography, Button, Divider } from "@mui/material";
 
-function KycBox() {
-  return (
-    <div>
-      <Box
-        display='flex'
-        alignItems={{ xs: "flex-start", md: "center" }}
-        my={2}
-        flexDirection={{ xs: "column", md: "row" }}
-      >
-        <Box color='#47454C'>
-          <Typography fontWeight='bold' mb={2}>
-            Verify Email completed
-          </Typography>
-          <Typography>
-            Verification has been sent to your email address
-          </Typography>
-        </Box>
-        <Box>
-          <Box
-            ml={{ md: 2, xs: 0 }}
-            bgcolor='#95CD79'
-            p={1}
-            px={2}
-            borderRadius='16px'
-            mt={{ md: 0, xs: 2 }}
-          >
-            <Typography color='white'>Complete</Typography>
-          </Box>
-        </Box>
-      </Box>
+// function KycBox() {
+//   return (
+//     <div>
+//       <Box
+//         display='flex'
+//         alignItems={{ xs: "flex-start", md: "center" }}
+//         my={2}
+//         flexDirection={{ xs: "column", md: "row" }}
+//       >
+//         <Box color='#47454C'>
+//           <Typography fontWeight='bold' mb={2}>
+//             Verify Email completed
+//           </Typography>
+//           <Typography>
+//             Verification has been sent to your email address
+//           </Typography>
+//         </Box>
+//         <Box>
+//           <Box
+//             ml={{ md: 2, xs: 0 }}
+//             bgcolor='#95CD79'
+//             p={1}
+//             px={2}
+//             borderRadius='16px'
+//             mt={{ md: 0, xs: 2 }}
+//           >
+//             <Typography color='white'>Complete</Typography>
+//           </Box>
+//         </Box>
+//       </Box>
 
-      <Divider
-        sx={{
-          mt: 2,
-        }}
-      />
-    </div>
-  );
-}
+//       <Divider
+//         sx={{
+//           mt: 2,
+//         }}
+//       />
+//     </div>
+//   );
+// }
 
 export default function KycVerification({
   handleChangeTabs,
@@ -65,7 +65,7 @@ export default function KycVerification({
             <Box
               ml={{ md: 2, xs: 0 }}
               mt={{ xs: 2, md: 0 }}
-              bgcolor='#D53A32'
+              bgcolor='#61C554'
               p={1}
               px={2}
               borderRadius='16px'
@@ -93,9 +93,40 @@ export default function KycVerification({
         >
           <Box color='#47454C'>
             <Typography fontWeight='bold' mb={2}>
-              Level 1 - Unlimited
+              Level 2 - Unlimited
             </Typography>
-            <Typography>Sell Limit : NGN 50,000</Typography>
+            <Typography>Verify Email</Typography>
+          </Box>
+          <Box>
+            <Box
+              ml={{ md: 2, xs: 0 }}
+              mt={{ xs: 2, md: 0 }}
+              bgcolor='#61C554'
+              p={1}
+              px={2}
+              borderRadius='16px'
+            >
+              <Typography color='white'>Complete</Typography>
+            </Box>
+          </Box>
+        </Box>
+        <Divider
+          sx={{
+            my: 2,
+          }}
+        />
+        <Box
+          display='flex'
+          my={6}
+          alignItems={{ xs: "flex-start", md: "center" }}
+          justifyContent='space-between'
+          flexDirection={{ xs: "column", md: "row" }}
+        >
+          <Box color='#47454C'>
+            <Typography fontWeight='bold' mb={2}>
+              Level 3 - Verification
+            </Typography>
+            <Typography>KYC</Typography>
           </Box>
           <Box>
             <Box
@@ -106,11 +137,18 @@ export default function KycVerification({
               px={2}
               borderRadius='16px'
             >
-              <Typography color='white'>Complete</Typography>
+              <Typography color='white'>InComplete</Typography>
             </Box>
           </Box>
         </Box>
-        <Box mt={4} borderRadius='4px' p={2}>
+
+        <Box
+          mt={4}
+          borderRadius='4px'
+          p={2}
+          border='1px solid #D4D4D4'
+          width='60%'
+        >
           <Typography mb={2} fontWeight={700}>
             Required Document
           </Typography>

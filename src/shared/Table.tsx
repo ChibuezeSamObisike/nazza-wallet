@@ -140,13 +140,16 @@ export default function BasicTable({
               ))}
             </TableRow>
           </TableHead>
-          {rows.length >= 0 && (
+          {rows.length >= 0 && !isLoading && (
             <TableBody>
               {rows.map((row: any) => {
                 return (
                   <TableRow
                     key={row.price}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      cursor: "pointer",
+                    }}
                   >
                     {columns.map((x: any) => {
                       return (
@@ -176,7 +179,7 @@ export default function BasicTable({
                   <EmptyIcon />
 
                   <Box marginX='auto' width='70%'>
-                    <Typography mt='20px' variant='subtitle2'>
+                    <Typography mt='20px' variant='subtitle2' fontWeight={300}>
                       When you start using your wallet, transactions Your recent
                       transaction activities show up here, but you haven’t done
                       any transactions yet.ill show here

@@ -77,3 +77,17 @@ export const login2fa = async (data: any) => {
   console.log("Login 2fa data", data);
   return http.post("user/login/2fa", data).then((r) => r.data);
 };
+
+export const changeName = async ({ data }: any) => {
+  return http.put("user/changename", data).then((r) => r.data);
+};
+
+export const updateProfile = async ({ data }: any) => {
+  return http.put("user/profile", data).then((r) => r.data);
+};
+
+export const getBanks = async () => {
+  return http.get(`user/banks`).then((res) => {
+    return res.data;
+  });
+};

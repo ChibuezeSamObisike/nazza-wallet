@@ -13,19 +13,31 @@ import {
 } from "@mui/material";
 
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
-import DeleteIcon from "@mui/icons-material/Delete";
+
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 
-import { DesktopDatePicker } from "@mui/x-date-pickers";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
+import { useForm } from "react-hook-form";
+
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 
 import AppBreadCrumb from "shared/AppBreadCrumb";
-import { getProfileDetails } from "services/authLogin";
+
+import { useAlert } from "hooks/useAlert";
+
+import {
+  changeName,
+  getProfileDetails,
+  updateProfile,
+} from "services/authLogin";
+
+import { handleAppError } from "utils/handleApiError";
 
 export default function ProfileDetails() {
-  const [value, setValue] = React.useState<any | null>(null);
-
   const [showName, setShowName] = useState<boolean>(false);
+
+  const { showNotification } = useAlert();
 
   const { data, isLoading } = useQuery("fetchUserDetails", getProfileDetails, {
     onSuccess(data) {
@@ -33,12 +45,71 @@ export default function ProfileDetails() {
     },
   });
 
-  const handleChange = (newValue: any | null) => {
-    setValue(newValue);
+  const { mutate, isLoading: isMutateChangeNameLoading } = useMutation(
+    changeName,
+    {
+      onSuccess(data) {
+        showNotification?.("Success", { type: "success" });
+      },
+      onError(err) {
+        showNotification?.(handleAppError(err), {
+          type: "error",
+        });
+      },
+    }
+  );
+
+  const defaultValues = {
+    name: "",
+    lastname: "",
   };
+
+  const schema = Yup.object({
+    name: Yup.string().required("First Name is Required"),
+    lastname: Yup.string().required("Last Name is Required"),
+  });
+
+  const resolver = yupResolver(schema);
+
+  const {
+    register,
+    handleSubmit: handleChangeName,
+    formState: { errors },
+  } = useForm({ resolver, defaultValues });
+
+  const onSubmit = (data: any) => {
+    mutate({ data });
+  };
+
+  const { mutate: mutateProfile, isLoading: isProfileLoading } = useMutation(
+    updateProfile,
+    {
+      onSuccess(data) {
+        showNotification?.("Success", { type: "success" });
+      },
+      onError(err) {
+        showNotification?.(handleAppError(err), {
+          type: "error",
+        });
+      },
+    }
+  );
+
+  const defaultValue = {
+    username: "",
+    phone: "",
+  };
+
+  const onProfileSubmit = (data: any) => {
+    mutateProfile({ data });
+  };
+
+  const { register: registerProfile, handleSubmit: handleProfileUpdate } =
+    useForm({ defaultValues: defaultValue });
+
   if (showName) {
     return (
-      <>
+      <form onSubmit={handleChangeName(onSubmit)}>
         <Box bgcolor='#fff' p={3} pt={5} mt={2} border='1px solid #EBEBEB'>
           <Box display='flex' alignItems='center'>
             <IconButton onClick={() => setShowName(false)}>
@@ -69,6 +140,7 @@ export default function ProfileDetails() {
             id='outlined-required'
             label='First Name'
             defaultValue={data?.name}
+            {...register("name")}
             InputLabelProps={{
               shrink: true,
             }}
@@ -76,13 +148,15 @@ export default function ProfileDetails() {
             sx={{
               marginTop: "30px",
             }}
-            placeholder='Moses'
+            error={Boolean(errors["name"]?.message)}
+            helperText={errors.name?.message?.toString()}
           />
 
           <TextField
             id='outlined-required'
             label='Last Name'
             defaultValue={data?.lastname}
+            {...register("lastname")}
             InputLabelProps={{
               shrink: true,
             }}
@@ -90,7 +164,8 @@ export default function ProfileDetails() {
             sx={{
               marginTop: "30px",
             }}
-            placeholder='Moses'
+            error={Boolean(errors["lastname"]?.message)}
+            helperText={errors.lastname?.message?.toString()}
           />
 
           <Button
@@ -98,11 +173,23 @@ export default function ProfileDetails() {
             sx={{
               my: 2,
             }}
+            type='submit'
+            startIcon={
+              isMutateChangeNameLoading && (
+                <CircularProgress
+                  size={16}
+                  sx={{
+                    fontSize: 2,
+                    color: "#fff",
+                  }}
+                />
+              )
+            }
           >
             Change name
           </Button>
         </Box>
-      </>
+      </form>
     );
   }
   return (
@@ -124,75 +211,99 @@ export default function ProfileDetails() {
           </Typography>
           <Divider />
         </Box>
-        <Box width={{ xs: "100%", md: "60%" }}>
-          <TextField
-            id='outlined-required'
-            label='Name'
-            value={data?.name}
-            fullWidth
-            disabled
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position='start'>
-                  <Box>
-                    <IconButton
-                      disableFocusRipple
-                      disableRipple
-                      onClick={() => setShowName(true)}
-                    >
-                      <BorderColorOutlinedIcon color='primary' />
-                      <Typography ml={2} color='primary'>
-                        Edit
-                      </Typography>
-                    </IconButton>
-                  </Box>
-                </InputAdornment>
-              ),
-            }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            sx={{
-              marginTop: "30px",
-            }}
-            placeholder='Olugwu Samuel'
-          />
-          <TextField
-            id='outlined-required'
-            label='Email'
-            disabled
-            value={data?.email}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            fullWidth
-            sx={{
-              marginTop: "30px",
-            }}
-            placeholder='Ogbonnasamuel67@gmail.com'
-          />
+        <form onSubmit={handleProfileUpdate(onProfileSubmit)}>
+          <Box width={{ xs: "100%", md: "60%" }}>
+            <TextField
+              id='outlined-required'
+              label='Name'
+              defaultValue={data?.name}
+              {...registerProfile("username")}
+              fullWidth
+              disabled
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='start'>
+                    <Box>
+                      <IconButton
+                        disableFocusRipple
+                        disableRipple
+                        onClick={() => setShowName(true)}
+                      >
+                        <BorderColorOutlinedIcon color='primary' />
+                        <Typography ml={2} color='primary'>
+                          Edit
+                        </Typography>
+                      </IconButton>
+                    </Box>
+                  </InputAdornment>
+                ),
+              }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              sx={{
+                marginTop: "30px",
+              }}
+              placeholder='Olugwu Samuel'
+            />
+            <TextField
+              id='outlined-required'
+              label='Email'
+              disabled
+              value={data?.email}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              fullWidth
+              sx={{
+                marginTop: "30px",
+              }}
+              placeholder='Ogbonnasamuel67@gmail.com'
+            />
 
-          <TextField
-            id='input-with-icon-textfield'
-            label='Phone Number'
-            fullWidth
-            sx={{
-              marginTop: "30px",
-            }}
-            placeholder='000000'
-          />
-          <Alert
-            sx={{
-              mt: 2,
-              fontWeight: "bold",
-            }}
-            severity='info'
-          >
-            We recommend you use your WhatsApp number
-          </Alert>
-        </Box>
+            <TextField
+              id='input-with-icon-textfield'
+              label='Phone Number'
+              value={data?.phone}
+              {...registerProfile("phone")}
+              fullWidth
+              sx={{
+                marginTop: "30px",
+              }}
+              placeholder='000000'
+            />
+            <Alert
+              sx={{
+                mt: 2,
+                fontWeight: "bold",
+              }}
+              severity='info'
+            >
+              We recommend you use your WhatsApp number
+            </Alert>
+
+            <Button
+              fullWidth
+              sx={{ my: 3 }}
+              type='submit'
+              startIcon={
+                isProfileLoading && (
+                  <CircularProgress
+                    size={16}
+                    sx={{
+                      fontSize: 2,
+                      color: "#fff",
+                    }}
+                  />
+                )
+              }
+            >
+              Save
+            </Button>
+          </Box>
+        </form>
       </Box>
-      <Box bgcolor='#fff' p={3} pt={5} mb={3} mt={3} border='1px solid #EBEBEB'>
+      {/* <Box bgcolor='#fff' p={3} pt={5} mb={3} mt={3} border='1px solid #EBEBEB'>
         <Typography fontWeight='bold'>Bank destination account</Typography>
 
         <Divider sx={{ my: 2 }} />
@@ -236,7 +347,7 @@ export default function ProfileDetails() {
             </IconButton>
           </Box>
         </Box>
-      </Box>
+      </Box> */}
     </>
   );
 }
