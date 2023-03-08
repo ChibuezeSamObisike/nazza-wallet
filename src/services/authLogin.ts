@@ -91,3 +91,14 @@ export const getBanks = async () => {
     return res.data;
   });
 };
+
+export const getBankList = async () => {
+  return http.get(`user/banks/list`).then((res) => {
+    return res.data;
+  });
+};
+
+export const deleteBank = async ({ queryKey }: any) => {
+  console.log("query keyyyyyyyss", queryKey);
+  return http.delete(`user/bank/${1234}`).then((res) => res.data);
+};

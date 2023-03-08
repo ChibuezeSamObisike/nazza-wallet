@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -6,40 +6,55 @@ import {
   Button,
   IconButton,
   TextField,
+  Autocomplete,
 } from "@mui/material";
 import GenericModal from "components/modals/GenericModal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 
-import { getBanks } from "services/authLogin";
+import { getBanks, getBankList } from "services/authLogin";
 import { useQuery } from "react-query";
 import { pxToRem } from "utils/pxToRem";
 
 export default function Banks() {
   const [openM1, setOpenM1] = useState(false);
   const [openM2, setOpenM2] = useState(false);
+  const [openBank, setOpenBank] = useState(false);
+  const [idToDelete, setIdToDelete] = useState("");
 
   const { data } = useQuery("fetchBanks", getBanks, {
     enabled: true,
   });
 
-  useEffect(() => {
-    console.log("Data bank", data);
-  }, [data]);
+  const { data: listOfBanks } = useQuery("fetchBankList", getBankList, {
+    enabled: true,
+  });
 
-  const closeM1 = () => {
+  const closeM1 = (): void => {
+    setIdToDelete("");
     setOpenM1(false);
   };
-  const closeM2 = () => {
+  const closeM2 = (): void => {
+    setIdToDelete("");
     setOpenM2(false);
   };
 
-  const coverSomeNums = (num: string) => {
+  const openDeleteBank = (): void => {
+    setOpenBank(true);
+  };
+
+  const closeBankModal = (): void => {
+    setIdToDelete("");
+    setOpenBank(false);
+  };
+
+  const coverSomeNums = (num: string): string => {
     let length = num?.length;
     return `${num.split("")[0] + num.split("")[1]}*********${
       num.split("")[length - 2] + num.split("")[length - 1]
     }`;
   };
+
   return (
     <>
       <GenericModal open={openM1} close={closeM1}>
@@ -65,7 +80,17 @@ export default function Banks() {
             Add a bank Account
           </Typography>
 
-          <TextField fullWidth name='Bank_name' label='Bank Name' />
+          <Autocomplete
+            disablePortal
+            id='combo-box-demo'
+            options={listOfBanks}
+            fullWidth
+            // sx={{ width: "100%" }}
+            getOptionLabel={(option: any) => option?.name}
+            renderInput={(params) => {
+              return <TextField {...params} label='Banks' />;
+            }}
+          />
           <TextField
             fullWidth
             name='account_number'
@@ -119,6 +144,37 @@ export default function Banks() {
           </Button>
         </Box>
       </GenericModal>
+
+      <GenericModal open={openBank} close={closeBankModal}>
+        <Box textAlign='center'>
+          <Box>Hello</Box>
+          <Typography fontWeight='bold' fontSize={pxToRem(18)}>
+            Are you sure?
+          </Typography>
+          <Typography mt={3} fontWeight={300} color='#8C8B90'>
+            Verify that you really want to delete the <br /> chosen bank
+            account.
+          </Typography>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Button
+              sx={{
+                my: 3,
+              }}
+            >
+              Yes, delete the bank Account
+            </Button>
+            <Button variant='outlined' onClick={() => closeBankModal()}>
+              Cancel
+            </Button>
+          </div>
+        </Box>
+      </GenericModal>
       <Box bgcolor='#fff' p={3} pt={5} mb={3} border='1px solid #D4D4D4'>
         <Typography fontWeight='bold'>Banks</Typography>
         <Typography mt={2} fontWeight={300}>
@@ -127,59 +183,65 @@ export default function Banks() {
 
         <Divider sx={{ my: 2 }} />
 
-        <Box my={3}>
-          {data?.map((x: any) => (
-            <Box
-              bgcolor='#E9F1FF'
-              p={2}
-              px={4}
-              mb={4}
-              mt={3}
-              display='flex'
-              color='#001D4B'
-              alignItems='center'
-              border='1px solid #E9F1FF'
-              flexDirection={{ md: "row", xs: "column" }}
-            >
+        {data && (
+          <Box my={3}>
+            {data?.map((x: any) => (
               <Box
+                bgcolor='#FAFBFF'
+                p={2}
+                px={4}
+                mb={4}
+                mt={3}
                 display='flex'
+                color='#001D4B'
                 alignItems='center'
-                justifyContent='space-between'
+                border='1px solid #E9F1FF'
+                width={{ md: "60%", xs: "80%" }}
+                flexDirection={{ md: "row", xs: "column" }}
               >
-                <Typography fontWeight='bold'>{x?.acc_name}</Typography>
+                <Box
+                  display='flex'
+                  alignItems='center'
+                  justifyContent='space-between'
+                >
+                  <Typography fontWeight='bold'>{x?.acc_name}</Typography>
+                </Box>
+                <Typography
+                  ml={6}
+                  variant='body2'
+                  fontWeight={400}
+                  display='flex'
+                  alignItems='center'
+                >
+                  {coverSomeNums(x?.acc_number?.toString())}{" "}
+                  <Typography mx={3}> |</Typography> {x?.bank_name}
+                </Typography>
+                <IconButton disableRipple disableTouchRipple>
+                  <DeleteIcon
+                    onClick={() => {
+                      setIdToDelete(x?.id);
+                      openDeleteBank();
+                    }}
+                    sx={{
+                      color: "#D53A32",
+                      ml: { md: 3, xs: 0 },
+                    }}
+                  />
+                </IconButton>
               </Box>
-              <Typography
-                ml={6}
-                variant='body2'
-                fontWeight={400}
-                display='flex'
-                alignItems='center'
-              >
-                {coverSomeNums(x?.acc_number?.toString())}{" "}
-                <Typography mx={3}> |</Typography> {x?.bank_name}
-              </Typography>
-              <IconButton>
-                <DeleteIcon
-                  sx={{
-                    color: "#D53A32",
-                    ml: { md: 3, xs: 0 },
-                  }}
-                />
-              </IconButton>
-            </Box>
-          ))}
-
-          <Button
-            sx={{
-              px: 20,
-              mt: 5,
-              borderRadius: "0px",
-            }}
-            onClick={() => setOpenM1(true)}
-          >
-            Add bank account
-          </Button>
-        </Box>
+            ))}
+          </Box>
+        )}
+        <Button
+          sx={{
+            px: 20,
+            mt: 5,
+            borderRadius: "0px",
+          }}
+          onClick={() => setOpenM1(true)}
+        >
+          Add bank account
+        </Button>
       </Box>
     </>
   );

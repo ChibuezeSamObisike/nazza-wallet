@@ -28,7 +28,7 @@ import { useQuery } from "react-query";
 
 export default function Index({ children }: { children: any }) {
   const isMobile = useSmallScreen();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(4);
 
   const handleChangeTabs = (val: number): void => {
     setValue(val);
