@@ -66,7 +66,7 @@ export default function Sidebar({
             onClick={() => handleChangeTabs(2)}
           />
           <AppTabs
-            label='Refer and Earn'
+            label='Invite'
             icon={Refer}
             index={3}
             active={active}

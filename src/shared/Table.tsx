@@ -208,10 +208,10 @@ export default function BasicTable({
       </TableContainer>
       <TablePagination
         component='div'
-        count={pageSize}
+        count={rows?.length}
         page={page}
         onPageChange={handleChangePage}
-        // rowsPerPageOptions={[5, 10, 20]}
+        rowsPerPageOptions={[1, 5, 10, 15, 20]}
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />

@@ -7,13 +7,20 @@ import {
   IconButton,
   TextField,
   Autocomplete,
+  CircularProgress,
 } from "@mui/material";
 import GenericModal from "components/modals/GenericModal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 
+import { AxiosError } from "axios";
+
+import http from "utils/http";
+import { handleAppError } from "utils/handleApiError";
+import { useAlert } from "hooks/useAlert";
+
 import { getBanks, getBankList } from "services/authLogin";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { pxToRem } from "utils/pxToRem";
 
 export default function Banks() {
@@ -22,13 +29,41 @@ export default function Banks() {
   const [openBank, setOpenBank] = useState(false);
   const [idToDelete, setIdToDelete] = useState("");
 
+  const queryClient = useQueryClient();
+  const { showNotification } = useAlert();
+
   const { data } = useQuery("fetchBanks", getBanks, {
     enabled: true,
   });
 
-  const { data: listOfBanks } = useQuery("fetchBankList", getBankList, {
-    enabled: true,
-  });
+  const { data: listOfBanks, isLoading: isBankListLoading } = useQuery(
+    "fetchBankList",
+    getBankList,
+    {
+      enabled: true,
+    }
+  );
+
+  const deleteBankMute = useMutation(
+    (id: string | number) => {
+      return http.delete(`user/bank/${id}`);
+    },
+    {
+      onSuccess() {
+        showNotification?.("Successfully Deleted Bank", {
+          type: "success",
+        });
+        setIdToDelete("");
+        queryClient.invalidateQueries("fetchBanks");
+        closeBankModal();
+      },
+      onError(error: AxiosError) {
+        showNotification?.(handleAppError(error), {
+          type: "error",
+        });
+      },
+    }
+  );
 
   const closeM1 = (): void => {
     setIdToDelete("");
@@ -85,7 +120,7 @@ export default function Banks() {
             id='combo-box-demo'
             options={listOfBanks}
             fullWidth
-            // sx={{ width: "100%" }}
+            loading={isBankListLoading}
             getOptionLabel={(option: any) => option?.name}
             renderInput={(params) => {
               return <TextField {...params} label='Banks' />;
@@ -94,6 +129,7 @@ export default function Banks() {
           <TextField
             fullWidth
             name='account_number'
+            type='number'
             label='Account Number'
             sx={{
               my: 2,
@@ -166,6 +202,18 @@ export default function Banks() {
               sx={{
                 my: 3,
               }}
+              onClick={() => deleteBankMute.mutate(idToDelete)}
+              startIcon={
+                deleteBankMute?.isLoading && (
+                  <CircularProgress
+                    size={16}
+                    sx={{
+                      fontSize: 2,
+                      color: "#fff",
+                    }}
+                  />
+                )
+              }
             >
               Yes, delete the bank Account
             </Button>
@@ -185,51 +233,53 @@ export default function Banks() {
 
         {data && (
           <Box my={3}>
-            {data?.map((x: any) => (
-              <Box
-                bgcolor='#FAFBFF'
-                p={2}
-                px={4}
-                mb={4}
-                mt={3}
-                display='flex'
-                color='#001D4B'
-                alignItems='center'
-                border='1px solid #E9F1FF'
-                width={{ md: "60%", xs: "80%" }}
-                flexDirection={{ md: "row", xs: "column" }}
-              >
+            {data?.map((x: any) => {
+              return (
                 <Box
+                  bgcolor='#FAFBFF'
+                  p={2}
+                  px={4}
+                  mb={4}
+                  mt={3}
                   display='flex'
+                  color='#001D4B'
                   alignItems='center'
-                  justifyContent='space-between'
+                  border='1px solid #E9F1FF'
+                  width={{ md: "60%", xs: "80%" }}
+                  flexDirection={{ md: "row", xs: "column" }}
                 >
-                  <Typography fontWeight='bold'>{x?.acc_name}</Typography>
+                  <Box
+                    display='flex'
+                    alignItems='center'
+                    justifyContent='space-between'
+                  >
+                    <Typography fontWeight='bold'>{x?.acc_name}</Typography>
+                  </Box>
+                  <Typography
+                    ml={6}
+                    variant='body2'
+                    fontWeight={400}
+                    display='flex'
+                    alignItems='center'
+                  >
+                    {coverSomeNums(x?.acc_number?.toString())}{" "}
+                    <Typography mx={3}> |</Typography> {x?.bank_name}
+                  </Typography>
+                  <IconButton disableRipple disableTouchRipple>
+                    <DeleteIcon
+                      onClick={() => {
+                        setIdToDelete(x?._id);
+                        openDeleteBank();
+                      }}
+                      sx={{
+                        color: "#D53A32",
+                        ml: { md: 3, xs: 0 },
+                      }}
+                    />
+                  </IconButton>
                 </Box>
-                <Typography
-                  ml={6}
-                  variant='body2'
-                  fontWeight={400}
-                  display='flex'
-                  alignItems='center'
-                >
-                  {coverSomeNums(x?.acc_number?.toString())}{" "}
-                  <Typography mx={3}> |</Typography> {x?.bank_name}
-                </Typography>
-                <IconButton disableRipple disableTouchRipple>
-                  <DeleteIcon
-                    onClick={() => {
-                      setIdToDelete(x?.id);
-                      openDeleteBank();
-                    }}
-                    sx={{
-                      color: "#D53A32",
-                      ml: { md: 3, xs: 0 },
-                    }}
-                  />
-                </IconButton>
-              </Box>
-            ))}
+              );
+            })}
           </Box>
         )}
         <Button

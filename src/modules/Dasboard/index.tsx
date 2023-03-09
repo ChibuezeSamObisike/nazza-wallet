@@ -24,7 +24,7 @@ function App() {
   const isSmallScreen = useSmallScreen();
 
   const [tableData, setTableData] = useState<any>([]);
-  const [currPage, setCurrPage] = useState<number>(1);
+  const [currPage, setCurrPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState(0);
   const [pageSize, setPageSize] = useState<number | null>(0);
   const [payOutData, setPayOutData] = useState<any | null | undefined>(null);
@@ -36,7 +36,7 @@ function App() {
       "getHistory",
       {
         rowsPerPage,
-        currPage,
+        currPage: currPage + 1,
       },
     ],
     getHistory,
@@ -85,17 +85,14 @@ function App() {
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    console.log("New  Page", newPage);
-    setCurrPage(0);
+    console.log("Page No>>", Event);
+    // setCurrPage(newPage);
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    console.log("Rows per page val", event.target.value);
     setRowsPerPage(parseInt(event.target.value, 10));
-
-    setCurrPage(0);
   };
 
   return (

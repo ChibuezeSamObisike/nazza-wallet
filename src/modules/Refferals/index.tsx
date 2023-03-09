@@ -43,16 +43,7 @@ export default function Index({ children }: { children: any }) {
   return (
     <Box display='flex' justifyContent='space-between'>
       {!isMobile && (
-        <Box
-          height='100vh'
-          sx={
-            {
-              // position: "fixed",
-            }
-          }
-          borderRight='1px solid #EBEBEB'
-          minWidth='30%'
-        >
+        <Box height='100vh' borderRight='1px solid #EBEBEB' minWidth='30%'>
           <Sidebar handleChangeTabs={handleChangeTabs} active={value} />
         </Box>
       )}
@@ -124,7 +115,7 @@ export default function Index({ children }: { children: any }) {
                 onClick={() => handleChangeTabs(3)}
                 active={40}
                 icon={Refer}
-                label='Refer and Earn'
+                label='Invite'
               />{" "}
             </Box>
             <Box
@@ -161,7 +152,7 @@ export default function Index({ children }: { children: any }) {
           {value === 1 && (
             <KycVerification handleChangeTabs={handleChangeTabs} />
           )}
-          {value === 2 && <Security />}
+          {value === 2 && <Security twofa={data?.twofa} />}
           {value === 3 && <ReferEarn data={data} />}
           {value === 4 && <Banks />}
           {value === 5 && <Logout />}

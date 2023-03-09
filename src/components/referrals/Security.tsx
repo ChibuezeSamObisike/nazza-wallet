@@ -25,7 +25,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { resetPassword, toggle2fa } from "services/authLogin";
 import { AxiosError } from "axios";
 
-export default function Security() {
+export default function Security({ twofa }: { twofa: boolean }) {
   const IOSSwitch = styled((props: SwitchProps) => (
     <Switch
       focusVisibleClassName='.Mui-focusVisible'
@@ -82,7 +82,7 @@ export default function Security() {
   }));
 
   const [showPassword, setShowPassword] = React.useState(false);
-  const [check2fa, setCheck2fa] = React.useState(false);
+  const [check2fa, setCheck2fa] = React.useState(twofa);
 
   const defaultValues = {
     old_password: "",
@@ -135,21 +135,18 @@ export default function Security() {
     },
   });
 
-  const { mutate: mutate2fa, isLoading: is2faLoading } = useMutation(
-    toggle2fa,
-    {
-      onSuccess(data) {
-        showNotification?.("2FA toggled Successfully", {
-          type: "success",
-        });
-      },
-      onError(error: AxiosError) {
-        showNotification?.(handleAppError(error), {
-          type: "error",
-        });
-      },
-    }
-  );
+  const { mutate: mutate2fa } = useMutation(toggle2fa, {
+    onSuccess(data) {
+      showNotification?.("2FA toggled Successfully", {
+        type: "success",
+      });
+    },
+    onError(error: AxiosError) {
+      showNotification?.(handleAppError(error), {
+        type: "error",
+      });
+    },
+  });
 
   const onSubmit = (data: any) => {
     mutate({ data });

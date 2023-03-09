@@ -74,10 +74,12 @@ export default function ProfileDetails() {
   const {
     register,
     handleSubmit: handleChangeName,
+    getValues,
     formState: { errors },
   } = useForm({ resolver, defaultValues });
 
   const onSubmit = (data: any) => {
+    console.log("field values", getValues());
     mutate({ data });
   };
 
@@ -219,7 +221,6 @@ export default function ProfileDetails() {
               defaultValue={data?.name}
               {...registerProfile("username")}
               fullWidth
-              disabled
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='start'>

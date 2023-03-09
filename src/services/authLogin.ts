@@ -98,7 +98,7 @@ export const getBankList = async () => {
   });
 };
 
-export const deleteBank = async ({ queryKey }: any) => {
-  console.log("query keyyyyyyyss", queryKey);
-  return http.delete(`user/bank/${1234}`).then((res) => res.data);
+export const deleteBank = async (id: any) => {
+  console.log("query keyyyyyyyss", id);
+  return http.delete(`user/bank/${id}`);
 };
