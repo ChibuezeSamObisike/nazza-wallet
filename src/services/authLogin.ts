@@ -39,9 +39,9 @@ export const profile = async () => {
 
 export const getHistory = async ({ queryKey }: any) => {
   const [, { rowsPerPage, currPage }] = queryKey;
-  console.log("QueryKey", rowsPerPage, currPage);
+
   return http
-    .get(`trade/history?page=${1}&limit=${rowsPerPage}`)
+    .get(`trade/history?page=${currPage}&limit=${rowsPerPage}`)
     .then((res) => {
       return res.data;
     });

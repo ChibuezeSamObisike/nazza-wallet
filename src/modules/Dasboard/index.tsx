@@ -86,12 +86,13 @@ function App() {
     newPage: number
   ) => {
     console.log("Page No>>", Event);
-    // setCurrPage(newPage);
+    setCurrPage(newPage);
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
+    console.log("Change Page row", event?.target?.value);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 
