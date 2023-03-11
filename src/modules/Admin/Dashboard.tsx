@@ -10,7 +10,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import TextTag from "shared/TextTag";
 
-import { getHistory, getTotalPayout } from "services/authLogin";
+import { getHistory } from "services/authLogin";
 import { createData } from "shared/Table";
 import { numberToFigure } from "utils/numberToFigure";
 
@@ -25,9 +25,8 @@ export default function Dashboard() {
   const [currPage, setCurrPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState(0);
   const [pageSize, setPageSize] = useState<number | null>(0);
-  const [payOutData, setPayOutData] = useState<any | null | undefined>(null);
 
-  const { isLoading } = useQuery(
+  const { isLoading, isFetching } = useQuery(
     [
       "getHistory",
       {
@@ -42,18 +41,6 @@ export default function Dashboard() {
         setTableData(data?.trades);
         setPageSize(data?.paginationMeta.totalPages);
         setRowsPerPage(data?.paginationMeta.totalRecords);
-      },
-    }
-  );
-
-  const { isLoading: isTotalCardLoading } = useQuery(
-    "getTotalPayout",
-    getTotalPayout,
-    {
-      onSuccess(data) {
-        setPayOutData(data);
-
-        console.log(payOutData);
       },
     }
   );
@@ -155,9 +142,15 @@ export default function Dashboard() {
           alignItems={{ xs: "flex-start", md: "center" }}
           justifyContent='space-between'
         >
-          <AdminCard bg='#E9F1FF' />
-          <AdminCard bg='#FCFFE9' />
-          <AdminCard bg='#FFE9E9' />
+          <Box width='30%'>
+            <AdminCard bg='#E9F1FF' />
+          </Box>
+          <Box width='30%'>
+            <AdminCard bg='#FCFFE9' />
+          </Box>
+          <Box width='30%'>
+            <AdminCard bg='#FFE9E9' />
+          </Box>
         </Box>
 
         <Box>
@@ -168,7 +161,7 @@ export default function Dashboard() {
           <BasicTable
             rows={dataTable}
             columns={columns}
-            isLoading={isLoading}
+            isLoading={isLoading || isFetching}
             pageSize={pageSize}
             rowsPerPage={rowsPerPage}
             page={currPage}
@@ -183,7 +176,15 @@ export default function Dashboard() {
 
 function AdminCard({ bg }: { bg: string }) {
   return (
-    <Box bgcolor={bg} p={3} borderRadius='2px' pr={6} width='60%'>
+    <Box
+      bgcolor={bg}
+      p={3}
+      borderRadius='2px'
+      pr={6}
+      sx={{
+        width: "80%",
+      }}
+    >
       <Typography>Total Payout</Typography>
       <Typography fontSize={pxToRem(35)} color='#001D4B' fontWeight='bold'>
         $180,000

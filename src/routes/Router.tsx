@@ -132,6 +132,21 @@ const routes: IRoute[] = [
     auth: false,
   },
   {
+    path: "orders",
+    component: lazy(() => import("modules/Admin/Orders")),
+    auth: false,
+  },
+  {
+    path: "payout-history",
+    component: lazy(() => import("modules/Admin/PayoutHistory")),
+    auth: false,
+  },
+  {
+    path: "customers",
+    component: lazy(() => import("modules/Admin/Customers")),
+    auth: false,
+  },
+  {
     path: "*",
     component: () => <h1>Seems you are lost</h1>,
     auth: false,
