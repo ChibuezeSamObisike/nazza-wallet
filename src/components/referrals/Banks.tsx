@@ -23,6 +23,8 @@ import { getBanks, getBankList } from "services/authLogin";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { pxToRem } from "utils/pxToRem";
 
+import deleteGif from "assets/bank-delete.gif";
+
 export default function Banks() {
   const [openM1, setOpenM1] = useState(false);
   const [openM2, setOpenM2] = useState(false);
@@ -183,7 +185,9 @@ export default function Banks() {
 
       <GenericModal open={openBank} close={closeBankModal}>
         <Box textAlign='center'>
-          <Box>Hello</Box>
+          <Box>
+            <img src={deleteGif} alt='delete gif' width={200} />
+          </Box>
           <Typography fontWeight='bold' fontSize={pxToRem(18)}>
             Are you sure?
           </Typography>
