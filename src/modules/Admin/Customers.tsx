@@ -12,8 +12,7 @@ import AppBreadCrumb from "shared/AppBreadCrumb";
 
 import { numberToFigure } from "utils/numberToFigure";
 
-import { getHistory } from "services/authLogin";
-import { createData } from "shared/Table";
+import { getAllUsers } from "services/authLogin";
 
 export default function Customers() {
   const navigate = useNavigate();
@@ -31,34 +30,33 @@ export default function Customers() {
         currPage: currPage + 1,
       },
     ],
-    getHistory,
+    getAllUsers,
     {
       onSuccess(data) {
         console.log("Data table", data);
-        setTableData(data?.trades);
+        setTableData(data?.users);
         setPageSize(data?.paginationMeta.totalPages);
         setRowsPerPage(data?.paginationMeta.totalRecords);
       },
     }
   );
 
+  function createData(name: string, email: string, phone: string) {
+    return {
+      name,
+      email,
+      phone,
+    };
+  }
+
   const dataTable = tableData?.map((x: any) =>
-    createData(
-      x?.coin?.name,
-      `${x?.amount} ${x?.coin?.name}`,
-      `N ${numberToFigure(x?.amount_ngn)}`,
-      `${x?.createdAt.split("T")[0]}`,
-      `${x?.coin.network}`,
-      "Deposit"
-    )
+    createData(x?.name, x?.email, x?.phone ?? "--")
   );
 
   const columns = [
-    { key: "crypto", align: "" },
-    { key: "number" },
-    { key: "price" },
-    { key: "date" },
-    { key: "network" },
+    { key: "name", align: "" },
+    { key: "email" },
+    { key: "phone" },
   ];
 
   const handleChangePage = (
@@ -92,7 +90,7 @@ export default function Customers() {
           <BasicTable
             rows={dataTable}
             columns={columns}
-            isLoading={isLoading || isFetching}
+            isLoading={isLoading}
             pageSize={pageSize}
             rowsPerPage={rowsPerPage}
             page={currPage}

@@ -35,14 +35,14 @@ export default function Sidebar({
         pt={10}
       >
         <Avatar />
-        <Typography variant='h3' pt={4} fontWeight='bold'>
+        <Typography textAlign={"center"} variant='h3' pt={4} fontWeight='bold'>
           {data?.name} {data?.lastname}
         </Typography>
         <Typography mt={1} color='#5D5C63' fontWeight='400'>
           {data?.email}
         </Typography>
       </Box>
-      <Box mt={10} width='100%' display='flex' justifyContent='flex-end'>
+      <Box mt={6} width='100%' display='flex' justifyContent='flex-end'>
         <Box width='60%'>
           <AppTabs
             label='Profile'

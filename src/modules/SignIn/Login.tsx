@@ -40,7 +40,7 @@ export default function Login() {
 
   const { mutate, isLoading } = useMutation(login, {
     onSuccess(data) {
-      console.log("Data info", data);
+      console.log("Login data info", data);
       setName(JSON.stringify(data?.user));
       if (!data?.user?.twofa) {
         showNotification?.("Login Successful", { type: "success" });
@@ -54,6 +54,7 @@ export default function Login() {
       console.log("Access Token>", data?.user?.twofa);
     },
     onError(error) {
+      console.log("Error login", error);
       showNotification?.(handleAppError(error), { type: "error" });
     },
   });

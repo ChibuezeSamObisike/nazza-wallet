@@ -100,6 +100,8 @@ export default function BasicTable({
     });
   }
 
+  // console.log("Price... data", rows);
+
   if (isMobile) {
     return (
       <>
@@ -164,7 +166,7 @@ export default function BasicTable({
             </TableBody>
           )}
 
-          {rows.length < 0 && (
+          {!(rows.length > 0) && !isLoading && (
             <TableRow>
               <TableCell
                 component='td'
@@ -206,15 +208,17 @@ export default function BasicTable({
           )}
         </Table>
       </TableContainer>
-      <TablePagination
-        component='div'
-        count={rows?.length}
-        page={page}
-        onPageChange={handleChangePage}
-        rowsPerPageOptions={[1, 5, 10, 15, 20]}
-        rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+      {!(rows.length < 0) && (
+        <TablePagination
+          component='div'
+          count={rows?.length}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPageOptions={[1, 5, 10, 15, 20]}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      )}
     </>
   );
 }

@@ -6,14 +6,14 @@ export const login = async (payload: any) => {
   });
 };
 
-export const register = async (payload: any) => {
-  return http.post("user/register/", payload.data).then((res) => {
+export const register = async (data: any) => {
+  console.log("Register data", data);
+  return http.post("user/register/", data).then((res) => {
     return res.data;
   });
 };
 
 export const verify = async (data: any) => {
-  console.log("verify data", data);
   return http.post("user/verify/", data).then((res) => {
     return res.data;
   });
@@ -43,6 +43,7 @@ export const getHistory = async ({ queryKey }: any) => {
   return http
     .get(`trade/history?page=${currPage}&limit=${rowsPerPage}`)
     .then((res) => {
+      console.log("trade data", res.data);
       return res.data;
     });
 };
@@ -101,4 +102,32 @@ export const getBankList = async () => {
 export const deleteBank = async (id: any) => {
   console.log("query keyyyyyyyss", id);
   return http.delete(`user/bank/${id}`);
+};
+
+export const getAdminStats = async () => {
+  return http.get(`admin/stats`).then((res) => {
+    return res.data;
+  });
+};
+
+export const getTrades = async ({ queryKey }: any) => {
+  const [, { rowsPerPage, currPage }] = queryKey;
+
+  return http
+    .get(`admin/trades?page=${currPage}&limit=${rowsPerPage}`)
+    .then((res) => {
+      console.log("trades data", res.data);
+      return res.data;
+    });
+};
+
+export const getAllUsers = async ({ queryKey }: any) => {
+  const [, { rowsPerPage, currPage }] = queryKey;
+
+  return http
+    .get(`admin/users?page=${currPage}&limit=${rowsPerPage}`)
+    .then((res) => {
+      console.log("trades data", res.data);
+      return res.data;
+    });
 };

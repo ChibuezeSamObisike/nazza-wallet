@@ -1,6 +1,7 @@
+import React from "react";
+
 import { Typography, Box, TextField, Button } from "@mui/material";
 import nazaLogo from "assets/naza-logo.svg";
-import React from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateAccount() {

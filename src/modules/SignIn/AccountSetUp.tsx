@@ -86,7 +86,8 @@ export default function AccountSetUp() {
   const emailVal = getValues("email");
 
   const onSubmit = (data: FieldValues) => {
-    mutate({ ...data, referral: refferal_code });
+    console.log("Form data", { ...data, referral: 123456 ?? refferal_code });
+    mutate({ ...data, referral: 123456 ?? refferal_code });
   };
   return (
     <Box

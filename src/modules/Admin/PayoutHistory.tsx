@@ -23,24 +23,24 @@ export default function PayoutHistory() {
   const [pageSize, setPageSize] = useState<number | null>(0);
   const [payOutData, setPayOutData] = useState<any | null | undefined>(null);
 
-  const { isLoading, isFetching } = useQuery(
-    [
-      "getHistory",
-      {
-        rowsPerPage,
-        currPage: currPage + 1,
-      },
-    ],
-    getHistory,
-    {
-      onSuccess(data) {
-        console.log("Data table", data);
-        setTableData(data?.trades);
-        setPageSize(data?.paginationMeta.totalPages);
-        setRowsPerPage(data?.paginationMeta.totalRecords);
-      },
-    }
-  );
+  // const { isLoading, isFetching } = useQuery(
+  //   [
+  //     "getHistory",
+  //     {
+  //       rowsPerPage,
+  //       currPage: currPage + 1,
+  //     },
+  //   ],
+  //   getHistory,
+  //   {
+  //     onSuccess(data) {
+  //       console.log("Data table", data);
+  //       setTableData(data?.trades);
+  //       setPageSize(data?.paginationMeta.totalPages);
+  //       setRowsPerPage(data?.paginationMeta.totalRecords);
+  //     },
+  //   }
+  // );
 
   const dataTable = tableData?.map((x: any) =>
     createData(
@@ -89,7 +89,7 @@ export default function PayoutHistory() {
               links={[{ link: "/admin", title: "Home" }]}
             />
           </div>
-          <BasicTable
+          {/* <BasicTable
             rows={dataTable}
             columns={columns}
             isLoading={isLoading || isFetching}
@@ -98,7 +98,7 @@ export default function PayoutHistory() {
             page={currPage}
             handleChangePage={handleChangePage}
             handleChangeRowsPerPage={handleChangeRowsPerPage}
-          />
+          /> */}
         </Box>
       </Box>
     </AdminLayout>

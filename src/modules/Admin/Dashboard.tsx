@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminLayout from "./Components/AdminLayout";
 import { Box, Typography, Button, Chip } from "@mui/material";
 
@@ -10,7 +10,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import TextTag from "shared/TextTag";
 
-import { getHistory } from "services/authLogin";
+import { getAdminStats, getHistory, getTrades } from "services/authLogin";
+import getIcon from "utils/getIcon";
 import { createData } from "shared/Table";
 import { numberToFigure } from "utils/numberToFigure";
 
@@ -19,22 +20,64 @@ import { pxToRem } from "utils/pxToRem";
 
 import BasicTable from "shared/Table";
 
+import { useAlert } from "hooks/useAlert";
+import { handleAppError } from "utils/handleApiError";
+
 export default function Dashboard() {
   const navigate = useNavigate();
   const [tableData, setTableData] = useState<any>([]);
   const [currPage, setCurrPage] = useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(3);
   const [pageSize, setPageSize] = useState<number | null>(0);
+  const [adminStats, setAdminStats] = useState<any | null | undefined>(null);
 
-  const { isLoading, isFetching } = useQuery(
+  const { showNotification } = useAlert();
+
+  function createData(
+    name: string,
+    crypto: string,
+    number: string,
+    price: string,
+    date: string,
+    network: string,
+    type: string
+  ) {
+    return {
+      name,
+      crypto: (
+        <Box display='flex' alignItems='center'>
+          <img
+            src={getIcon(crypto)}
+            style={{ marginRight: "15px" }}
+            alt='Icon'
+          />
+          {crypto}{" "}
+          {/* <Chip
+          label={type}
+          sx={{
+            color: getChipColor(type).text,
+            bgcolor: getChipColor(type).bg,
+            marginLeft: "15px",
+          }}
+        /> */}
+        </Box>
+      ),
+      number,
+      price,
+      date,
+      network,
+    };
+  }
+
+  const { isLoading } = useQuery(
     [
-      "getHistory",
+      "getTrades",
       {
         rowsPerPage,
         currPage: currPage + 1,
       },
     ],
-    getHistory,
+    getTrades,
     {
       onSuccess(data) {
         console.log("Data table", data);
@@ -42,11 +85,28 @@ export default function Dashboard() {
         setPageSize(data?.paginationMeta.totalPages);
         setRowsPerPage(data?.paginationMeta.totalRecords);
       },
+      onError(err) {
+        console.log("table error", err);
+        showNotification?.(handleAppError(err), {
+          type: "error",
+        });
+      },
+    }
+  );
+
+  const { isLoading: isAdminStatsLoading } = useQuery(
+    "getAdminStats",
+    getAdminStats,
+    {
+      onSuccess(data) {
+        setAdminStats(data);
+      },
     }
   );
 
   const dataTable = tableData?.map((x: any) =>
     createData(
+      x?.user?.name,
       x?.coin?.name,
       `${x?.amount} ${x?.coin?.name}`,
       `N ${numberToFigure(x?.amount_ngn)}`,
@@ -57,6 +117,7 @@ export default function Dashboard() {
   );
 
   const columns = [
+    { key: "name" },
     { key: "crypto", align: "" },
     { key: "number" },
     { key: "price" },
@@ -143,13 +204,25 @@ export default function Dashboard() {
           justifyContent='space-between'
         >
           <Box width='30%'>
-            <AdminCard bg='#E9F1FF' />
+            <AdminCard
+              bg='#E9F1FF'
+              title='Total Payout'
+              subText={`$ ${adminStats?.totalPayoutUsd}` ?? "--"}
+            />
           </Box>
           <Box width='30%'>
-            <AdminCard bg='#FCFFE9' />
+            <AdminCard
+              bg='#FCFFE9'
+              title='Total Users'
+              subText={adminStats?.totalUsers ?? "--"}
+            />
           </Box>
           <Box width='30%'>
-            <AdminCard bg='#FFE9E9' />
+            <AdminCard
+              bg='#FFE9E9'
+              title='Total Clients'
+              subText={adminStats?.totalClients ?? "--"}
+            />
           </Box>
         </Box>
 
@@ -161,7 +234,7 @@ export default function Dashboard() {
           <BasicTable
             rows={dataTable}
             columns={columns}
-            isLoading={isLoading || isFetching}
+            isLoading={isLoading}
             pageSize={pageSize}
             rowsPerPage={rowsPerPage}
             page={currPage}
@@ -174,7 +247,15 @@ export default function Dashboard() {
   );
 }
 
-function AdminCard({ bg }: { bg: string }) {
+function AdminCard({
+  bg,
+  subText,
+  title,
+}: {
+  bg: string;
+  subText?: string | number;
+  title?: string;
+}) {
   return (
     <Box
       bgcolor={bg}
@@ -185,9 +266,9 @@ function AdminCard({ bg }: { bg: string }) {
         width: "80%",
       }}
     >
-      <Typography>Total Payout</Typography>
+      <Typography>{title}</Typography>
       <Typography fontSize={pxToRem(35)} color='#001D4B' fontWeight='bold'>
-        $180,000
+        {subText}
       </Typography>
 
       <Box display='flex' alignItems='center' mt={3}>

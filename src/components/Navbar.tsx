@@ -20,7 +20,7 @@ import AppMenuItem from "./menu/AppMenuItem";
 export default function Navbar() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | boolean>(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const open = Boolean(anchorEl);
 
   const handleClick = () => {

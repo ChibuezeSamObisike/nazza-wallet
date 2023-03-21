@@ -47,6 +47,9 @@ function App() {
         setPageSize(data?.paginationMeta.totalPages);
         setRowsPerPage(data?.paginationMeta.totalRecords);
       },
+      onError(err) {
+        console.log("Table error", err);
+      },
     }
   );
 
@@ -56,8 +59,6 @@ function App() {
     {
       onSuccess(data) {
         setPayOutData(data);
-
-        console.log(payOutData);
       },
     }
   );
