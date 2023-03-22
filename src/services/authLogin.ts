@@ -121,6 +121,15 @@ export const getTrades = async ({ queryKey }: any) => {
     });
 };
 
+export const getTrade = async ({ queryKey }: any) => {
+  const [, { id }] = queryKey;
+
+  return http.get(`admin/trade/${id}`).then((res) => {
+    console.log("trades data", res.data);
+    return res.data;
+  });
+};
+
 export const getAllUsers = async ({ queryKey }: any) => {
   const [, { rowsPerPage, currPage }] = queryKey;
 

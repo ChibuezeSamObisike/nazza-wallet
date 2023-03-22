@@ -59,7 +59,10 @@ export default function ConfirmSellModal({
   );
 }
 
-export function renderPrice(title: string, result: string) {
+export function renderPrice(
+  title: string | any,
+  result: string | React.ReactNode | any
+) {
   return (
     <Box
       display='flex'

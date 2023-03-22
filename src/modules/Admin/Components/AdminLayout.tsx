@@ -13,7 +13,15 @@ import { NavLink } from "react-router-dom";
 export default function AdminLayout({ children }: { children: any }) {
   return (
     <Box display='flex' justifyContent='space-between' alignItems='flex-start'>
-      <Box width='24%' pt={10} height='100vh' bgcolor='#fff'>
+      <Box
+        width='24%'
+        sx={{
+          display: { xs: "none", md: "block" },
+        }}
+        pt={10}
+        height='100vh'
+        bgcolor='#fff'
+      >
         <SideBar />
       </Box>
       <Box width='100%' p='40px'>
