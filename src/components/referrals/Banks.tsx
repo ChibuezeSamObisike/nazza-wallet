@@ -288,7 +288,7 @@ export default function Banks() {
         )}
         <Button
           sx={{
-            px: 20,
+            width: "100%",
             mt: 5,
             borderRadius: "0px",
           }}
