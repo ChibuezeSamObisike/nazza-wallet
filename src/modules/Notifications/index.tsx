@@ -11,7 +11,7 @@ import { pxToRem } from "utils/pxToRem";
 import { useQuery } from "react-query";
 import { getNotifications } from "services/authLogin";
 
-import moment, { Moment } from "moment";
+import moment from "moment";
 
 export default function Index() {
   const { data, isLoading } = useQuery("notifications", getNotifications, {
@@ -20,16 +20,14 @@ export default function Index() {
     },
   });
 
-  const dateToDateConverter = (
-    date: Date | string | any
-  ): string | Date | Moment | any => {
-    let dateFx = moment(date).format("Do    MMMM    YYYY");
-    console.log("Date", dateFx, date);
+  const dateToDateConverter = (date: any): any => {
+    let dateFx = moment(new Date(date)).format("Do    MMMM    YYYY");
+
     return dateFx;
   };
 
-  const getTime = (date: Date) => {
-    return moment(date).format("h:mm a");
+  const getTime = (date: any) => {
+    return moment(new Date(date)).format("h:mm a");
   };
 
   return (

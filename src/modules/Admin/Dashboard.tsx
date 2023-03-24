@@ -109,15 +109,11 @@ export default function Dashboard() {
     }
   );
 
-  const { isLoading: isAdminStatsLoading } = useQuery(
-    "getAdminStats",
-    getAdminStats,
-    {
-      onSuccess(data) {
-        setAdminStats(data);
-      },
-    }
-  );
+  useQuery("getAdminStats", getAdminStats, {
+    onSuccess(data) {
+      setAdminStats(data);
+    },
+  });
 
   const dataTable = tableData?.map((x: any) =>
     createData(
