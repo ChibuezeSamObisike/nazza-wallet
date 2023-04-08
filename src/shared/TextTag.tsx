@@ -6,7 +6,7 @@ export default function TextTag({
   style,
 }: {
   label: string;
-  style?: any;
+  style?: React.CSSProperties;
 }) {
   return (
     <Box

@@ -19,7 +19,7 @@ import http from "utils/http";
 import { handleAppError } from "utils/handleApiError";
 import { useAlert } from "hooks/useAlert";
 
-import { getBanks, getBankList } from "services/authLogin";
+import { getBanks, getBankList } from "services/AppService";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { pxToRem } from "utils/pxToRem";
 
@@ -123,7 +123,7 @@ export default function Banks() {
             options={listOfBanks}
             fullWidth
             loading={isBankListLoading}
-            getOptionLabel={(option: any) => option?.name}
+            getOptionLabel={(option: { name: string }) => option?.name}
             renderInput={(params) => {
               return <TextField {...params} label='Banks' />;
             }}

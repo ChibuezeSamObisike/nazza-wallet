@@ -8,14 +8,14 @@ import { handleAppError } from "utils/handleApiError";
 import { useAlert } from "hooks/useAlert";
 
 import { pxToRem } from "utils/pxToRem";
-import { login2fa } from "services/authLogin";
+import { login2fa } from "services/AppService";
 
 export default function VerifyEmail() {
   const [otp, setOtp] = React.useState("");
   const { showNotification } = useAlert();
 
-  const handleChange = (newValue: any) => {
-    setOtp(newValue);
+  const handleChange = (newValue: string | number) => {
+    setOtp(newValue.toString());
   };
 
   const location = useLocation();

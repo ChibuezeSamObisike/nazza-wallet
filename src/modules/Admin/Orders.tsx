@@ -22,7 +22,7 @@ import AppBreadCrumb from "shared/AppBreadCrumb";
 
 import { numberToFigure } from "utils/numberToFigure";
 
-import { getTrades, getTrade } from "services/authLogin";
+import { getTrades, getTrade } from "services/AppService";
 import { useAlert } from "hooks/useAlert";
 
 import { handleAppError } from "utils/handleApiError";

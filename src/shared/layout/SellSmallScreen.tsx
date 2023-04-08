@@ -10,7 +10,7 @@ export default function SellSmallScreen({
 }: {
   title: string;
   subtitle: string;
-  children: ReactNode | JSX.Element | ReactElement | any;
+  children: ReactNode | JSX.Element | ReactElement;
 }) {
   const isSmallScreen = useSmallScreen();
   if (isSmallScreen) {

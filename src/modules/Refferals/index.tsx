@@ -22,7 +22,7 @@ import AppTabs from "shared/Tabs";
 
 import useSmallScreen from "hooks/useSmallScreen";
 
-import { getProfileDetails } from "services/authLogin";
+import { getProfileDetails } from "services/AppService";
 
 import { useQuery } from "react-query";
 
@@ -34,7 +34,7 @@ export default function Index({ children }: { children: any }) {
     setValue(val);
   };
 
-  const { data, isLoading } = useQuery("fetchUserDetails", getProfileDetails, {
+  const { data } = useQuery("fetchUserDetails", getProfileDetails, {
     onSuccess(data) {
       console.log("Profile Data>>", data);
     },

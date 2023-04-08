@@ -1,4 +1,4 @@
-export function numberToFigure(val: any) {
+export function numberToFigure(val: number): string {
   // remove sign if negative
   var sign = 1;
   if (val < 0) {

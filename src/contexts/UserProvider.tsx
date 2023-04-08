@@ -1,13 +1,19 @@
 import React, { createContext, useState, useContext } from "react";
 import { useQuery } from "react-query";
-import { profile } from "services/authLogin";
+import { profile } from "services/AppService";
 
-const UserContext = createContext<any>(null);
+const UserContext = createContext<
+  Partial<{
+    user: Object;
+    setUser: React.Dispatch<React.SetStateAction<{}>>;
+    isLoading: boolean;
+  }>
+>({});
 
 export default function UserProvider({ children }: any) {
   const [user, setUser] = useState({});
 
-  const { isLoading, isFetching } = useQuery("userData", profile, {
+  const { isLoading } = useQuery("userData", profile, {
     onSuccess(data) {
       setUser(data);
     },

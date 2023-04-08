@@ -10,7 +10,7 @@ import AppTabs from "shared/Tabs";
 export default function KycSideBar({
   handleChangeTabs,
 }: {
-  handleChangeTabs?: any;
+  handleChangeTabs?: (val: number | undefined | null) => void;
 }) {
   return (
     <Box p={2}>
@@ -47,7 +47,7 @@ export default function KycSideBar({
           icon={Profile}
           active={40}
           label='Profile'
-          onClick={() => handleChangeTabs(0)}
+          onClick={() => handleChangeTabs?.(0)}
         />
       </Box>
       <Box
@@ -60,7 +60,7 @@ export default function KycSideBar({
           active={40}
           icon={Kyc}
           label='KYC (verify Identity)'
-          onClick={() => handleChangeTabs(1)}
+          onClick={() => handleChangeTabs?.(1)}
         />
       </Box>
       <Box
@@ -73,7 +73,7 @@ export default function KycSideBar({
           active={40}
           icon={Security}
           label='Security'
-          onClick={() => handleChangeTabs(2)}
+          onClick={() => handleChangeTabs?.(2)}
         />
       </Box>{" "}
       <Box
@@ -83,7 +83,7 @@ export default function KycSideBar({
         py={1}
       >
         <AppTabs
-          onClick={() => handleChangeTabs()}
+          // onClick={() => handleChangeTabs?.()}
           active={40}
           icon={Refer}
           label='Refer and Earn'
@@ -96,7 +96,7 @@ export default function KycSideBar({
         py={1}
       >
         <AppTabs
-          onClick={() => handleChangeTabs()}
+          // onClick={() => handleChangeTabs?.()}
           active={40}
           icon={Refer}
           label='Refer and Earn'
@@ -109,7 +109,7 @@ export default function KycSideBar({
         py={1}
       >
         <AppTabs
-          onClick={() => handleChangeTabs()}
+          // onClick={() => handleChangeTabs()}
           active={40}
           icon={Refer}
           label='Refer and Earn'

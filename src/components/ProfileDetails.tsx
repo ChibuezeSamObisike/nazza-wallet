@@ -10,6 +10,7 @@ import {
   InputAdornment,
   IconButton,
   Button,
+  Theme,
 } from "@mui/material";
 
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
@@ -17,7 +18,7 @@ import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 
 import { useQuery, useMutation } from "react-query";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -30,7 +31,7 @@ import {
   changeName,
   getProfileDetails,
   updateProfile,
-} from "services/authLogin";
+} from "services/AppService";
 
 import { handleAppError } from "utils/handleApiError";
 
@@ -78,7 +79,7 @@ export default function ProfileDetails() {
     formState: { errors },
   } = useForm({ resolver, defaultValues });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: FieldValues) => {
     console.log("field values", getValues());
     mutate({ data });
   };
@@ -102,7 +103,7 @@ export default function ProfileDetails() {
     phone: "",
   };
 
-  const onProfileSubmit = (data: any) => {
+  const onProfileSubmit = (data: FieldValues) => {
     mutateProfile({ data });
   };
 
@@ -199,7 +200,7 @@ export default function ProfileDetails() {
       <Backdrop
         sx={{
           color: "#fff",
-          zIndex: (theme: any) => theme.zIndex.drawer + 1,
+          zIndex: (theme: Theme) => theme.zIndex.drawer + 1,
         }}
         open={!!isLoading}
       >

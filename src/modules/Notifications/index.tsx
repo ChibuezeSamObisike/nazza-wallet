@@ -9,7 +9,7 @@ import { ReactComponent as NotificationIcon } from "assets/NotificationItem.svg"
 import { pxToRem } from "utils/pxToRem";
 
 import { useQuery } from "react-query";
-import { getNotifications } from "services/authLogin";
+import { getNotifications } from "services/AppService";
 
 import moment from "moment";
 

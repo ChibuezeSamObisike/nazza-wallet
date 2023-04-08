@@ -22,7 +22,7 @@ import * as Yup from "yup";
 import Switch, { SwitchProps } from "@mui/material/Switch";
 import { useMutation } from "react-query";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { resetPassword, toggle2fa } from "services/authLogin";
+import { resetPassword, toggle2fa } from "services/AppService";
 import { AxiosError } from "axios";
 
 export default function Security({ twofa }: { twofa: boolean }) {

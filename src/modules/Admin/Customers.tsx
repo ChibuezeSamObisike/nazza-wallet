@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 
-import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 
 import AdminLayout from "./Components/AdminLayout";
@@ -10,19 +9,16 @@ import BasicTable from "shared/Table";
 
 import AppBreadCrumb from "shared/AppBreadCrumb";
 
-import { numberToFigure } from "utils/numberToFigure";
-
-import { getAllUsers } from "services/authLogin";
+import { getAllUsers } from "services/AppService";
 
 export default function Customers() {
-  const navigate = useNavigate();
   const [tableData, setTableData] = useState<any>([]);
   const [currPage, setCurrPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState(0);
   const [pageSize, setPageSize] = useState<number | null>(0);
   const [payOutData, setPayOutData] = useState<any | null | undefined>(null);
 
-  const { isLoading, isFetching } = useQuery(
+  const { isLoading } = useQuery(
     [
       "getHistory",
       {
@@ -49,8 +45,9 @@ export default function Customers() {
     };
   }
 
-  const dataTable = tableData?.map((x: any) =>
-    createData(x?.name, x?.email, x?.phone ?? "--")
+  const dataTable = tableData?.map(
+    (x: Partial<{ name: string; email: string; phone?: string }>) =>
+      createData(x?.name ?? "--", x?.email ?? "--", x?.phone ?? "--")
   );
 
   const columns = [
@@ -63,7 +60,6 @@ export default function Customers() {
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    console.log("Page No>>", Event);
     setCurrPage(newPage);
   };
 

@@ -154,7 +154,7 @@ export default function BasicTable({
                       cursor: "pointer",
                     }}
                     onClick={() => {
-                      onRowItemClick(row?._id);
+                      onRowItemClick?.(row?._id);
                     }}
                   >
                     {columns.map((x: any) => {

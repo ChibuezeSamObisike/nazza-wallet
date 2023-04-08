@@ -6,7 +6,7 @@ import Security from "@mui/icons-material/Lock";
 import { ReactComponent as Refer } from "assets/refer icons.svg";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
-import { getProfileDetails } from "services/authLogin";
+import { getProfileDetails } from "services/AppService";
 import { useQuery } from "react-query";
 import AppTabs from "shared/Tabs";
 

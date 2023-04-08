@@ -12,7 +12,7 @@ import AppBreadCrumb from "shared/AppBreadCrumb";
 
 import { numberToFigure } from "utils/numberToFigure";
 
-import { getHistory } from "services/authLogin";
+import { getHistory } from "services/AppService";
 import { createData } from "shared/Table";
 
 export default function PayoutHistory() {

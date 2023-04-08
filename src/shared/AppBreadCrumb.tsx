@@ -7,7 +7,13 @@ import { Breadcrumbs, Link, Typography } from "@mui/material";
 //   link: string;
 // }
 
-export default function AppBreadCrumb({ links, current }: any) {
+export default function AppBreadCrumb({
+  links,
+  current,
+}: {
+  links: Array<{ title: string; link: string }>;
+  current: string;
+}) {
   return (
     <Breadcrumbs
       aria-label='breadcrumb'
@@ -18,7 +24,7 @@ export default function AppBreadCrumb({ links, current }: any) {
         },
       }}
     >
-      {links.map((x: any) => (
+      {links.map((x: { title: string; link: string }) => (
         <Link underline='none' color='inherit' href={x.link}>
           {x.title}
         </Link>

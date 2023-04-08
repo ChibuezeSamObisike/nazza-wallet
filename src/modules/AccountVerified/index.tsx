@@ -2,7 +2,7 @@ import React from "react";
 
 import { Box, Button, Typography } from "@mui/material";
 
-import { verify } from "services/authLogin";
+import { verify } from "services/AppService";
 
 import { AxiosError } from "axios";
 

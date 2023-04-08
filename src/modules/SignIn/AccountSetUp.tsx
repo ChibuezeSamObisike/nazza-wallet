@@ -19,7 +19,7 @@ import { FieldValues, useForm } from "react-hook-form";
 
 import { useMutation } from "react-query";
 
-import { register as registerService } from "services/authLogin";
+import { register as registerService } from "services/AppService";
 
 import { handleAppError } from "utils/handleApiError";
 

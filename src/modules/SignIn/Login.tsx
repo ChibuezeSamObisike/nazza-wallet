@@ -13,7 +13,7 @@ import nazaLogo from "assets/naza-logo.svg";
 import { useNavigate } from "react-router-dom";
 
 import { useMutation } from "react-query";
-import { login } from "services/authLogin";
+import { login } from "services/AppService";
 import * as Yup from "yup";
 
 import { useForm, FieldValues } from "react-hook-form";

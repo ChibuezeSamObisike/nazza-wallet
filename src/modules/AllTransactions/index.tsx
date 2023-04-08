@@ -1,51 +1,115 @@
-import { Box } from "@mui/material";
-import React, { useState } from "react";
+import TotalCard from "components/dashboard/TotalCard";
+
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import { Box, Button, Typography, Skeleton } from "@mui/material";
+import AppTable from "shared/Table";
+import TextTag from "shared/TextTag";
+import { useNavigate } from "react-router-dom";
+
+import useSmallScreen from "hooks/useSmallScreen";
+
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+
+import { useGetUser } from "contexts/UserProvider";
+
+import { getHistory } from "services/AppService";
 import { useQuery } from "react-query";
-
-import { getHistory } from "services/authLogin";
-
 import { createData } from "shared/Table";
-
-import AppBreadCrumb from "shared/AppBreadCrumb";
-
-import BasicTable from "shared/Table";
+import { useState } from "react";
+import { numberToFigure } from "utils/numberToFigure";
+import { getTotalPayout } from "services/AppService";
 
 export default function AllTransactions() {
-  const [tableData, setTableData] = useState<any>([]);
+  const navigate = useNavigate();
+  const isSmallScreen = useSmallScreen();
 
-  const { isLoading, isFetching } = useQuery("getHistory", getHistory, {
-    onSuccess(data) {
-      console.log("user data", data?.trades);
-      setTableData(data?.trades);
-    },
-  });
+  const [tableData, setTableData] = useState<any>([]);
+  const [currPage, setCurrPage] = useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = useState(0);
+  const [pageSize, setPageSize] = useState<number | null>(0);
+  const [payOutData, setPayOutData] = useState<any | null | undefined>(null);
+
+  const user = useGetUser();
+
+  const { isLoading } = useQuery(
+    [
+      "getHistory",
+      {
+        rowsPerPage,
+        currPage: currPage + 1,
+      },
+    ],
+    getHistory,
+    {
+      onSuccess(data) {
+        console.log("Data table", data);
+        setTableData(data?.trades);
+        setPageSize(data?.paginationMeta.totalPages);
+        setRowsPerPage(data?.paginationMeta.totalRecords);
+      },
+      onError(err) {
+        console.log("Table error", err);
+      },
+    }
+  );
+
+  const { isLoading: isTotalCardLoading } = useQuery(
+    "getTotalPayout",
+    getTotalPayout,
+    {
+      onSuccess(data) {
+        setPayOutData(data);
+      },
+    }
+  );
 
   const dataTable = tableData?.map((x: any) =>
     createData(
       x?.coin?.name,
       `${x?.amount} ${x?.coin?.name}`,
-      `${x?.amount_ngn}`,
+      `N ${numberToFigure(x?.amount_ngn)}`,
       `${x?.createdAt.split("T")[0]}`,
       `${x?.coin.network}`,
       "Deposit"
     )
   );
+
+  const columns = [
+    { key: "crypto", align: "" },
+    { key: "number" },
+    { key: "price" },
+    { key: "date" },
+    { key: "network" },
+  ];
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    console.log("Page No>>", Event);
+    setCurrPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    console.log("Change Page row", event?.target?.value);
+    setRowsPerPage(parseInt(event.target.value, 10));
+  };
   return (
-    <div>
-      <Box>
-        <AppBreadCrumb
-          links={[
-            {
-              link: "/",
-              title: "Home",
-            },
-          ]}
-          current='All Transactions'
-        />
-      </Box>
-      <div style={{ marginBottom: "50px", marginTop: "40px" }}>
-        <BasicTable rows={dataTable} isLoading={isLoading || isFetching} />
-      </div>
+    <div style={{ marginTop: "40px" }}>
+      <TextTag label='Transaction History' />
+      <div style={{ marginBottom: "50px" }}></div>
+      <AppTable
+        rows={dataTable}
+        columns={columns}
+        isLoading={isLoading}
+        pageSize={pageSize}
+        rowsPerPage={rowsPerPage}
+        page={currPage}
+        handleChangePage={handleChangePage}
+        handleChangeRowsPerPage={handleChangeRowsPerPage}
+      />
     </div>
   );
 }

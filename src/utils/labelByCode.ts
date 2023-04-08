@@ -1,4 +1,12 @@
-const lableByCode = (id: number | string): any => {
+const lableByCode = (
+  id: number | string
+): {
+  code: string;
+  sx: {
+    bgcolor?: string;
+    color?: string;
+  };
+} => {
   let code = "Label";
   let sx = {};
 

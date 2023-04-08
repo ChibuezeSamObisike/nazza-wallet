@@ -1,9 +1,7 @@
 import React from "react";
 import { Drawer, Box, Typography } from "@mui/material";
-import logo from "assets/Nazza-logo.svg";
 
-import { useNavigate, NavLink } from "react-router-dom";
-import { pxToRem } from "utils/pxToRem";
+import { NavLink } from "react-router-dom";
 
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
@@ -50,7 +48,15 @@ interface IMenuProps {
   close: Function;
 }
 
-function MenuItem({ icon: Icon, label, path }: any) {
+function MenuItem({
+  icon: Icon,
+  label,
+  path,
+}: {
+  icon: typeof SettingsIcon;
+  label: string;
+  path: string;
+}) {
   return (
     <NavLink to={path}>
       {({ isActive }) => (

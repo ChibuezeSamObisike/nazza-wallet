@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AdminLayout from "./Components/AdminLayout";
-import { Box, Typography, Button, Chip } from "@mui/material";
+import { Box, Typography, Button, Chip, Modal } from "@mui/material";
 
 import { useQuery } from "react-query";
 
@@ -10,7 +10,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import TextTag from "shared/TextTag";
 
-import { getAdminStats, getTrades, getTrade } from "services/authLogin";
+import { getAdminStats, getTrades, getTrade } from "services/AppService";
 import getIcon from "utils/getIcon";
 import { numberToFigure } from "utils/numberToFigure";
 
@@ -182,6 +182,7 @@ export default function Dashboard() {
         onClose={onClose}
         data={modalData}
       />
+      <UpdateRatesModal />
       <AdminLayout>
         <Box>
           <Box
@@ -216,12 +217,12 @@ export default function Dashboard() {
               </Button>
               <Button
                 sx={{
-                  bgcolor: "#FFF5D8",
-                  color: "#423308",
-                  fontWeight: 400,
+                  bgcolor: "#ff7262",
+                  color: "white",
+                  fontWeight: 700,
                   ":hover": {
-                    bgcolor: "#FFF5D8",
-                    color: "#423308",
+                    bgcolor: "#ff7262",
+                    color: "white",
                   },
                   ml: 3,
                   px: 4,
@@ -233,7 +234,7 @@ export default function Dashboard() {
                     fontWeight: 400,
                   }}
                 />
-                Invite
+                Update Rates
               </Button>
             </Box>
           </Box>
@@ -372,5 +373,23 @@ function AdminCard({
         </Box>
       </Box>
     </Box>
+  );
+}
+
+function UpdateRatesModal() {
+  return (
+    <Modal open={true}>
+      <Box
+        sx={{
+          bgcolor: "#fff",
+          width: "50%",
+          height: "60%",
+          mx: "auto",
+          mt: "80px",
+        }}
+      >
+        Hello worls
+      </Box>
+    </Modal>
   );
 }

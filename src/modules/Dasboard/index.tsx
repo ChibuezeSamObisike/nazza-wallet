@@ -2,7 +2,7 @@ import TotalCard from "components/dashboard/TotalCard";
 
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { Box, Button, Typography, Skeleton } from "@mui/material";
-import BasicTable from "shared/Table";
+import AppTable from "shared/Table";
 import TextTag from "shared/TextTag";
 import { useNavigate } from "react-router-dom";
 
@@ -12,12 +12,12 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 import { useGetUser } from "contexts/UserProvider";
 
-import { getHistory } from "services/authLogin";
+import { getHistory } from "services/AppService";
 import { useQuery } from "react-query";
 import { createData } from "shared/Table";
 import { useState } from "react";
 import { numberToFigure } from "utils/numberToFigure";
-import { getTotalPayout } from "services/authLogin";
+import { getTotalPayout } from "services/AppService";
 
 function App() {
   const navigate = useNavigate();
@@ -106,11 +106,11 @@ function App() {
         alignItems={{ xs: "flex-start", md: "center" }}
         justifyContent='space-between'
       >
-        {user.isLoading || user.isFetching ? (
+        {user.isLoading ? (
           <Skeleton width={400} height={80} />
         ) : (
           <Typography variant='h3' fontWeight='bold' color='#47454C'>
-            Welcome, {user?.user?.name?.split(" ")?.[0] ?? "---"}{" "}
+            {/* Welcome, {user?.user?.name?.split(" ")?.[0] ?? "---"}{" "} */}
             <span className='wave'>👋</span>
           </Typography>
         )}
@@ -210,7 +210,7 @@ function App() {
       <div style={{ marginTop: "40px" }}>
         <TextTag label='Transaction History' />
         <div style={{ marginBottom: "50px" }}></div>
-        <BasicTable
+        <AppTable
           rows={dataTable}
           columns={columns}
           isLoading={isLoading}
