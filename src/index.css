@@ -63,7 +63,7 @@ a:focus {
     }
 }
 
-input {
+.input {
     text-align: center;
     outline: none;
     border: none;
@@ -72,13 +72,13 @@ input {
     font-family: "Plus Jakarta Sans", sans-serif;
 }
 
-::-webkit-input-placeholder {
+.input::-webkit-input-placeholder {
     text-align: center;
     font-size: 40px;
     font-family: "Plus Jakarta Sans", sans-serif;
 }
 
-:-moz-placeholder {
+.input:-moz-placeholder {
     text-align: center;
     font-size: 40px;
     font-family: "Plus Jakarta Sans", sans-serif;

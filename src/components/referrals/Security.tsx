@@ -82,6 +82,8 @@ export default function Security({ twofa }: { twofa: boolean }) {
   }));
 
   const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword1, setShowPassword1] = React.useState(false);
+  const [showPassword2, setShowPassword2] = React.useState(false);
   const [check2fa, setCheck2fa] = React.useState(twofa);
 
   const defaultValues = {
@@ -174,7 +176,7 @@ export default function Security({ twofa }: { twofa: boolean }) {
           />
         </Box>
       </Box>
-      <Box bgcolor='#fff' border='1px solid #D4D4D4' p={3} pt={5}>
+      <Box bgcolor='#fff' border='1px solid #D4D4D4' p={3} pt={5} mb={4}>
         <Box>
           <Typography fontWeight='bold'>Change password</Typography>
           <Typography mt={2} fontWeight={300}>
@@ -222,6 +224,7 @@ export default function Security({ twofa }: { twofa: boolean }) {
               }}
               error={Boolean(errors["new_password"]?.message)}
               helperText={errors.new_password?.message?.toString()}
+              type={showPassword1 ? "text" : "password"}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
@@ -229,11 +232,11 @@ export default function Security({ twofa }: { twofa: boolean }) {
                       {" "}
                       <IconButton
                         aria-label='toggle password visibility'
-                        onClick={handleClickShowPassword}
+                        onClick={() => setShowPassword1(!showPassword1)}
                         onMouseDown={handleMouseDownPassword}
                         edge='end'
                       >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                        {showPassword1 ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </IconButton>
                   </InputAdornment>
@@ -245,6 +248,7 @@ export default function Security({ twofa }: { twofa: boolean }) {
               label='Confirm password'
               {...register("confirm_password")}
               fullWidth
+              type={showPassword2 ? "text" : "password"}
               sx={{
                 marginTop: "30px",
               }}
@@ -257,11 +261,11 @@ export default function Security({ twofa }: { twofa: boolean }) {
                       {" "}
                       <IconButton
                         aria-label='toggle password visibility'
-                        onClick={handleClickShowPassword}
+                        onClick={() => setShowPassword2(!showPassword2)}
                         onMouseDown={handleMouseDownPassword}
                         edge='end'
                       >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                        {showPassword2 ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </IconButton>
                   </InputAdornment>

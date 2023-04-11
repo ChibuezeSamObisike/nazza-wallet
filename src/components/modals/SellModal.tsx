@@ -6,7 +6,6 @@ import {
   Button,
   MenuItem,
   IconButton,
-  TextField,
 } from "@mui/material";
 import { pxToRem } from "utils/pxToRem";
 import { ReactComponent as Bitcoin } from "assets/Bitcoin.svg";
@@ -61,13 +60,19 @@ export default function SellModal({
               position: "relative",
             }}
           >
-            <input placeholder='0' />
+            <input
+              placeholder='0'
+              className='input'
+              style={{
+                width: "30%",
+              }}
+            />
             <span
               style={{
                 fontSize: pxToRem(18),
                 fontWeight: 500,
                 position: "absolute",
-                bottom: "0",
+                bottom: "-30px",
                 right: "140px",
               }}
             >

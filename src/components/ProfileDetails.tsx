@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   TextField,
@@ -76,6 +76,7 @@ export default function ProfileDetails() {
     register,
     handleSubmit: handleChangeName,
     getValues,
+    setValue,
     formState: { errors },
   } = useForm({ resolver, defaultValues });
 
@@ -110,6 +111,11 @@ export default function ProfileDetails() {
   const { register: registerProfile, handleSubmit: handleProfileUpdate } =
     useForm({ defaultValues: defaultValue });
 
+  useEffect(() => {
+    setValue("name", `${data?.name ?? "--"}`);
+    setValue("lastname", `${data?.lastname ?? "--"}`);
+  }, []);
+
   if (showName) {
     return (
       <form onSubmit={handleChangeName(onSubmit)}>
@@ -142,7 +148,6 @@ export default function ProfileDetails() {
           <TextField
             id='outlined-required'
             label='First Name'
-            defaultValue={data?.name}
             {...register("name")}
             InputLabelProps={{
               shrink: true,
@@ -158,7 +163,6 @@ export default function ProfileDetails() {
           <TextField
             id='outlined-required'
             label='Last Name'
-            defaultValue={data?.lastname}
             {...register("lastname")}
             InputLabelProps={{
               shrink: true,
@@ -219,7 +223,8 @@ export default function ProfileDetails() {
             <TextField
               id='outlined-required'
               label='Name'
-              defaultValue={data?.name}
+              disabled
+              value={`${data?.name} ${data?.lastname}`}
               {...registerProfile("username")}
               fullWidth
               InputProps={{
@@ -246,7 +251,7 @@ export default function ProfileDetails() {
               sx={{
                 marginTop: "30px",
               }}
-              placeholder='Olugwu Samuel'
+              placeholder='Name'
             />
             <TextField
               id='outlined-required'
