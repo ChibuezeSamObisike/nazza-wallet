@@ -1,16 +1,5 @@
-import TotalCard from "components/dashboard/TotalCard";
-
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import { Box, Button, Typography, Skeleton } from "@mui/material";
 import AppTable from "shared/Table";
 import TextTag from "shared/TextTag";
-import { useNavigate } from "react-router-dom";
-
-import useSmallScreen from "hooks/useSmallScreen";
-
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-
-import { useGetUser } from "contexts/UserProvider";
 
 import { getHistory } from "services/AppService";
 import { useQuery } from "react-query";
@@ -20,16 +9,11 @@ import { numberToFigure } from "utils/numberToFigure";
 import { getTotalPayout } from "services/AppService";
 
 export default function AllTransactions() {
-  const navigate = useNavigate();
-  const isSmallScreen = useSmallScreen();
-
   const [tableData, setTableData] = useState<any>([]);
   const [currPage, setCurrPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState(0);
   const [pageSize, setPageSize] = useState<number | null>(0);
   const [payOutData, setPayOutData] = useState<any | null | undefined>(null);
-
-  const user = useGetUser();
 
   const { isLoading } = useQuery(
     [

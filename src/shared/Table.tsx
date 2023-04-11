@@ -46,41 +46,43 @@ export function createData(
   };
 }
 
-const tableMobile = [
-  {
-    chip: "Sell",
-    number: "1.3BTC",
-    price: "N23,000",
-    network: "BNB",
-    date: "23rd May 2022",
-    icon: "USDT",
-  },
-  {
-    chip: "Sell",
-    number: "1.3BTC",
-    price: "N23,000",
-    network: "BNB",
-    date: "23rd May 2022",
-    icon: "Lite Coin",
-  },
-  {
-    chip: "Deposit",
-    number: "1.3BTC",
-    price: "N23,000",
-    network: "BNB",
-    date: "23rd May 2022",
-    icon: "Dodge",
-  },
+// const tableMobile = [
+//   {
+//     chip: "Sell",
+//     number: "1.3BTC",
+//     price: "N23,000",
+//     network: "BNB",
+//     date: "23rd May 2022",
+//     icon: "USDT",
+//   },
+//   {
+//     chip: "Sell",
+//     number: "1.3BTC",
+//     price: "N23,000",
+//     network: "BNB",
+//     date: "23rd May 2022",
+//     icon: "Lite Coin",
+//   },
+//   {
+//     chip: "Deposit",
+//     number: "1.3BTC",
+//     price: "N23,000",
+//     network: "BNB",
+//     date: "23rd May 2022",
+//     icon: "Dodge",
+//   },
 
-  {
-    chip: "Withdraw",
-    number: "1.3BTC",
-    price: "N23,000",
-    network: "BNB",
-    date: "23rd May 2022",
-    icon: "Bitcoin",
-  },
-];
+//   {
+//     chip: "Withdraw",
+//     number: "1.3BTC",
+//     price: "N23,000",
+//     network: "BNB",
+//     date: "23rd May 2022",
+//     icon: "Bitcoin",
+//   },
+// ];
+
+const tableMobile: any[] = [];
 
 export default function BasicTable({
   rows,
@@ -103,7 +105,7 @@ export default function BasicTable({
 
   // console.log("Price... data", rows);
 
-  if (isMobile) {
+  if (isMobile && tableMobile.length > 0) {
     return (
       <>
         {tableMobile.map((x, i) => (
@@ -112,6 +114,34 @@ export default function BasicTable({
           </div>
         ))}
       </>
+    );
+  }
+
+  if (isMobile && tableMobile.length <= 0) {
+    return (
+      <TableRow>
+        <TableCell
+          component='td'
+          scope='row'
+          colSpan={40}
+          sx={{
+            textAlign: "center",
+            height: "35vh",
+          }}
+        >
+          <>
+            <EmptyIcon />
+
+            <Box marginX='auto' width='80%'>
+              <Typography mt='20px' variant='subtitle2' fontWeight={300}>
+                When you start using your wallet, transactions Your recent
+                transaction activities show up here, but you haven’t done any
+                transactions yet.ill show here
+              </Typography>
+            </Box>
+          </>
+        </TableCell>
+      </TableRow>
     );
   }
   return (
@@ -195,7 +225,7 @@ export default function BasicTable({
               </TableCell>
             </TableRow>
           )}
-          {isLoading && (
+          {/* {isLoading && (
             <TableRow>
               <TableCell
                 component='td'
@@ -209,10 +239,10 @@ export default function BasicTable({
                 <Loader height='30%' />
               </TableCell>
             </TableRow>
-          )}
+          )} */}
         </Table>
       </TableContainer>
-      {!(rows.length < 0) && (
+      {!(rows.length > 0) && isLoading && (
         <TablePagination
           component='div'
           count={rows?.length}

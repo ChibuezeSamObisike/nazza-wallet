@@ -62,3 +62,24 @@ a:focus {
         transform: rotate(0deg);
     }
 }
+
+input {
+    text-align: center;
+    outline: none;
+    border: none;
+    font-weight: 500;
+    font-size: 40px;
+    font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+::-webkit-input-placeholder {
+    text-align: center;
+    font-size: 40px;
+    font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+:-moz-placeholder {
+    text-align: center;
+    font-size: 40px;
+    font-family: "Plus Jakarta Sans", sans-serif;
+}

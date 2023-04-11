@@ -127,8 +127,8 @@ const routes: IRoute[] = [
     auth: false,
   },
   {
-    path: "admin",
-    component: lazy(() => import("modules/Admin/Dashboard")),
+    path: "admin/*",
+    component: lazy(() => import("routes/AdminRouter")),
     auth: false,
   },
   {
@@ -153,7 +153,7 @@ const routes: IRoute[] = [
   },
 ];
 
-const LazyLoad = ({
+export const LazyLoad = ({
   component: Component,
   layout: Layout,
   auth,

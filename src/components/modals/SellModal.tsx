@@ -61,31 +61,7 @@ export default function SellModal({
               position: "relative",
             }}
           >
-            <TextField
-              placeholder='0'
-              variant='standard'
-              sx={{
-                fontWeight: "bold",
-                fontSize: 40,
-                textAlign: "center",
-                mx: "auto",
-                ".css-1x51dt5-MuiInputBase-input-MuiInput-input": {
-                  color: "#000",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  fontSize: "40px",
-                },
-                ".css-1x51dt5-MuiInputBase-input-MuiInput-input::placeholder": {
-                  color: "#000",
-                  fontWeight: "bold",
-                  fontSize: "40px",
-                  textAlign: "center",
-                },
-              }}
-              InputProps={{
-                disableUnderline: true,
-              }}
-            />
+            <input placeholder='0' />
             <span
               style={{
                 fontSize: pxToRem(18),
