@@ -5,20 +5,33 @@ import AppBreadCrumb from "shared/AppBreadCrumb";
 import QueryBuilderOutlinedIcon from "@mui/icons-material/QueryBuilderOutlined";
 
 import { ReactComponent as NotificationIcon } from "assets/NotificationItem.svg";
+import { useAlert } from "hooks/useAlert";
 
 import { pxToRem } from "utils/pxToRem";
 
 import { useQuery } from "react-query";
 import { getNotifications } from "services/AppService";
+import { handleAppError } from "utils/handleApiError";
 
 import moment from "moment";
 
 export default function Index() {
-  const { data, isLoading } = useQuery("notifications", getNotifications, {
-    onSuccess(data) {
-      console.log("Notif", data);
-    },
-  });
+  const { showNotification } = useAlert();
+  const { data, isLoading, isError } = useQuery(
+    "notifications1",
+    getNotifications,
+    {
+      onSuccess(data) {
+        console.log("Notif", data);
+      },
+      onError(err) {
+        console.log("Err", err);
+        showNotification?.(handleAppError(err), {
+          type: "error",
+        });
+      },
+    }
+  );
 
   const dateToDateConverter = (date: any): any => {
     let dateFx = moment(new Date(date)).format("Do    MMMM    YYYY");
@@ -37,7 +50,7 @@ export default function Index() {
         current='Notification'
       />
 
-      {isLoading && (
+      {isLoading && !isError && (
         <Box sx={{ width: "100%", mt: 5 }}>
           <LinearProgress />
         </Box>

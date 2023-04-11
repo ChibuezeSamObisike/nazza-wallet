@@ -17,7 +17,7 @@ import { useQuery } from "react-query";
 import { createData } from "shared/Table";
 import { useState } from "react";
 import { numberToFigure } from "utils/numberToFigure";
-import { getTotalPayout } from "services/AppService";
+import { getTotalPayout, getProfileDetails } from "services/AppService";
 
 function App() {
   const navigate = useNavigate();
@@ -97,6 +97,11 @@ function App() {
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 
+  const { data } = useQuery("fetchUserDetails", getProfileDetails, {
+    onSuccess(data) {
+      console.log("Profile Data1>", data);
+    },
+  });
   return (
     <div>
       <Box
@@ -110,7 +115,7 @@ function App() {
           <Skeleton width={400} height={80} />
         ) : (
           <Typography variant='h3' fontWeight='bold' color='#47454C'>
-            {/* Welcome, {user?.user?.name?.split(" ")?.[0] ?? "---"}{" "} */}
+            <span>Welcome, {data?.name ?? "---"}</span>{" "}
             <span className='wave'>👋</span>
           </Typography>
         )}
