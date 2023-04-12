@@ -172,7 +172,7 @@ export default function Security({ twofa }: { twofa: boolean }) {
                 onChange={handleToggleChange}
               />
             }
-            label=''
+            label='Loading'
           />
         </Box>
       </Box>

@@ -19,17 +19,22 @@ import http from "utils/http";
 import { handleAppError } from "utils/handleApiError";
 import { useAlert } from "hooks/useAlert";
 
-import { getBanks, getBankList } from "services/AppService";
+import { getBanks, getBankList, getBankAcctName } from "services/AppService";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { FieldValues, useForm } from "react-hook-form";
 import { pxToRem } from "utils/pxToRem";
 
 import deleteGif from "assets/bank-delete.gif";
+
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 
 export default function Banks() {
   const [openM1, setOpenM1] = useState(false);
   const [openM2, setOpenM2] = useState(false);
   const [openBank, setOpenBank] = useState(false);
   const [idToDelete, setIdToDelete] = useState("");
+  const [accountName, setAccountName] = useState("");
 
   const queryClient = useQueryClient();
   const { showNotification } = useAlert();
@@ -45,6 +50,43 @@ export default function Banks() {
       enabled: true,
     }
   );
+
+  const schema = Yup.object({
+    bank_code: Yup.string().required("Bank code is Required"),
+    acc_number: Yup.string().required("Account number is Required"),
+  });
+
+  const resolver = yupResolver(schema);
+
+  const {
+    setValue,
+    formState: { errors },
+    register,
+    handleSubmit,
+    reset,
+  } = useForm({
+    defaultValues: {
+      bank_code: "",
+      acc_number: "",
+    },
+    resolver,
+  });
+
+  const addBank = useMutation(getBankAcctName, {
+    onSuccess(data) {
+      showNotification?.("Success", { type: "success" });
+      console.log("Bank data successful", data);
+      setAccountName(data?.account_name);
+      // reset();
+      // setOpenM1(false);
+      // setOpenM2(true);
+    },
+    onError(err) {
+      showNotification?.(handleAppError(err), {
+        type: "error",
+      });
+    },
+  });
 
   const deleteBankMute = useMutation(
     (id: string | number) => {
@@ -67,7 +109,13 @@ export default function Banks() {
     }
   );
 
+  const onSubmit = (data: FieldValues) => {
+    addBank.mutate({ data });
+  };
+
   const closeM1 = (): void => {
+    reset();
+    setAccountName("");
     setIdToDelete("");
     setOpenM1(false);
   };
@@ -116,37 +164,70 @@ export default function Banks() {
           <Typography my={2} fontWeight='bold'>
             Add a bank Account
           </Typography>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Autocomplete
+              disablePortal
+              id='combo-box-demo'
+              options={listOfBanks}
+              fullWidth
+              loading={isBankListLoading}
+              {...register("bank_code")}
+              getOptionLabel={(option: { name: string }) => option?.name}
+              onChange={(event, item: any) => {
+                console.log("Event item>> code", item?.code);
+                setValue("bank_code", item["code"]);
+              }}
+              renderInput={(params) => {
+                return (
+                  <TextField
+                    helperText={errors?.["bank_code"]?.message?.toString()}
+                    {...params}
+                    label='Banks'
+                  />
+                );
+              }}
+            />
+            <TextField
+              fullWidth
+              type='number'
+              {...register("acc_number")}
+              label='Account Number'
+              sx={{
+                my: 2,
+              }}
+              helperText={errors?.acc_number?.message?.toString()}
+            />
 
-          <Autocomplete
-            disablePortal
-            id='combo-box-demo'
-            options={listOfBanks}
-            fullWidth
-            loading={isBankListLoading}
-            getOptionLabel={(option: { name: string }) => option?.name}
-            renderInput={(params) => {
-              return <TextField {...params} label='Banks' />;
-            }}
-          />
-          <TextField
-            fullWidth
-            name='account_number'
-            type='number'
-            label='Account Number'
-            sx={{
-              my: 2,
-            }}
-          />
+            {accountName && (
+              <TextField
+                label='Account Name'
+                sx={{
+                  mb: 4,
+                }}
+                fullWidth
+                disabled
+                value={accountName}
+              />
+            )}
 
-          <Button
-            fullWidth
-            onClick={() => {
-              setOpenM1(false);
-              setOpenM2(true);
-            }}
-          >
-            Confirm
-          </Button>
+            <Button
+              type='submit'
+              fullWidth
+              startIcon={
+                addBank.isLoading && (
+                  <CircularProgress
+                    size={16}
+                    sx={{
+                      fontSize: 2,
+                      color: "#fff",
+                    }}
+                  />
+                )
+              }
+            >
+              Confirm
+            </Button>
+          </form>
         </Box>
       </GenericModal>
 

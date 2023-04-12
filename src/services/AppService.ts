@@ -31,6 +31,12 @@ export const reset = async ({ data }: any) => {
   });
 };
 
+export const getBankAcctName = async ({ data }: any) => {
+  return http.post("user/bank/acc_name/", data).then((res) => {
+    return res.data;
+  });
+};
+
 export const profile = async () => {
   return http.get("user/profile").then((res) => {
     return res.data;

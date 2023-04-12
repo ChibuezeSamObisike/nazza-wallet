@@ -6,6 +6,7 @@ import {
   Checkbox,
   IconButton,
   TextField,
+  Autocomplete,
 } from "@mui/material";
 import { pxToRem } from "utils/pxToRem";
 
@@ -15,6 +16,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SellSmallScreen from "shared/layout/SellSmallScreen";
 import GenericModal from "./GenericModal";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import { useQuery } from "react-query";
+import { getBankList } from "services/AppService";
 
 export default function CashDestination({
   open,
@@ -55,6 +58,14 @@ export default function CashDestination({
     }
   };
 
+  const { data: listOfBanks, isLoading: isBankListLoading } = useQuery(
+    "fetchBankList",
+    getBankList,
+    {
+      enabled: true,
+    }
+  );
+
   return (
     <>
       <GenericModal open={openM1} close={closeM1}>
@@ -80,7 +91,17 @@ export default function CashDestination({
             Add a bank Account
           </Typography>
 
-          <TextField fullWidth name='Bank_name' label='Bank Name' />
+          <Autocomplete
+            disablePortal
+            id='combo-box-demo'
+            options={listOfBanks}
+            fullWidth
+            loading={isBankListLoading}
+            getOptionLabel={(option: { name: string }) => option?.name}
+            renderInput={(params) => {
+              return <TextField {...params} label='Banks' />;
+            }}
+          />
           <TextField
             fullWidth
             name='account_number'
@@ -150,49 +171,40 @@ export default function CashDestination({
           </Box>
           <Typography
             fontSize={pxToRem(52)}
-            pt={3}
             mb={2}
             fontWeight='bold'
             sx={{
               position: "relative",
             }}
           >
-            <TextField
-              placeholder='0'
-              variant='standard'
+            <Typography
+              fontSize={pxToRem(52)}
+              pt={3}
+              mb={2}
+              fontWeight='bold'
               sx={{
-                fontWeight: "bold",
-                fontSize: 40,
-                textAlign: "center",
-                mx: "auto",
-                ".css-1x51dt5-MuiInputBase-input-MuiInput-input": {
-                  color: "#000",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  fontSize: "40px",
-                },
-                ".css-1x51dt5-MuiInputBase-input-MuiInput-input::placeholder": {
-                  color: "#000",
-                  fontWeight: "bold",
-                  fontSize: "40px",
-                  textAlign: "center",
-                },
-              }}
-              InputProps={{
-                disableUnderline: true,
-              }}
-            />
-            <span
-              style={{
-                fontSize: pxToRem(18),
-                fontWeight: 500,
-                position: "absolute",
-                bottom: "0",
-                right: "140px",
+                position: "relative",
               }}
             >
-              USD
-            </span>
+              <input
+                placeholder='0'
+                className='input'
+                style={{
+                  width: "45%",
+                }}
+              />
+              <span
+                style={{
+                  fontSize: pxToRem(18),
+                  fontWeight: 500,
+                  position: "absolute",
+                  bottom: "-30px",
+                  right: "140px",
+                }}
+              >
+                {getAltCurrency()}
+              </span>
+            </Typography>
           </Typography>
 
           <Box
@@ -234,7 +246,7 @@ export default function CashDestination({
             mt={3}
             display='flex'
             color='#001D4B'
-            alignItems='center'
+            alignItems={{ xs: "left", md: "center" }}
             border='1px solid #E9F1FF'
             flexDirection={{ md: "row", xs: "column" }}
           >

@@ -64,7 +64,7 @@ export default function SellModal({
               placeholder='0'
               className='input'
               style={{
-                width: "30%",
+                width: "45%",
               }}
             />
             <span
@@ -76,7 +76,7 @@ export default function SellModal({
                 right: "140px",
               }}
             >
-              USD
+              {getAltCurrency()}
             </span>
           </Typography>
 
