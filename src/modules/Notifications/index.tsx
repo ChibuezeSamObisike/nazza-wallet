@@ -34,7 +34,7 @@ export default function Index() {
   );
 
   const dateToDateConverter = (date: any): any => {
-    let dateFx = moment(new Date(date)).format("Do    MMMM    YYYY");
+    let dateFx = moment(new Date(date)).format("Do MMM YYYY, h:mm a");
 
     return dateFx;
   };

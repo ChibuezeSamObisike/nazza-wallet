@@ -225,7 +225,7 @@ export default function BasicTable({
               </TableCell>
             </TableRow>
           )}
-          {/* {isLoading && (
+          {isLoading && (
             <TableRow>
               <TableCell
                 component='td'
@@ -239,10 +239,10 @@ export default function BasicTable({
                 <Loader height='30%' />
               </TableCell>
             </TableRow>
-          )} */}
+          )}
         </Table>
       </TableContainer>
-      {!(rows.length > 0) && isLoading && (
+      {!(rows.length > 0) && !isLoading && (
         <TablePagination
           component='div'
           count={rows?.length}

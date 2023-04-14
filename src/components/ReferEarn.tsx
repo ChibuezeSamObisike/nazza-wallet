@@ -19,7 +19,7 @@ export default function ReferEarn({ data }: any) {
         }}
         disabled
         label='Refferral Link'
-        defaultValue={`https://nazza-wallet.vercel.app/account-setup?ref=${data?.referral_code}`}
+        defaultValue={`https://nazza-wallet.vercel.app/account-setup?ref=${data?.referral?.code}`}
         InputProps={{
           endAdornment: (
             <InputAdornment position='end'>
@@ -27,7 +27,7 @@ export default function ReferEarn({ data }: any) {
                 onClick={() => {
                   navigator.clipboard
                     .writeText(
-                      `https://nazza-wallet.vercel.app/account-setup?ref=${data?.referral_code}`
+                      `https://nazza-wallet.vercel.app/account-setup?ref=${data?.referral?.code}`
                     )
                     .then(() =>
                       showNotification?.("Text copy successful", {

@@ -28,7 +28,7 @@ import { useQuery } from "react-query";
 
 export default function Index({ children }: { children: any }) {
   const isMobile = useSmallScreen();
-  const [value, setValue] = React.useState(4);
+  const [value, setValue] = React.useState(0);
 
   const handleChangeTabs = (val: number): void => {
     setValue(val);
@@ -150,9 +150,12 @@ export default function Index({ children }: { children: any }) {
         <Box width={{ xs: "90%", md: "100%" }} mx='auto' mt={2}>
           {value === 0 && <ProfileDetails />}
           {value === 1 && (
-            <KycVerification handleChangeTabs={handleChangeTabs} />
+            <KycVerification
+              handleChangeTabs={handleChangeTabs}
+              verifyStatus={data?.verify?.status}
+            />
           )}
-          {value === 2 && <Security twofa={data?.twofa} />}
+          {value === 2 && <Security twofa={data?.twofa?.on} />}
           {value === 3 && <ReferEarn data={data} />}
           {value === 4 && <Banks />}
           {value === 5 && <Logout />}

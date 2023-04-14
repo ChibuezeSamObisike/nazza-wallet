@@ -20,6 +20,8 @@ function getIcon(currency: string): string {
     icon = Matic;
   } else if (currency === "Ethereum") {
     icon = Ethereum;
+  } else if (currency === "ETH") {
+    icon = Ethereum;
   }
   return icon;
 }

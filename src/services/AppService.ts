@@ -19,6 +19,12 @@ export const verify = async (data: any) => {
   });
 };
 
+export const getCoinRates = async () => {
+  return http.get("trade/coins").then((res) => {
+    return res.data;
+  });
+};
+
 export const newPassword = async ({ data }: any) => {
   return http.post("user/newpassword/", data).then((res) => {
     return res.data;
@@ -52,6 +58,10 @@ export const getHistory = async ({ queryKey }: any) => {
       console.log("trade data", res.data);
       return res.data;
     });
+};
+
+export const addBankFunc = async ({ data }: any) => {
+  return http.post("user/bank/add", data).then((res) => res.data);
 };
 
 export const getTotalPayout = async () => {

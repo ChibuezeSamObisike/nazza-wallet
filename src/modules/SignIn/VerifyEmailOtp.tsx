@@ -9,6 +9,8 @@ import { useAlert } from "hooks/useAlert";
 
 import { pxToRem } from "utils/pxToRem";
 import { login2fa } from "services/AppService";
+import { setToken } from "utils/auth";
+import { getDecodedJwt } from "utils/auth";
 
 export default function VerifyEmail() {
   const [otp, setOtp] = React.useState("");
@@ -23,10 +25,13 @@ export default function VerifyEmail() {
 
   const { mutate, isLoading } = useMutation(login2fa, {
     onSuccess(data) {
-      showNotification?.("OTP Sent", { type: "success" });
-      console.log(data);
+      showNotification?.("Login Successful", { type: "success" });
+      setToken(data?.accessToken?.token);
+      navigate("/");
+      getDecodedJwt();
     },
     onError(error) {
+      console.log("Verify Email error", error);
       showNotification?.(handleAppError(error), { type: "error" });
     },
   });

@@ -19,7 +19,12 @@ import http from "utils/http";
 import { handleAppError } from "utils/handleApiError";
 import { useAlert } from "hooks/useAlert";
 
-import { getBanks, getBankList, getBankAcctName } from "services/AppService";
+import {
+  getBanks,
+  getBankList,
+  getBankAcctName,
+  addBankFunc,
+} from "services/AppService";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { FieldValues, useForm } from "react-hook-form";
 import { pxToRem } from "utils/pxToRem";
@@ -63,6 +68,7 @@ export default function Banks() {
     formState: { errors },
     register,
     handleSubmit,
+    getValues,
     reset,
   } = useForm({
     defaultValues: {
@@ -80,6 +86,18 @@ export default function Banks() {
       // reset();
       // setOpenM1(false);
       // setOpenM2(true);
+    },
+    onError(err) {
+      showNotification?.(handleAppError(err), {
+        type: "error",
+      });
+    },
+  });
+
+  const addBankMutate = useMutation(addBankFunc, {
+    onSuccess(data) {
+      showNotification?.("Success", { type: "success" });
+      console.log("Bank data successful", data);
     },
     onError(err) {
       showNotification?.(handleAppError(err), {
@@ -164,7 +182,12 @@ export default function Banks() {
           <Typography my={2} fontWeight='bold'>
             Add a bank Account
           </Typography>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            style={{
+              width: "100%",
+            }}
+          >
             <Autocomplete
               disablePortal
               id='combo-box-demo'
@@ -210,23 +233,50 @@ export default function Banks() {
               />
             )}
 
-            <Button
-              type='submit'
-              fullWidth
-              startIcon={
-                addBank.isLoading && (
-                  <CircularProgress
-                    size={16}
-                    sx={{
-                      fontSize: 2,
-                      color: "#fff",
-                    }}
-                  />
-                )
-              }
-            >
-              Confirm
-            </Button>
+            {accountName === "" && (
+              <Button
+                type='submit'
+                fullWidth
+                startIcon={
+                  addBank.isLoading && (
+                    <CircularProgress
+                      size={16}
+                      sx={{
+                        fontSize: 2,
+                        color: "#fff",
+                      }}
+                    />
+                  )
+                }
+              >
+                Confirm
+              </Button>
+            )}
+
+            {accountName !== "" && (
+              <Button
+                onClick={() => {
+                  addBankMutate.mutate({
+                    ...getValues(),
+                    account_name: accountName,
+                  });
+                }}
+                fullWidth
+                startIcon={
+                  addBankMutate.isLoading && (
+                    <CircularProgress
+                      size={16}
+                      sx={{
+                        fontSize: 2,
+                        color: "#fff",
+                      }}
+                    />
+                  )
+                }
+              >
+                Submit Details
+              </Button>
+            )}
           </form>
         </Box>
       </GenericModal>

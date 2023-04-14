@@ -42,12 +42,12 @@ export default function Login() {
     onSuccess(data) {
       console.log("Login data info", data);
       setName(JSON.stringify(data?.user));
-      if (!data?.user?.twofa) {
+      if (!data?.user?.twofa?.on) {
         showNotification?.("Login Successful", { type: "success" });
         navigate("/");
         setToken(data?.accessToken?.token);
         getDecodedJwt();
-      } else if (data?.user?.twofa) {
+      } else if (data?.user?.twofa?.on) {
         navigate("/verify-email-otp", { state: { email: data?.user?.email } });
       }
 

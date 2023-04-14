@@ -7,10 +7,14 @@ import {
   MenuItem,
   IconButton,
 } from "@mui/material";
+
+import { useQuery } from "react-query";
+
 import { pxToRem } from "utils/pxToRem";
-import { ReactComponent as Bitcoin } from "assets/Bitcoin.svg";
+import { getCoinRates } from "services/AppService";
 import SwapVerticalCircleOutlinedIcon from "@mui/icons-material/SwapVerticalCircleOutlined";
 import SellSmallScreen from "shared/layout/SellSmallScreen";
+import getIcon from "utils/getIcon";
 
 export default function SellModal({
   open,
@@ -29,6 +33,15 @@ export default function SellModal({
       setToggleCurr("NGN");
     }
   };
+
+  const { data } = useQuery("getCoinRatess", getCoinRates, {
+    onSuccess(data) {
+      console.log("Data", data);
+    },
+    onError(err) {
+      console.log("Error", err);
+    },
+  });
 
   const getAltCurrency = (): string => {
     if (toggleCurr === "NGN") {
@@ -139,19 +152,23 @@ export default function SellModal({
                 },
               }}
             >
-              <MenuItem defaultValue={0} value={0}>
-                <Box
-                  display='flex'
-                  justifyContent={"space-between"}
-                  alignItems='center'
-                >
-                  <Bitcoin />
-                  <Typography ml={2}>Bitcoin</Typography>
-                </Box>
-              </MenuItem>
-              {/* <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem> */}
+              {data?.data?.map((x: any) => (
+                <MenuItem defaultValue={0} value={0}>
+                  <Box
+                    display='flex'
+                    justifyContent={"space-between"}
+                    alignItems='center'
+                  >
+                    <img
+                      src={getIcon(x?.name.toString().toUpperCase())}
+                      alt=''
+                    />
+                    <Typography ml={2}>
+                      {x?.name.toString().toUpperCase()}
+                    </Typography>
+                  </Box>
+                </MenuItem>
+              ))}
             </Select>
           </Box>
 
