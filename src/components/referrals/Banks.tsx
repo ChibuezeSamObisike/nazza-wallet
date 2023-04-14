@@ -51,8 +51,12 @@ export default function Banks() {
   const { data: listOfBanks, isLoading: isBankListLoading } = useQuery(
     "fetchBankList",
     getBankList,
+
     {
       enabled: true,
+      onSuccess(data) {
+        console.log("Bank list", data);
+      },
     }
   );
 
@@ -96,7 +100,10 @@ export default function Banks() {
 
   const addBankMutate = useMutation(addBankFunc, {
     onSuccess(data) {
+      queryClient.invalidateQueries("fetchBanks");
       showNotification?.("Success", { type: "success" });
+      setOpenM1(false);
+      setOpenM2(true);
       console.log("Bank data successful", data);
     },
     onError(err) {
@@ -197,7 +204,6 @@ export default function Banks() {
               {...register("bank_code")}
               getOptionLabel={(option: { name: string }) => option?.name}
               onChange={(event, item: any) => {
-                console.log("Event item>> code", item?.code);
                 setValue("bank_code", item["code"]);
               }}
               renderInput={(params) => {
@@ -252,32 +258,41 @@ export default function Banks() {
                 Confirm
               </Button>
             )}
-
-            {accountName !== "" && (
-              <Button
-                onClick={() => {
-                  addBankMutate.mutate({
-                    ...getValues(),
-                    account_name: accountName,
-                  });
-                }}
-                fullWidth
-                startIcon={
-                  addBankMutate.isLoading && (
-                    <CircularProgress
-                      size={16}
-                      sx={{
-                        fontSize: 2,
-                        color: "#fff",
-                      }}
-                    />
-                  )
-                }
-              >
-                Submit Details
-              </Button>
-            )}
           </form>
+          {accountName !== "" && (
+            <Button
+              onClick={() => {
+                console.log("Bank details", {
+                  bank_name: listOfBanks?.find(
+                    (x: any) => x.code === getValues().bank_code
+                  )?.name,
+                  acc_name: accountName,
+                  acc_number: getValues()?.acc_number,
+                });
+                addBankMutate.mutate({
+                  bank_name: listOfBanks?.find(
+                    (x: any) => x.code === getValues().bank_code
+                  )?.name,
+                  acc_name: accountName,
+                  acc_number: getValues()?.acc_number,
+                });
+              }}
+              fullWidth
+              startIcon={
+                addBankMutate.isLoading && (
+                  <CircularProgress
+                    size={16}
+                    sx={{
+                      fontSize: 2,
+                      color: "#fff",
+                    }}
+                  />
+                )
+              }
+            >
+              Submit Details
+            </Button>
+          )}
         </Box>
       </GenericModal>
 

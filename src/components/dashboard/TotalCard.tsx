@@ -3,6 +3,7 @@ import { Box, IconButton, Typography, Skeleton } from "@mui/material";
 import { ReactComponent as Bg } from "assets/card-svg.svg";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { pxToRem } from "utils/pxToRem";
+import { numberToFigure } from "utils/numberToFigure";
 import useSmallScreen from "hooks/useSmallScreen";
 
 export default function TotalCard({

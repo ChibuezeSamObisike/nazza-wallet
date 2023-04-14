@@ -161,8 +161,8 @@ function App() {
       </Box>
 
       <TotalCard
-        naira={payOutData?.total_ngn}
-        usd={payOutData?.total_usd}
+        naira={numberToFigure(payOutData?.total_ngn || "0")}
+        usd={numberToFigure(payOutData?.total_usd || "0")}
         isLoading={isTotalCardLoading}
       />
 

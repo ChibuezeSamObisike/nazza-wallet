@@ -7,6 +7,7 @@ import {
   IconButton,
   TextField,
   Autocomplete,
+  CircularProgress,
 } from "@mui/material";
 import { pxToRem } from "utils/pxToRem";
 
@@ -16,8 +17,21 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SellSmallScreen from "shared/layout/SellSmallScreen";
 import GenericModal from "./GenericModal";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import { useQuery } from "react-query";
-import { getBankList } from "services/AppService";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import {
+  getBankList,
+  addBankFunc,
+  getBanks,
+  getBankAcctName,
+} from "services/AppService";
+
+import { useAlert } from "hooks/useAlert";
+import { useForm, FieldValues } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+import { handleAppError } from "utils/handleApiError";
+
+import * as Yup from "yup";
 
 export default function CashDestination({
   open,
@@ -32,6 +46,7 @@ export default function CashDestination({
 }) {
   const [openM1, setOpenM1] = useState(false);
   const [openM2, setOpenM2] = useState(false);
+  const [accountName, setAccountName] = useState("");
 
   const closeM1 = () => {
     setOpenM1(false);
@@ -58,13 +73,76 @@ export default function CashDestination({
     }
   };
 
+  const { showNotification } = useAlert();
+
+  const { data } = useQuery("fetchBanks", getBanks, {
+    enabled: true,
+  });
+
   const { data: listOfBanks, isLoading: isBankListLoading } = useQuery(
     "fetchBankList",
     getBankList,
     {
       enabled: true,
+      onSuccess(data) {
+        console.log("Bank list", data);
+      },
     }
   );
+
+  const onSubmit = (data: FieldValues) => {
+    addBank.mutate({ data });
+  };
+
+  const schema = Yup.object({
+    bank_code: Yup.string().required("Bank code is Required"),
+    acc_number: Yup.string().required("Account number is Required"),
+  });
+
+  const resolver = yupResolver(schema);
+
+  const {
+    setValue,
+    formState: { errors },
+    register,
+    handleSubmit,
+    getValues,
+    reset,
+  } = useForm({
+    defaultValues: {
+      bank_code: "",
+      acc_number: "",
+    },
+    resolver,
+  });
+
+  const addBank = useMutation(getBankAcctName, {
+    onSuccess(data) {
+      showNotification?.("Success", { type: "success" });
+      console.log("Bank data successful", data);
+      setAccountName(data?.account_name);
+      // reset();
+      // setOpenM1(false);
+      // setOpenM2(true);
+    },
+    onError(err) {
+      showNotification?.(handleAppError(err), {
+        type: "error",
+      });
+    },
+  });
+
+  const addBankMutate = useMutation(addBankFunc, {
+    onSuccess(data) {
+      showNotification?.("Success", { type: "success" });
+      console.log("Bank data successful", data);
+    },
+    onError(err) {
+      showNotification?.(handleAppError(err), {
+        type: "error",
+      });
+    },
+  });
 
   return (
     <>
@@ -91,35 +169,110 @@ export default function CashDestination({
             Add a bank Account
           </Typography>
 
-          <Autocomplete
-            disablePortal
-            id='combo-box-demo'
-            options={listOfBanks}
-            fullWidth
-            loading={isBankListLoading}
-            getOptionLabel={(option: { name: string }) => option?.name}
-            renderInput={(params) => {
-              return <TextField {...params} label='Banks' />;
-            }}
-          />
-          <TextField
-            fullWidth
-            name='account_number'
-            label='Account Number'
-            sx={{
-              my: 2,
-            }}
-          />
-
-          <Button
-            fullWidth
-            onClick={() => {
-              setOpenM1(false);
-              setOpenM2(true);
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            style={{
+              width: "100%",
             }}
           >
-            Confirm
-          </Button>
+            <Autocomplete
+              disablePortal
+              id='combo-box-demo'
+              options={listOfBanks}
+              fullWidth
+              loading={isBankListLoading}
+              {...register("bank_code")}
+              getOptionLabel={(option: { name: string }) => option?.name}
+              onChange={(event, item: any) => {
+                setValue("bank_code", item["code"]);
+              }}
+              renderInput={(params) => {
+                return (
+                  <TextField
+                    helperText={errors?.["bank_code"]?.message?.toString()}
+                    {...params}
+                    label='Banks'
+                  />
+                );
+              }}
+            />
+            <TextField
+              fullWidth
+              type='number'
+              {...register("acc_number")}
+              label='Account Number'
+              sx={{
+                my: 2,
+              }}
+              helperText={errors?.acc_number?.message?.toString()}
+            />
+
+            {accountName && (
+              <TextField
+                label='Account Name'
+                sx={{
+                  mb: 4,
+                }}
+                fullWidth
+                disabled
+                value={accountName}
+              />
+            )}
+
+            {accountName === "" && (
+              <Button
+                type='submit'
+                fullWidth
+                startIcon={
+                  addBank.isLoading && (
+                    <CircularProgress
+                      size={16}
+                      sx={{
+                        fontSize: 2,
+                        color: "#fff",
+                      }}
+                    />
+                  )
+                }
+              >
+                Confirm
+              </Button>
+            )}
+          </form>
+
+          {accountName !== "" && (
+            <Button
+              onClick={() => {
+                console.log(
+                  "Bank details",
+                  listOfBanks?.find(
+                    (x: any) => x.code === getValues().bank_code
+                  )?.name
+                );
+                addBankMutate.mutate({
+                  bank_name: listOfBanks?.find(
+                    (x: any) => x.code === getValues().bank_code
+                  )?.name,
+                  acc_name: accountName,
+                  acc_number: getValues()?.acc_number,
+                });
+              }}
+              fullWidth
+              startIcon={
+                addBankMutate.isLoading && (
+                  <CircularProgress
+                    size={16}
+                    sx={{
+                      fontSize: 2,
+                      color: "#fff",
+                    }}
+                  />
+                )
+              }
+            >
+              Submit Details
+            </Button>
+          )}
         </Box>
       </GenericModal>
 

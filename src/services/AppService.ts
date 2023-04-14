@@ -60,7 +60,7 @@ export const getHistory = async ({ queryKey }: any) => {
     });
 };
 
-export const addBankFunc = async ({ data }: any) => {
+export const addBankFunc = async (data: any) => {
   return http.post("user/bank/add", data).then((res) => res.data);
 };
 
