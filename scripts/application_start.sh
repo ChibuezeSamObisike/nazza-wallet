@@ -13,8 +13,6 @@ export NVM_DIR="$HOME/.nvm"
 
 #install node modules
 npm install
-# npm run client-install
-npm run build
 
 #start our node server in the background
 npm start > server.out.log 2> server.err.log < /dev/null & 
