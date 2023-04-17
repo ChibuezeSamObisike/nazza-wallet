@@ -99,7 +99,8 @@ export const changeName = async ({ data }: any) => {
   return http.put("user/changename", data).then((r) => r.data);
 };
 
-export const updateProfile = async ({ data }: any) => {
+export const updateProfile = async (data: any) => {
+  console.log("From API", data);
   return http.put("user/profile", data).then((r) => r.data);
 };
 

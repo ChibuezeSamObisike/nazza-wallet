@@ -105,15 +105,20 @@ export default function ProfileDetails() {
   };
 
   const onProfileSubmit = (data: FieldValues) => {
-    mutateProfile({ data });
+    console.log("profile data>>>>", data);
+    mutateProfile({ phone: data.phone });
   };
 
-  const { register: registerProfile, handleSubmit: handleProfileUpdate } =
-    useForm({ defaultValues: defaultValue });
+  const {
+    register: registerProfile,
+    handleSubmit: handleProfileUpdate,
+    setValue: setUserValue,
+  } = useForm({ defaultValues: defaultValue });
 
   useEffect(() => {
     setValue("name", `${data?.name ?? "--"}`);
     setValue("lastname", `${data?.lastname ?? "--"}`);
+    setUserValue("phone", `${data?.phone ?? "--"}`);
   }, []);
 
   if (showName) {
@@ -271,8 +276,10 @@ export default function ProfileDetails() {
             <TextField
               id='input-with-icon-textfield'
               label='Phone Number'
-              value={data?.phone}
               {...registerProfile("phone")}
+              InputLabelProps={{
+                shrink: true,
+              }}
               fullWidth
               sx={{
                 marginTop: "30px",

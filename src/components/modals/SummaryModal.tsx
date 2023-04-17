@@ -7,6 +7,8 @@ import SellSmallScreen from "shared/layout/SellSmallScreen";
 
 import { renderPrice } from "./ConfirmSell";
 
+import { useSell } from "modules/Sell";
+
 export default function SummaryModal({
   open,
   close,
@@ -18,6 +20,7 @@ export default function SummaryModal({
   openNext?: VoidFunction;
   back?: VoidFunction;
 }) {
+  const { sellVal } = useSell();
   return (
     <SellSmallScreen title='Summary' subtitle='Preview summary'>
       <Box
@@ -40,7 +43,7 @@ export default function SummaryModal({
           color='#2574F5'
           fontWeight='bold'
         >
-          234
+          {sellVal?.amount}
           <span
             style={{
               fontSize: pxToRem(18),

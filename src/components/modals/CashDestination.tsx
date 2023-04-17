@@ -17,7 +17,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SellSmallScreen from "shared/layout/SellSmallScreen";
 import GenericModal from "./GenericModal";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import {
   getBankList,
   addBankFunc,
@@ -30,6 +30,7 @@ import { useForm, FieldValues } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { handleAppError } from "utils/handleApiError";
+import { useSell } from "modules/Sell";
 
 import * as Yup from "yup";
 
@@ -48,7 +49,32 @@ export default function CashDestination({
   const [openM2, setOpenM2] = useState(false);
   const [accountName, setAccountName] = useState("");
 
+  const schema = Yup.object({
+    bank_code: Yup.string().required("Bank code is Required"),
+    acc_number: Yup.string().required("Account number is Required"),
+  });
+
+  const resolver = yupResolver(schema);
+
+  const { sellVal, setSellVal } = useSell();
+
+  const {
+    setValue,
+    formState: { errors },
+    register,
+    handleSubmit,
+    getValues,
+    reset,
+  } = useForm({
+    defaultValues: {
+      bank_code: "",
+      acc_number: "",
+    },
+    resolver,
+  });
+
   const closeM1 = () => {
+    reset();
     setOpenM1(false);
   };
   const closeM2 = () => {
@@ -93,28 +119,6 @@ export default function CashDestination({
   const onSubmit = (data: FieldValues) => {
     addBank.mutate({ data });
   };
-
-  const schema = Yup.object({
-    bank_code: Yup.string().required("Bank code is Required"),
-    acc_number: Yup.string().required("Account number is Required"),
-  });
-
-  const resolver = yupResolver(schema);
-
-  const {
-    setValue,
-    formState: { errors },
-    register,
-    handleSubmit,
-    getValues,
-    reset,
-  } = useForm({
-    defaultValues: {
-      bank_code: "",
-      acc_number: "",
-    },
-    resolver,
-  });
 
   const addBank = useMutation(getBankAcctName, {
     onSuccess(data) {
@@ -342,9 +346,11 @@ export default function CashDestination({
               <input
                 placeholder='0'
                 className='input'
+                disabled
                 style={{
                   width: "45%",
                 }}
+                value={sellVal.amount}
               />
               <span
                 style={{

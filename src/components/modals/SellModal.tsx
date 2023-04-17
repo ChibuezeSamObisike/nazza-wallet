@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -15,6 +15,8 @@ import { getCoinRates } from "services/AppService";
 import SwapVerticalCircleOutlinedIcon from "@mui/icons-material/SwapVerticalCircleOutlined";
 import SellSmallScreen from "shared/layout/SellSmallScreen";
 import getIcon from "utils/getIcon";
+
+import { useSell } from "modules/Sell";
 
 export default function SellModal({
   open,
@@ -35,6 +37,7 @@ export default function SellModal({
   };
 
   const { data } = useQuery("getCoinRatess", getCoinRates, {
+    enabled: true,
     onSuccess(data) {
       console.log("Data", data);
     },
@@ -50,6 +53,13 @@ export default function SellModal({
       return "NGN";
     }
   };
+
+  const { sellVal, setSellVal } = useSell();
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    console.log("Sell", { sellVal, setSellVal });
+  }, []);
   return (
     <Box>
       <SellSmallScreen
@@ -76,6 +86,9 @@ export default function SellModal({
             <input
               placeholder='0'
               className='input'
+              onChange={(e) =>
+                setSellVal({ ...sellVal, amount: e.target.value })
+              }
               style={{
                 width: "45%",
               }}
@@ -139,9 +152,7 @@ export default function SellModal({
             <Select
               labelId='demo-simple-select-helper-label'
               id='demo-simple-select-helper'
-              //   value={age}
               label='Age'
-              //   onChange={handleChange}
               placeholder='Hello Woerld'
               sx={{
                 boxShadow: "none",
@@ -151,6 +162,7 @@ export default function SellModal({
                   borderRadius: "0px",
                 },
               }}
+              onChange={(x) => console.log("Change val", x)}
             >
               {data?.data?.map((x: any) => (
                 <MenuItem defaultValue={0} value={0}>
@@ -176,7 +188,7 @@ export default function SellModal({
             sx={{
               mt: 3,
             }}
-            disabled={false}
+            disabled={!sellVal.amount}
             fullWidth
             onClick={() => openNext?.()}
           >

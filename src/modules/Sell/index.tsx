@@ -92,17 +92,39 @@ export default function HorizontalLinearStepper() {
         </Stepper>
       )}
 
-      <Box mt={10} mx={{ xs: 2, md: 40 }}>
-        {activeStep === 0 && <SellModal openNext={handleNext} />}
-        {activeStep === 1 && (
-          <CashDestination back={handleBack} openNext={handleNext} />
-        )}
-        {activeStep === 2 && (
-          <SummaryModal back={handleBack} openNext={handleNext} />
-        )}
-        {activeStep === 3 && <TransferCrypto openNext={handleNext} />}
-        {activeStep === 4 && <TransferProcessing />}
-      </Box>
+      <SellProvider>
+        <Box mt={10} mx={{ xs: 2, md: 40 }}>
+          {activeStep === 0 && <SellModal openNext={handleNext} />}
+          {activeStep === 1 && (
+            <CashDestination back={handleBack} openNext={handleNext} />
+          )}
+          {activeStep === 2 && (
+            <SummaryModal back={handleBack} openNext={handleNext} />
+          )}
+          {activeStep === 3 && <TransferCrypto openNext={handleNext} />}
+          {activeStep === 4 && <TransferProcessing />}
+        </Box>
+      </SellProvider>
     </Box>
   );
 }
+
+const SellContext = React.createContext<any>({});
+
+const SellProvider = ({ children }: any) => {
+  const [sellVal, setSellVal] = React.useState({
+    amount_usd: "",
+    amount: "",
+    coin_id: "",
+    bank: "",
+  });
+  return (
+    <SellContext.Provider value={{ sellVal, setSellVal }}>
+      {children}
+    </SellContext.Provider>
+  );
+};
+
+export const useSell = () => {
+  return React.useContext(SellContext);
+};
