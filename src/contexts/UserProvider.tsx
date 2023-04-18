@@ -14,6 +14,7 @@ export default function UserProvider({ children }: any) {
   const [user, setUser] = useState({});
 
   const { isLoading } = useQuery("userData", profile, {
+    enabled: true,
     onSuccess(data) {
       setUser(data);
     },

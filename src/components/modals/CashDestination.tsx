@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import { pxToRem } from "utils/pxToRem";
 
-import SwapVerticalCircleOutlinedIcon from "@mui/icons-material/SwapVerticalCircleOutlined";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import SellSmallScreen from "shared/layout/SellSmallScreen";
@@ -81,24 +80,6 @@ export default function CashDestination({
     setOpenM2(false);
   };
 
-  const [toggleCurr, setToggleCurr] = useState("NGN");
-
-  const toggleCurrency = (): void => {
-    if (toggleCurr === "NGN") {
-      setToggleCurr("USD");
-    } else {
-      setToggleCurr("NGN");
-    }
-  };
-
-  const getAltCurrency = (): string => {
-    if (toggleCurr === "NGN") {
-      return "USD";
-    } else {
-      return "NGN";
-    }
-  };
-
   const { showNotification } = useAlert();
 
   const { data } = useQuery("fetchBanks", getBanks, {
@@ -123,11 +104,7 @@ export default function CashDestination({
   const addBank = useMutation(getBankAcctName, {
     onSuccess(data) {
       showNotification?.("Success", { type: "success" });
-      console.log("Bank data successful", data);
       setAccountName(data?.account_name);
-      // reset();
-      // setOpenM1(false);
-      // setOpenM2(true);
     },
     onError(err) {
       showNotification?.(handleAppError(err), {
@@ -352,48 +329,8 @@ export default function CashDestination({
                 }}
                 value={sellVal.amount}
               />
-              <span
-                style={{
-                  fontSize: pxToRem(18),
-                  fontWeight: 500,
-                  position: "absolute",
-                  bottom: "-30px",
-                  right: "140px",
-                }}
-              >
-                {getAltCurrency()}
-              </span>
             </Typography>
           </Typography>
-
-          <Box
-            display='flex'
-            justifyContent='flex-end'
-            mt={-10}
-            mb={10}
-            mr={{ md: 5, xs: 0 }}
-          >
-            <Box
-              display='flex'
-              alignItems='center'
-              justifyContent='space-around'
-            >
-              <IconButton onClick={() => toggleCurrency()}>
-                <SwapVerticalCircleOutlinedIcon
-                  sx={{
-                    fontSize: pxToRem(33),
-                    color: "#D4D4D4",
-                  }}
-                />
-              </IconButton>
-              <Box>
-                <Typography fontSize={pxToRem(16)}>{toggleCurr}</Typography>
-                <Typography fontSize={pxToRem(12)} color='#D4D4D4'>
-                  {getAltCurrency()}
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
 
           <Typography>1 BTC ~ N1</Typography>
 

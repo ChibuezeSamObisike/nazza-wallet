@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import {
   Box,
@@ -75,13 +76,11 @@ export default function ProfileDetails() {
   const {
     register,
     handleSubmit: handleChangeName,
-    getValues,
     setValue,
     formState: { errors },
   } = useForm({ resolver, defaultValues });
 
   const onSubmit = (data: FieldValues) => {
-    console.log("field values", getValues());
     mutate({ data });
   };
 
@@ -105,7 +104,6 @@ export default function ProfileDetails() {
   };
 
   const onProfileSubmit = (data: FieldValues) => {
-    console.log("profile data>>>>", data);
     mutateProfile({ phone: data.phone });
   };
 

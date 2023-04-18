@@ -19,7 +19,7 @@ export function useOutsideRef(ref: any, cb?: () => void) {
       // Unbind the event listener on clean up
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [ref]);
+  }, [cb, ref]);
 }
 
 /**

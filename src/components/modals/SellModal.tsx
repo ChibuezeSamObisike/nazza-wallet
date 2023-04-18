@@ -5,14 +5,14 @@ import {
   Select,
   Button,
   MenuItem,
-  IconButton,
+  InputAdornment,
+  OutlinedInput,
 } from "@mui/material";
 
 import { useQuery } from "react-query";
 
-import { pxToRem } from "utils/pxToRem";
 import { getCoinRates } from "services/AppService";
-import SwapVerticalCircleOutlinedIcon from "@mui/icons-material/SwapVerticalCircleOutlined";
+
 import SellSmallScreen from "shared/layout/SellSmallScreen";
 import getIcon from "utils/getIcon";
 
@@ -27,15 +27,6 @@ export default function SellModal({
   close?: VoidFunction;
   openNext?: VoidFunction;
 }) {
-  const [toggleCurr, setToggleCurr] = useState("NGN");
-  const toggleCurrency = (): void => {
-    if (toggleCurr === "NGN") {
-      setToggleCurr("USD");
-    } else {
-      setToggleCurr("NGN");
-    }
-  };
-
   const { data } = useQuery("getCoinRatess", getCoinRates, {
     enabled: true,
     onSuccess(data) {
@@ -46,20 +37,15 @@ export default function SellModal({
     },
   });
 
-  const getAltCurrency = (): string => {
-    if (toggleCurr === "NGN") {
-      return "USD";
-    } else {
-      return "NGN";
-    }
-  };
-
   const { sellVal, setSellVal } = useSell();
 
+  const [coindData, setCoinData] = useState<any>();
+  const [coin, setCoin] = useState("");
+
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    console.log("Sell", { sellVal, setSellVal });
-  }, []);
+    console.log("Coin Data>>", coindData);
+  }, [coindData]);
+
   return (
     <Box>
       <SellSmallScreen
@@ -74,69 +60,6 @@ export default function SellModal({
           borderRadius='16px'
           border='1px solid #A4A3A7'
         >
-          <Typography
-            fontSize={pxToRem(52)}
-            pt={3}
-            mb={2}
-            fontWeight='bold'
-            sx={{
-              position: "relative",
-            }}
-          >
-            <input
-              placeholder='0'
-              className='input'
-              onChange={(e) =>
-                setSellVal({ ...sellVal, amount: e.target.value })
-              }
-              style={{
-                width: "45%",
-              }}
-            />
-            <span
-              style={{
-                fontSize: pxToRem(18),
-                fontWeight: 500,
-                position: "absolute",
-                bottom: "-30px",
-                right: "140px",
-              }}
-            >
-              {getAltCurrency()}
-            </span>
-          </Typography>
-
-          <Box
-            display='flex'
-            justifyContent='flex-end'
-            mt={-10}
-            mb={10}
-            mr={{ md: 5, xs: 0 }}
-          >
-            <Box
-              display='flex'
-              alignItems='center'
-              justifyContent='space-around'
-            >
-              <IconButton onClick={() => toggleCurrency()}>
-                <SwapVerticalCircleOutlinedIcon
-                  sx={{
-                    fontSize: pxToRem(33),
-                    color: "#D4D4D4",
-                  }}
-                />
-              </IconButton>
-              <Box>
-                <Typography fontSize={pxToRem(16)}>{toggleCurr}</Typography>
-                <Typography fontSize={pxToRem(12)} color='#D4D4D4'>
-                  {getAltCurrency()}
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
-
-          <Typography>1 BTC ~ N1</Typography>
-
           <Box
             display='flex'
             alignItems='center'
@@ -162,26 +85,73 @@ export default function SellModal({
                   borderRadius: "0px",
                 },
               }}
-              onChange={(x) => console.log("Change val", x)}
+              onChange={(x: any) => setCoinData(x)}
             >
-              {data?.data?.map((x: any) => (
-                <MenuItem defaultValue={0} value={0}>
-                  <Box
-                    display='flex'
-                    justifyContent={"space-between"}
-                    alignItems='center'
-                  >
-                    <img
-                      src={getIcon(x?.name.toString().toUpperCase())}
-                      alt=''
-                    />
-                    <Typography ml={2}>
-                      {x?.name.toString().toUpperCase()}
-                    </Typography>
-                  </Box>
-                </MenuItem>
-              ))}
+              {data?.data?.map((x: any) => {
+                console.log("X data", x);
+                return (
+                  <MenuItem value={x}>
+                    <Box
+                      display='flex'
+                      justifyContent={"space-between"}
+                      alignItems='center'
+                    >
+                      <img
+                        src={getIcon(x?.name.toString().toUpperCase())}
+                        alt=''
+                      />
+                      <Typography ml={2}>
+                        {x?.name.toString().toUpperCase()}
+                      </Typography>
+                    </Box>
+                  </MenuItem>
+                );
+              })}
             </Select>
+          </Box>
+          {coindData?.target.value.rate && (
+            <Typography
+              sx={{
+                marginY: "20px",
+              }}
+              textAlign='left'
+            >
+              1 {`${coindData?.target.value.name.toUpperCase()}`} ~{" "}
+              {`${coindData?.target.value.rate}  NAIRA`}
+            </Typography>
+          )}
+
+          <Box sx={{ mt: 3 }}>
+            <OutlinedInput
+              fullWidth
+              placeholder='How much'
+              onChange={(e) =>
+                setSellVal({ ...sellVal, amount: e.target.value })
+              }
+              startAdornment={
+                <InputAdornment position='start'>$</InputAdornment>
+              }
+              endAdornment={
+                <InputAdornment position='end'>
+                  <Select
+                    sx={{
+                      boxShadow: "none",
+                      ".MuiOutlinedInput-notchedOutline": { border: 0 },
+                      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        border: "0px solid #484850",
+                        borderRadius: "0px",
+                      },
+                    }}
+                    onChange={(x: any) => {
+                      setCoin(x.target?.value);
+                    }}
+                  >
+                    <MenuItem value={"USD"}>USD</MenuItem>
+                    <MenuItem value={"NGN"}>NGN</MenuItem>
+                  </Select>
+                </InputAdornment>
+              }
+            />
           </Box>
 
           <Button

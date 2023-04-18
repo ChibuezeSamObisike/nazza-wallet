@@ -1,85 +1,92 @@
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background-color: #fafafa;
-    box-sizing: border-box;
-    overflow-x: hidden;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fafafa;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }
 
 a {
-    text-decoration: none;
-    color: "white";
+  text-decoration: none;
+  color: "white";
 }
 
 a:active,
 a:focus {
-    color: "white";
+  color: "white";
 }
 
 .wave {
-    animation-name: wave-animation;
-    /* Refers to the name of your @keyframes element below */
-    animation-duration: 1.5s;
-    /* Change to speed up or slow down */
-    animation-iteration-count: infinite;
-    /* Never stop waving :) */
-    transform-origin: 70% 70%;
-    /* Pivot around the bottom-left palm */
-    display: inline-block;
+  animation-name: wave-animation;
+  /* Refers to the name of your @keyframes element below */
+  animation-duration: 1.5s;
+  /* Change to speed up or slow down */
+  animation-iteration-count: infinite;
+  /* Never stop waving :) */
+  transform-origin: 70% 70%;
+  /* Pivot around the bottom-left palm */
+  display: inline-block;
 }
 
 @keyframes wave-animation {
-    0% {
-        transform: rotate(0deg);
-    }
-    10% {
-        transform: rotate(14deg);
-    }
-    /* The following five values can be played with to make the waving more or less extreme */
-    20% {
-        transform: rotate(-8deg);
-    }
-    30% {
-        transform: rotate(14deg);
-    }
-    40% {
-        transform: rotate(-4deg);
-    }
-    50% {
-        transform: rotate(10deg);
-    }
-    60% {
-        transform: rotate(0deg);
-    }
-    /* Reset for the last half to pause */
-    100% {
-        transform: rotate(0deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(14deg);
+  }
+  /* The following five values can be played with to make the waving more or less extreme */
+  20% {
+    transform: rotate(-8deg);
+  }
+  30% {
+    transform: rotate(14deg);
+  }
+  40% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+  60% {
+    transform: rotate(0deg);
+  }
+  /* Reset for the last half to pause */
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 .input {
-    text-align: center;
-    outline: none;
-    border: none;
-    font-weight: 500;
-    font-size: 40px;
-    font-family: "Plus Jakarta Sans", sans-serif;
+  text-align: center;
+  outline: none;
+  border: none;
+  font-weight: 500;
+  font-size: 40px;
+  font-family: "Plus Jakarta Sans", sans-serif;
 }
 
 .input::-webkit-input-placeholder {
-    text-align: center;
-    font-size: 40px;
-    font-family: "Plus Jakarta Sans", sans-serif;
+  text-align: center;
+  font-size: 40px;
+  font-family: "Plus Jakarta Sans", sans-serif;
 }
 
 .input:-moz-placeholder {
-    text-align: center;
-    font-size: 40px;
-    font-family: "Plus Jakarta Sans", sans-serif;
+  text-align: center;
+  font-size: 40px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.input:disabled {
+  background: white;
 }
