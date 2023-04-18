@@ -1,13 +1,23 @@
-import React from "react";
-import { Box, Typography, Button, IconButton, Divider } from "@mui/material";
+import React, { useEffect } from "react";
+import {
+  Box,
+  Typography,
+  Button,
+  IconButton,
+  Divider,
+  CircularProgress,
+} from "@mui/material";
 import { pxToRem } from "utils/pxToRem";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-
 import SellSmallScreen from "shared/layout/SellSmallScreen";
+import { handleAppError } from "utils/handleApiError";
 
 import { renderPrice } from "./ConfirmSell";
+import { sellCoin } from "services/AppService";
 
 import { useSell } from "modules/Sell";
+import { useAlert } from "hooks/useAlert";
+import { useMutation } from "react-query";
 
 export default function SummaryModal({
   open,
@@ -21,6 +31,24 @@ export default function SummaryModal({
   back?: VoidFunction;
 }) {
   const { sellVal } = useSell();
+  const { showNotification } = useAlert();
+
+  useEffect(() => {
+    console.log("SellVal>1", sellVal);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const { mutate, isLoading } = useMutation(sellCoin, {
+    onSuccess(data) {
+      //openNext();
+      console.log("Sell succcsss", data);
+      showNotification?.("Sell triggered!", { type: "success" });
+    },
+    onError(error) {
+      showNotification?.(handleAppError(error), { type: "error" });
+    },
+  });
+
   return (
     <SellSmallScreen title='Summary' subtitle='Preview summary'>
       <Box
@@ -79,7 +107,18 @@ export default function SummaryModal({
           }}
           disabled={false}
           fullWidth
-          onClick={() => openNext?.()}
+          startIcon={
+            isLoading && (
+              <CircularProgress
+                size={16}
+                sx={{
+                  fontSize: 2,
+                  color: "#fff",
+                }}
+              />
+            )
+          }
+          onClick={() => mutate({ ...sellVal })}
         >
           Proceed to next step
         </Button>

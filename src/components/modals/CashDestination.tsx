@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -32,6 +32,7 @@ import { handleAppError } from "utils/handleApiError";
 import { useSell } from "modules/Sell";
 
 import * as Yup from "yup";
+import { coverSomeNums } from "utils/convertNums";
 
 export default function CashDestination({
   open,
@@ -47,6 +48,9 @@ export default function CashDestination({
   const [openM1, setOpenM1] = useState(false);
   const [openM2, setOpenM2] = useState(false);
   const [accountName, setAccountName] = useState("");
+
+  const [checked, setChecked] = useState<boolean>();
+  const [bankID, setBankID] = useState("");
 
   const schema = Yup.object({
     bank_code: Yup.string().required("Bank code is Required"),
@@ -84,6 +88,9 @@ export default function CashDestination({
 
   const { data } = useQuery("fetchBanks", getBanks, {
     enabled: true,
+    onSuccess(data) {
+      console.log("Bank Data", data);
+    },
   });
 
   const { data: listOfBanks, isLoading: isBankListLoading } = useQuery(
@@ -124,6 +131,15 @@ export default function CashDestination({
       });
     },
   });
+
+  // useEffect(() => {
+  //   if (checked) {
+  //     setSellVal({ ...sellVal, bank: bankID });
+  //   } else {
+  //     setSellVal({ ...sellVal, bank: "" });
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [checked]);
 
   return (
     <>
@@ -334,37 +350,44 @@ export default function CashDestination({
 
           <Typography>1 BTC ~ N1</Typography>
 
-          <Box
-            bgcolor='#E9F1FF'
-            p={2}
-            px={4}
-            mb={4}
-            mt={3}
-            display='flex'
-            color='#001D4B'
-            alignItems={{ xs: "left", md: "center" }}
-            border='1px solid #E9F1FF'
-            flexDirection={{ md: "row", xs: "column" }}
-          >
-            <Box display='flex' alignItems='center'>
-              <Checkbox
-                defaultChecked
-                sx={{
-                  mr: 3,
-                }}
-              />
-              <Typography fontWeight='bold'>Ologwu Samuel</Typography>
-            </Box>
-            <Typography
-              ml={6}
-              variant='body2'
-              fontWeight={400}
+          {data?.map((x: any) => (
+            <Box
+              bgcolor='#E9F1FF'
+              p={2}
+              px={4}
+              mb={4}
+              mt={3}
               display='flex'
-              alignItems='center'
+              color='#001D4B'
+              alignItems={{ xs: "left", md: "center" }}
+              border='1px solid #E9F1FF'
+              flexDirection={{ md: "row", xs: "column" }}
             >
-              12********85 <Typography mx={3}> |</Typography> First Bank
-            </Typography>
-          </Box>
+              <Box display='flex' alignItems='center'>
+                <Checkbox
+                  sx={{
+                    mr: 3,
+                  }}
+                  onChange={(e) => {
+                    // setBankID(x?._id);
+                    setBankID("");
+                    setChecked(!checked);
+                  }}
+                />
+                <Typography fontWeight='bold'>{x?.acc_name}</Typography>
+              </Box>
+              <Typography
+                ml={6}
+                variant='body2'
+                fontWeight={400}
+                display='flex'
+                alignItems='center'
+              >
+                {coverSomeNums?.(x?.acc_number?.toString())}{" "}
+                <Typography mx={3}> |</Typography> {x?.bank_name}
+              </Typography>
+            </Box>
+          ))}
 
           <Box
             color='#001D4B'

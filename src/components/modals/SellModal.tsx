@@ -43,7 +43,11 @@ export default function SellModal({
   const [coin, setCoin] = useState("");
 
   useEffect(() => {
-    console.log("Coin Data>>", coindData);
+    setSellVal({
+      ...sellVal,
+      coin_id: coindData?.target?.value?._id.toString(),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coindData]);
 
   return (
@@ -85,10 +89,12 @@ export default function SellModal({
                   borderRadius: "0px",
                 },
               }}
-              onChange={(x: any) => setCoinData(x)}
+              onChange={(x: any) => {
+                console.log("Coin data change", x.target.value);
+                setCoinData(x);
+              }}
             >
               {data?.data?.map((x: any) => {
-                console.log("X data", x);
                 return (
                   <MenuItem value={x}>
                     <Box

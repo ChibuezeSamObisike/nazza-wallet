@@ -113,10 +113,9 @@ const SellContext = React.createContext<any>({});
 
 const SellProvider = ({ children }: any) => {
   const [sellVal, setSellVal] = React.useState({
-    amount_usd: "",
     amount: "",
     coin_id: "",
-    bank: "",
+    type: "1",
   });
   return (
     <SellContext.Provider value={{ sellVal, setSellVal }}>

@@ -13,6 +13,13 @@ export const register = async (data: any) => {
   });
 };
 
+export const sellCoin = async (data: any) => {
+  console.log("Sell coin API", data);
+  return http.post("trade/sell/", data).then((res) => {
+    return res.data;
+  });
+};
+
 export const verify = async (data: any) => {
   return http.post("user/verify/", data).then((res) => {
     return res.data;
