@@ -22,7 +22,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { handleAppError } from "utils/handleApiError";
 
-import { setToken } from "utils/auth";
+import { setRefreshToken, setToken } from "utils/auth";
 
 import { useAlert } from "hooks/useAlert";
 
@@ -45,7 +45,8 @@ export default function Login() {
       if (!data?.user?.twofa?.on) {
         showNotification?.("Login Successful", { type: "success" });
         navigate("/");
-        setToken(data?.accessToken?.token);
+        setToken(data?.accessToken);
+        // setRefreshToken(data?.acc)
         getDecodedJwt();
       } else if (data?.user?.twofa?.on) {
         navigate("/verify-email-otp", { state: { email: data?.user?.email } });
