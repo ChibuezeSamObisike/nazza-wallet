@@ -8,6 +8,7 @@ import {
   TextField,
   Autocomplete,
   CircularProgress,
+  Skeleton,
 } from "@mui/material";
 import { pxToRem } from "utils/pxToRem";
 
@@ -59,7 +60,7 @@ export default function CashDestination({
 
   const resolver = yupResolver(schema);
 
-  const { sellVal, setSellVal } = useSell();
+  const { sellVal, viewData } = useSell();
 
   const {
     setValue,
@@ -86,7 +87,7 @@ export default function CashDestination({
 
   const { showNotification } = useAlert();
 
-  const { data } = useQuery("fetchBanks", getBanks, {
+  const { data, isLoading } = useQuery("fetchBanks", getBanks, {
     enabled: true,
     onSuccess(data) {
       console.log("Bank Data", data);
@@ -132,14 +133,9 @@ export default function CashDestination({
     },
   });
 
-  // useEffect(() => {
-  //   if (checked) {
-  //     setSellVal({ ...sellVal, bank: bankID });
-  //   } else {
-  //     setSellVal({ ...sellVal, bank: "" });
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [checked]);
+  useEffect(() => {
+    console.log("View Data", viewData);
+  }, []);
 
   return (
     <>
@@ -348,8 +344,17 @@ export default function CashDestination({
             </Typography>
           </Typography>
 
-          <Typography>1 BTC ~ N1</Typography>
+          <Typography>
+            1 {viewData?.coinName} ~ N{viewData?.coinValue}
+          </Typography>
 
+          {isLoading && (
+            <Skeleton
+              sx={{
+                height: "90px",
+              }}
+            />
+          )}
           {data?.map((x: any) => (
             <Box
               bgcolor='#E9F1FF'
@@ -363,29 +368,30 @@ export default function CashDestination({
               border='1px solid #E9F1FF'
               flexDirection={{ md: "row", xs: "column" }}
             >
-              <Box display='flex' alignItems='center'>
-                <Checkbox
-                  sx={{
-                    mr: 3,
-                  }}
-                  onChange={(e) => {
-                    // setBankID(x?._id);
-                    setBankID("");
-                    setChecked(!checked);
-                  }}
-                />
-                <Typography fontWeight='bold'>{x?.acc_name}</Typography>
+              <Checkbox
+                sx={{}}
+                onChange={(e) => {
+                  // setBankID(x?._id);
+                  setBankID("");
+                  setChecked(!checked);
+                }}
+              />
+              <Box>
+                <Typography fontWeight='bold' fontSize={18}>
+                  {x?.acc_name}
+                </Typography>
+
+                <Typography
+                  ml={6}
+                  variant='body2'
+                  fontWeight={400}
+                  display='flex'
+                  alignItems='center'
+                >
+                  {coverSomeNums?.(x?.acc_number?.toString())}{" "}
+                  <Typography mx={3}> |</Typography> {x?.bank_name}
+                </Typography>
               </Box>
-              <Typography
-                ml={6}
-                variant='body2'
-                fontWeight={400}
-                display='flex'
-                alignItems='center'
-              >
-                {coverSomeNums?.(x?.acc_number?.toString())}{" "}
-                <Typography mx={3}> |</Typography> {x?.bank_name}
-              </Typography>
             </Box>
           ))}
 
@@ -410,7 +416,7 @@ export default function CashDestination({
             sx={{
               mt: 3,
             }}
-            disabled={false}
+            disabled={!!isLoading}
             fullWidth
             onClick={() => openNext?.()}
           >

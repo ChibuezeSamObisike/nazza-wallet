@@ -10,7 +10,10 @@ import {
 } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import SellSmallScreen from "shared/layout/SellSmallScreen";
-import QrCode2Icon from "@mui/icons-material/QrCode2";
+import { useSell } from "modules/Sell";
+import { useAlert } from "hooks/useAlert";
+
+import QRCode from "react-qr-code";
 import { pxToRem } from "utils/pxToRem";
 
 export default function TransferCrypto({
@@ -22,6 +25,12 @@ export default function TransferCrypto({
   close?: VoidFunction;
   openNext?: VoidFunction;
 }) {
+  const { viewData } = useSell();
+  const { showNotification } = useAlert();
+
+  React.useEffect(() => {
+    console.log("View Data", viewData);
+  }, []);
   return (
     <Box>
       <SellSmallScreen
@@ -48,7 +57,7 @@ export default function TransferCrypto({
                   marginRight: "4px",
                 }}
               >
-                $450
+                ${viewData?.amount_usd}
               </span>
               to this Bitcoin address below or scan the QR code
             </Typography>
@@ -68,13 +77,7 @@ export default function TransferCrypto({
               justifyContent='center'
             >
               <Box border='1px solid grey'>
-                <QrCode2Icon
-                  sx={{
-                    width: "132.69px",
-                    height: "auto",
-                    color: "#000000",
-                  }}
-                />
+                <QRCode value={viewData?.address} />
               </Box>
             </Box>
 
@@ -89,12 +92,24 @@ export default function TransferCrypto({
               sx={{
                 marginTop: "30px",
               }}
+              value={viewData?.address}
+              InputLabelProps={{
+                shrink: true,
+              }}
               label='Address'
-              placeholder='43673894773hkdgjvhhckjcjkchvhcmcw'
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
                     <Button
+                      onClick={() => {
+                        navigator.clipboard
+                          .writeText(`${viewData?.address}`)
+                          .then(() =>
+                            showNotification?.("Text copy successful", {
+                              type: "success",
+                            })
+                          );
+                      }}
                       sx={{
                         p: 1,
                         px: 3,

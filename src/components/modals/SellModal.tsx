@@ -37,7 +37,7 @@ export default function SellModal({
     },
   });
 
-  const { sellVal, setSellVal } = useSell();
+  const { sellVal, setSellVal, setViewData, viewData } = useSell();
 
   const [coindData, setCoinData] = useState<any>();
   const [coin, setCoin] = useState("");
@@ -92,6 +92,11 @@ export default function SellModal({
               onChange={(x: any) => {
                 console.log("Coin data change", x.target.value);
                 setCoinData(x);
+                setViewData({
+                  ...viewData,
+                  coinValue: x?.target?.value.rate,
+                  coinName: x?.target?.value.name.toUpperCase(),
+                });
               }}
             >
               {data?.data?.map((x: any) => {
@@ -130,7 +135,14 @@ export default function SellModal({
           <Box sx={{ mt: 3 }}>
             <OutlinedInput
               fullWidth
+              type='number'
               placeholder='How much'
+              sx={{
+                ".Mui-Focused": {
+                  outline: "none",
+                  border: "1px solid red",
+                },
+              }}
               onChange={(e) =>
                 setSellVal({ ...sellVal, amount: e.target.value })
               }

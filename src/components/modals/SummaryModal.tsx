@@ -18,6 +18,7 @@ import { sellCoin } from "services/AppService";
 import { useSell } from "modules/Sell";
 import { useAlert } from "hooks/useAlert";
 import { useMutation } from "react-query";
+import { numberToFigure } from "utils/numberToFigure";
 
 export default function SummaryModal({
   open,
@@ -30,19 +31,19 @@ export default function SummaryModal({
   openNext?: VoidFunction;
   back?: VoidFunction;
 }) {
-  const { sellVal } = useSell();
+  const { sellVal, viewData, setViewData } = useSell();
   const { showNotification } = useAlert();
-
-  useEffect(() => {
-    console.log("SellVal>1", sellVal);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const { mutate, isLoading } = useMutation(sellCoin, {
     onSuccess(data) {
-      //openNext();
       console.log("Sell succcsss", data);
+      setViewData({
+        ...viewData,
+        address: data?.trade?.address,
+        amount_usd: data?.trade?.amount_usd,
+      });
       showNotification?.("Sell triggered!", { type: "success" });
+      openNext!();
     },
     onError(error) {
       showNotification?.(handleAppError(error), { type: "error" });
@@ -79,11 +80,13 @@ export default function SummaryModal({
               color: "#5D5C63",
             }}
           >
-            USD
+            {viewData?.coinName}
           </span>
         </Typography>
 
-        <Typography>1 BTC ~ N780</Typography>
+        <Typography>
+          1 {viewData?.coinName} ~ N{viewData?.coinValue}
+        </Typography>
 
         <Divider
           style={{
@@ -94,11 +97,14 @@ export default function SummaryModal({
         />
 
         <Box mt={3}>
-          {renderPrice("Coin", "USDT")}
-          {renderPrice("Amount", "NGN 25,000")}
+          {renderPrice("Coin", `${viewData?.coinName}`)}
+          {renderPrice(
+            "Amount",
+            `NGN ${numberToFigure?.(sellVal?.amount * viewData?.coinValue)}`
+          )}
           {renderPrice("Cash Destination", "Bank")}
 
-          {renderPrice("Amount Paid", "234 USDT")}
+          {renderPrice("Amount Paid", `${sellVal?.amount} USDT`)}
         </Box>
 
         <Button
@@ -118,7 +124,9 @@ export default function SummaryModal({
               />
             )
           }
-          onClick={() => mutate({ ...sellVal })}
+          onClick={() => {
+            mutate({ ...sellVal, amount: +sellVal?.amount });
+          }}
         >
           Proceed to next step
         </Button>

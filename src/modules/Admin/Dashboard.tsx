@@ -378,7 +378,7 @@ function AdminCard({
 
 function UpdateRatesModal() {
   return (
-    <Modal open={true}>
+    <Modal open={!true}>
       <Box
         sx={{
           bgcolor: "#fff",

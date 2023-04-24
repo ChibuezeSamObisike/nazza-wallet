@@ -1,30 +1,35 @@
-import { lazy } from "react";
-import { RouteProps, Routes, Route } from "react-router-dom";
-import { LazyLoad } from "./Router";
+import { Suspense, lazy, Fragment } from "react";
+import { Routes, Route } from "react-router-dom";
+
+interface IProps {
+  component: React.LazyExoticComponent<() => JSX.Element>;
+  path: string;
+  auth: boolean;
+  layout?: typeof Fragment;
+}
 
 export default function AdminRouter() {
-  const routes = [
+  const routes: IProps[] = [
     {
       path: "123",
       component: lazy(() => import("modules/Admin/Dashboard")),
       auth: false,
-      layout: <></>,
     },
   ];
   return (
     <>
-      {routes.map((rout) => (
-        <Route
-          path={rout.path}
-          element={
-            <LazyLoad
-              component={rout.component}
-              layout={rout.layout}
-              auth={rout.auth}
-            />
-          }
-        />
-      ))}
+      <Routes>
+        {routes.map(({ path, component: Component }) => (
+          <Route
+            path={path}
+            element={
+              <Suspense fallback={<>Loading....</>}>
+                <Component />
+              </Suspense>
+            }
+          />
+        ))}
+      </Routes>
     </>
   );
 }

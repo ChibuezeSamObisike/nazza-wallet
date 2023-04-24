@@ -117,8 +117,11 @@ const SellProvider = ({ children }: any) => {
     coin_id: "",
     type: "1",
   });
+  const [viewData, setViewData] = React.useState({});
   return (
-    <SellContext.Provider value={{ sellVal, setSellVal }}>
+    <SellContext.Provider
+      value={{ sellVal, setSellVal, viewData, setViewData }}
+    >
       {children}
     </SellContext.Provider>
   );
