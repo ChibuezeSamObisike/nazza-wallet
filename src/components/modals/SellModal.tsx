@@ -40,7 +40,7 @@ export default function SellModal({
   const { sellVal, setSellVal, setViewData, viewData } = useSell();
 
   const [coindData, setCoinData] = useState<any>();
-  const [coin, setCoin] = useState("");
+  const [coin, setCoin] = useState("USD");
 
   useEffect(() => {
     setSellVal({
@@ -127,12 +127,17 @@ export default function SellModal({
               }}
               textAlign='left'
             >
-              1 {`${coindData?.target.value.name.toUpperCase()}`} ~{" "}
-              {`${coindData?.target.value.rate}  NAIRA`}
+              {`${coindData?.target.value.name.toUpperCase()}`} RATE ~{" "}
+              {`${coindData?.target.value.rate}  NAIRA / DOLLAR`}
             </Typography>
           )}
 
-          <Box sx={{ mt: 3 }}>
+          <Box
+            sx={{ mt: 3 }}
+            display='flex'
+            alignItems='center'
+            justifyContent='space-around'
+          >
             <OutlinedInput
               fullWidth
               type='number'
@@ -147,36 +152,36 @@ export default function SellModal({
                 setSellVal({ ...sellVal, amount: e.target.value })
               }
               startAdornment={
-                <InputAdornment position='start'>$</InputAdornment>
-              }
-              endAdornment={
-                <InputAdornment position='end'>
-                  <Select
-                    sx={{
-                      boxShadow: "none",
-                      ".MuiOutlinedInput-notchedOutline": { border: 0 },
-                      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                        border: "0px solid #484850",
-                        borderRadius: "0px",
-                      },
-                    }}
-                    onChange={(x: any) => {
-                      setCoin(x.target?.value);
-                    }}
-                  >
-                    <MenuItem value={"USD"}>USD</MenuItem>
-                    <MenuItem value={"NGN"}>NGN</MenuItem>
-                  </Select>
+                <InputAdornment position='start'>
+                  {coin === "USD" ? "$" : "N"}
                 </InputAdornment>
               }
             />
+
+            <Select
+              sx={{
+                boxShadow: "none",
+                ".MuiOutlinedInput-notchedOutline": { border: 0 },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  border: "0px solid #484850",
+                  borderRadius: "0px",
+                },
+              }}
+              defaultValue={"USD"}
+              onChange={(x: any) => {
+                setCoin(x.target?.value);
+              }}
+            >
+              <MenuItem value={"USD"}>USD</MenuItem>
+              <MenuItem value={"NGN"}>NGN</MenuItem>
+            </Select>
           </Box>
 
           <Button
             sx={{
               mt: 3,
             }}
-            disabled={!sellVal.amount}
+            disabled={!(sellVal.amount && viewData.coinValue)}
             fullWidth
             onClick={() => openNext?.()}
           >

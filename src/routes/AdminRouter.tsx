@@ -1,5 +1,5 @@
-import { Suspense, lazy, Fragment } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Suspense, lazy, Fragment, ReactNode } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 interface IProps {
   component: React.LazyExoticComponent<() => JSX.Element>;
@@ -8,27 +8,40 @@ interface IProps {
   layout?: typeof Fragment;
 }
 
-export default function AdminRouter() {
+const AdminAuthGuard = ({ children }: { children: ReactNode }) => {
+  let notAuth = true;
+  if (notAuth) {
+    return <Navigate to='/admin-login' />;
+  }
+  return <div>{children}</div>;
+};
+
+export default function AdminGuard() {
   const routes: IProps[] = [
     {
-      path: "123",
+      path: "",
       component: lazy(() => import("modules/Admin/Dashboard")),
-      auth: false,
+      auth: true,
     },
   ];
   return (
     <>
       <Routes>
-        {routes.map(({ path, component: Component }) => (
-          <Route
-            path={path}
-            element={
-              <Suspense fallback={<>Loading....</>}>
-                <Component />
-              </Suspense>
-            }
-          />
-        ))}
+        {routes.map(({ path, component: Component, auth }) => {
+          const Parent = auth ? AdminAuthGuard : Fragment;
+          return (
+            <Route
+              path={path}
+              element={
+                <Suspense fallback={<>Loading....</>}>
+                  <Parent>
+                    <Component />
+                  </Parent>
+                </Suspense>
+              }
+            />
+          );
+        })}
       </Routes>
     </>
   );

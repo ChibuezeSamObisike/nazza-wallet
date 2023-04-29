@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -132,10 +132,6 @@ export default function CashDestination({
       });
     },
   });
-
-  useEffect(() => {
-    console.log("View Data", viewData);
-  }, []);
 
   return (
     <>
@@ -345,7 +341,7 @@ export default function CashDestination({
           </Typography>
 
           <Typography>
-            1 {viewData?.coinName} ~ N{viewData?.coinValue}
+            {viewData?.coinName} RATE ~ N{viewData?.coinValue} NAIRA / DOLLAR
           </Typography>
 
           {isLoading && (

@@ -147,6 +147,11 @@ const routes: IRoute[] = [
     auth: false,
   },
   {
+    path: "admin-login",
+    component: lazy(() => import("modules/Admin/Login")),
+    auth: false,
+  },
+  {
     path: "*",
     component: () => <h1>Seems you are lost</h1>,
     auth: false,

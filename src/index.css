@@ -85,8 +85,22 @@ a:focus {
   text-align: center;
   font-size: 40px;
   font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 300;
+  opacity: 30%;
 }
 
 .input:disabled {
   background: white;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  margin: 0;
+}
+input[type="number"] {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  -moz-appearance: textfield;
+  /* Firefox */
 }
