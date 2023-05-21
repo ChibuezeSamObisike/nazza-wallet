@@ -27,10 +27,11 @@ export default function AdminGuard() {
   return (
     <>
       <Routes>
-        {routes.map(({ path, component: Component, auth }) => {
+        {routes.map(({ path, component: Component, auth }, index) => {
           const Parent = auth ? AdminAuthGuard : Fragment;
           return (
             <Route
+              key={index}
               path={path}
               element={
                 <Suspense fallback={<>Loading....</>}>

@@ -28,8 +28,8 @@ import { useAlert } from "hooks/useAlert";
 export default function Login() {
   function useSeparateParams(urlParam: string) {
     return [
-      urlParam.split("&")[0].replace("?", "").split("=")[1],
-      urlParam.split("&")[1].split("=")[1],
+      urlParam?.split("&")[0].replace("?", "").split("=")[1],
+      urlParam?.split("&")[1].split("=")[1],
     ];
   }
 

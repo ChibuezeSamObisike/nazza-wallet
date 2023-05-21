@@ -199,7 +199,6 @@ export default function Navbar() {
                       width='118px'
                       overflow='hidden'
                       borderRadius='2px'
-                      // boxShadow='0px 8.4446px 16.8892px rgba(0, 0, 0, 0.06), 0px 16.8892px 25.3338px rgba(0, 0, 0, 0.1);'
                       sx={{
                         position: "absolute",
                         right: 20,

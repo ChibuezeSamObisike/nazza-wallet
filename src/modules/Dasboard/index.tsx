@@ -112,7 +112,7 @@ function App() {
         justifyContent='space-between'
       >
         {user.isLoading ? (
-          <Skeleton width={400} height={80} />
+          <Skeleton width={"40%"} height={80} />
         ) : (
           <Typography variant='h3' fontWeight='bold' color='#47454C'>
             <span>Welcome, {data?.name ?? "---"}</span>{" "}

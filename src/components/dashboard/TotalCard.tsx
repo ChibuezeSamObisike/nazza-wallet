@@ -57,7 +57,7 @@ export default function TotalCard({
           </Box>
           <Box>
             {isLoading || !usd ? (
-              <Skeleton width={400} height={80} />
+              <Skeleton width={"100%"} height={80} />
             ) : (
               <Typography
                 fontSize={pxToRem(isMobile ? 22 : 48)}
@@ -69,7 +69,7 @@ export default function TotalCard({
           </Box>
 
           {isLoading || !naira ? (
-            <Skeleton width={300} height={60} />
+            <Skeleton width={"90%"} height={60} />
           ) : (
             <Typography color='#7587a5' fontWeight={700} fontSize={pxToRem(18)}>
               {viewPrice ? `N ${naira ?? "--"}` : "-------"}

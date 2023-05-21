@@ -183,8 +183,9 @@ export const LazyLoad = ({
 export default function AppRouter() {
   return (
     <Routes>
-      {routes.map((rout) => (
+      {routes.map((rout, index) => (
         <Route
+          key={index}
           path={rout.path}
           element={
             <LazyLoad
