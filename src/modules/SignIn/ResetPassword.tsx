@@ -44,25 +44,19 @@ export default function Login() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log("id>", id);
-  console.log("location", location);
-
   const { mutate, isLoading } = useMutation(
     async (data: any) => {
-      console.log("data reset", data);
       return http.put(`user/newpassword/${id}/${code}`, data).then((res) => {
         return res.data;
       });
     },
     {
       onSuccess(data) {
-        console.log("Reset Data", data);
         showNotification?.("Success", { type: "success" });
 
         navigate("/login");
       },
       onError(error: AxiosError) {
-        console.log("Reset Data Error", error);
         showNotification?.(handleAppError(error), {
           type: "error",
         });

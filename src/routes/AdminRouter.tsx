@@ -9,7 +9,7 @@ interface IProps {
 }
 
 const AdminAuthGuard = ({ children }: { children: ReactNode }) => {
-  let notAuth = true;
+  let notAuth = false;
   if (notAuth) {
     return <Navigate to='/admin-login' />;
   }

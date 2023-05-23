@@ -262,13 +262,6 @@ export default function Banks() {
           {accountName !== "" && (
             <Button
               onClick={() => {
-                console.log("Bank details", {
-                  bank_name: listOfBanks?.find(
-                    (x: any) => x.code === getValues().bank_code
-                  )?.name,
-                  acc_name: accountName,
-                  acc_number: getValues()?.acc_number,
-                });
                 addBankMutate.mutate({
                   bank_name: listOfBanks?.find(
                     (x: any) => x.code === getValues().bank_code

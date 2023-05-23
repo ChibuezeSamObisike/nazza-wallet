@@ -1,6 +1,6 @@
 import TotalCard from "components/dashboard/TotalCard";
 
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import PersonAddAltIcon from "@mui/icons-material/WhatsApp";
 import { Box, Button, Typography, Skeleton } from "@mui/material";
 import AppTable from "shared/Table";
 import TextTag from "shared/TextTag";
@@ -136,17 +136,19 @@ function App() {
               Sell Crypto
             </Button>
             <Button
-              onClick={() => navigate("/referrals")}
               sx={{
-                bgcolor: "#FFF5D8",
-                color: "#423308",
+                bgcolor: "#52C41A",
+                color: "#fff",
                 fontWeight: 400,
                 ":hover": {
-                  bgcolor: "#FFF5D8",
-                  color: "#423308",
+                  bgcolor: "#52C41A",
+                  color: "#fff",
                 },
                 ml: 3,
               }}
+              component='a'
+              href='wa.me/23490631592645'
+              target='_blank'
             >
               <PersonAddAltIcon
                 sx={{
@@ -154,7 +156,7 @@ function App() {
                   fontWeight: 400,
                 }}
               />
-              Invite
+              Trade on Whatsapp
             </Button>
           </Box>
         )}
@@ -187,19 +189,19 @@ function App() {
             Sell Crypto
           </Button>
           <Button
-            fullWidth
-            onClick={() => navigate("/referrals")}
             sx={{
-              bgcolor: "#FFF5D8",
-              color: "#423308",
+              bgcolor: "#52C41A",
+              color: "#fff",
               fontWeight: 400,
-              mt: 2,
-
               ":hover": {
-                bgcolor: "#FFF5D8",
-                color: "#423308",
+                bgcolor: "#52C41A",
+                color: "#fff",
               },
+              ml: 3,
             }}
+            component='a'
+            href='wa.me/23490631592645'
+            target='_blank'
           >
             <PersonAddAltIcon
               sx={{
@@ -207,7 +209,7 @@ function App() {
                 fontWeight: 400,
               }}
             />
-            Invite
+            Trade on Whatsapp
           </Button>
         </Box>
       )}
