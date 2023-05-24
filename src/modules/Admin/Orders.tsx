@@ -131,6 +131,7 @@ export default function Orders() {
     {
       enabled: !!openID && openID !== "",
       onSuccess(data) {
+        console.log("Orders", data);
         setModalData(data);
       },
       onError(err) {
@@ -172,11 +173,11 @@ export default function Orders() {
       x?._id,
       x?.status,
       x?.user?.name,
-      x?.coin?.name,
-      `${x?.amount} ${x?.coin?.name}`,
+      x?.network,
+      `${x?.amount}`,
       `N ${numberToFigure(x?.amount_ngn)}`,
       `${x?.createdAt.split("T")[0]}`,
-      `${x?.coin.network}`,
+      x?.network,
       "Deposit"
     )
   );
@@ -294,11 +295,11 @@ export function AppModal({ open, onClose, loading, data }: any) {
                 </span>
               </Typography>
 
-              <Typography color='#5D5C63'> 1 BTC ~ NGN 747.5</Typography>
-              {renderPrice("Coin", `${data?.coin?.name}`)}
-              {renderPrice("Network", `${data?.coin?.network}`)}
-              {renderPrice("Receipients", "adewaledamola@gmail.com")}
-              {renderPrice("Contact", "081784979337")}
+              {/* <Typography color='#5D5C63'> 1 BTC ~ NGN 747.5</Typography> */}
+              {renderPrice("Coin", `${data?.network}`)}
+              {renderPrice("Network", `${data?.network}`)}
+              {renderPrice("Receipients", data?.user?.email)}
+              {renderPrice("Contact", data?.user?.phone)}
               {renderPrice(
                 <div>
                   Amount Paid{" "}
@@ -310,7 +311,7 @@ export function AppModal({ open, onClose, loading, data }: any) {
                     (by One liquidity)
                   </span>
                 </div>,
-                "NGN25,000"
+                <div>{data?.amount_ngn}</div>
               )}
               {renderPrice(
                 "Cash destination",
@@ -322,9 +323,9 @@ export function AppModal({ open, onClose, loading, data }: any) {
                       marginRight: "10px",
                     }}
                   >
-                    07678897994
+                    {data?.bank?.acc_number}
                   </span>
-                  Access Bank
+                  {data?.bank?.bank_name}
                 </div>
               )}
               {renderPrice(

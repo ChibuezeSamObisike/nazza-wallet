@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Box } from "@mui/material";
+import { Box, IconButton, Menu, MenuItem } from "@mui/material";
 
 import { useQuery } from "react-query";
 
@@ -8,6 +8,7 @@ import AdminLayout from "./Components/AdminLayout";
 import BasicTable from "shared/Table";
 
 import AppBreadCrumb from "shared/AppBreadCrumb";
+import ThreeDots from "@mui/icons-material/MoreVert";
 
 import { getAllUsers } from "services/AppService";
 
@@ -37,23 +38,66 @@ export default function Customers() {
     }
   );
 
-  function createData(name: string, email: string, phone: string) {
+  function createData(
+    name: string,
+    email: string,
+    phone: string,
+    last_login: string,
+    action: any
+  ) {
     return {
       name,
       email,
       phone,
+      last_login,
+      action,
     };
   }
 
   const dataTable = tableData?.map(
-    (x: Partial<{ name: string; email: string; phone?: string }>) =>
-      createData(x?.name ?? "--", x?.email ?? "--", x?.phone ?? "--")
+    (
+      x: Partial<{
+        name: string;
+        email: string;
+        phone?: string;
+        last_login?: string;
+      }>
+    ) =>
+      createData(
+        x?.name ?? "--",
+        x?.email ?? "--",
+        x?.phone ?? "--",
+        x?.last_login?.split("T")[0] ?? "--",
+        <Box display='flex' justifyContent='flex-end'>
+          <IconButton
+            onClick={(event) => {
+              // setRecordId(id);
+              // handleClick(event, status);
+            }}
+          >
+            <ThreeDots />
+          </IconButton>
+          <Menu
+            elevation={1}
+            // anchorEl={anchorEl}
+            open={false}
+            // onClose={() => handleClose("")}
+            sx={{ boxShadow: "none" }}
+          >
+            <MenuItem>Edit</MenuItem>
+
+            <MenuItem>Deactivate</MenuItem>
+          </Menu>
+        </Box>
+      )
   );
 
   const columns = [
     { key: "name", align: "" },
     { key: "email" },
     { key: "phone" },
+    { key: "last_login" },
+    { key: "action" },
   ];
 
   const handleChangePage = (

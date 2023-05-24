@@ -60,11 +60,11 @@ export default function Dashboard() {
       name,
       crypto: (
         <Box display='flex' alignItems='center'>
-          <img
+          {/* <img
             src={getIcon(crypto)}
             style={{ marginRight: "15px" }}
             alt='Icon'
-          />
+          /> */}
           {crypto}{" "}
           {/* <Chip
           label={type}
@@ -95,7 +95,7 @@ export default function Dashboard() {
     getTrades,
     {
       onSuccess(data) {
-        console.log("Data table", data);
+        console.log("Data table", data.trades);
         setTableData(data?.trades);
         setPageSize(data?.paginationMeta.totalPages);
         setRowsPerPage(data?.paginationMeta.totalRecords);
@@ -119,12 +119,12 @@ export default function Dashboard() {
     createData(
       x?._id,
       x?.user?.name,
-      x?.coin?.name,
-      `${x?.amount} ${x?.coin?.name}`,
-      `N ${numberToFigure(x?.amount_ngn)}`,
-      `${x?.createdAt.split("T")[0]}`,
-      `${x?.coin.network}`,
-      "Deposit"
+      x?.network,
+      x?.user?.name,
+      x?.amount_ngn,
+      x?.createdAt.split("T")[0],
+      x?.network,
+      x?.network
     )
   );
 
