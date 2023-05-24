@@ -19,6 +19,12 @@ export default function Customers() {
   const [pageSize, setPageSize] = useState<number | null>(0);
   const [payOutData, setPayOutData] = useState<any | null | undefined>(null);
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+
   const { isLoading } = useQuery(
     [
       "getHistory",
@@ -71,22 +77,28 @@ export default function Customers() {
         <Box display='flex' justifyContent='flex-end'>
           <IconButton
             onClick={(event) => {
-              // setRecordId(id);
-              // handleClick(event, status);
+              handleClick(event);
             }}
           >
             <ThreeDots />
           </IconButton>
+
           <Menu
-            elevation={1}
-            // anchorEl={anchorEl}
-            open={false}
-            // onClose={() => handleClose("")}
+            elevation={0}
+            anchorEl={anchorEl}
+            open={open}
+            onClose={() => setAnchorEl(null)}
             sx={{ boxShadow: "none" }}
           >
-            <MenuItem>Edit</MenuItem>
+            <MenuItem
+              sx={{
+                color: "red",
+              }}
+            >
+              Suspend users
+            </MenuItem>
 
-            <MenuItem>Deactivate</MenuItem>
+            <MenuItem>See activity </MenuItem>
           </Menu>
         </Box>
       )
