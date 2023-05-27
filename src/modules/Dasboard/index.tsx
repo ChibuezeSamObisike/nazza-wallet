@@ -18,6 +18,7 @@ import { createData } from "shared/Table";
 import { useState } from "react";
 import { numberToFigure } from "utils/numberToFigure";
 import { getTotalPayout, getProfileDetails } from "services/AppService";
+import { pxToRem } from "utils/pxToRem";
 
 function App() {
   const navigate = useNavigate();
@@ -114,7 +115,12 @@ function App() {
         {user.isLoading ? (
           <Skeleton width={"40%"} height={80} />
         ) : (
-          <Typography variant='h3' fontWeight='bold' color='#47454C'>
+          <Typography
+            variant='h3'
+            fontWeight='bold'
+            fontSize={pxToRem(24)}
+            color='#47454C'
+          >
             <span>Welcome, {data?.name ?? "---"}</span>{" "}
             <span className='wave'>👋</span>
           </Typography>
