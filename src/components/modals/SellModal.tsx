@@ -295,10 +295,7 @@ export default function SellModal({
         </Box>
       </GenericModal>
       <Box>
-        <SellSmallScreen
-          title='Choose amount'
-          subtitle='Enter the amount you want to sell '
-        >
+        <SellSmallScreen title='' subtitle=''>
           <Box
             color='#5D5C63'
             textAlign='center'
@@ -307,6 +304,11 @@ export default function SellModal({
             borderRadius='16px'
             border='1px solid #A4A3A7'
           >
+            <Box>
+              <Typography textAlign='left' fontWeight='bold'>
+                Select coin
+              </Typography>
+            </Box>
             <Box
               display='flex'
               alignItems='center'
