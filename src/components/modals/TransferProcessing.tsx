@@ -19,10 +19,7 @@ export default function TransferProcessing({
   const navigate = useNavigate();
   return (
     <Box>
-      <SellSmallScreen
-        title='Processing'
-        subtitle='After confirmation you will be credited'
-      >
+      <SellSmallScreen title='' subtitle=''>
         <Box
           color='#5D5C63'
           bgcolor='#fff'

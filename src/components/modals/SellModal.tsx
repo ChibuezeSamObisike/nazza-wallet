@@ -37,6 +37,7 @@ import { handleAppError } from "utils/handleApiError";
 import { useSell } from "modules/Sell";
 
 import * as Yup from "yup";
+import { pxToRem } from "utils/pxToRem";
 import { coverSomeNums } from "utils/convertNums";
 
 export default function SellModal({
@@ -305,7 +306,11 @@ export default function SellModal({
             border='1px solid #A4A3A7'
           >
             <Box>
-              <Typography textAlign='left' fontWeight='bold'>
+              <Typography
+                textAlign='left'
+                fontWeight='bold'
+                fontSize={pxToRem(24)}
+              >
                 Select coin
               </Typography>
             </Box>
