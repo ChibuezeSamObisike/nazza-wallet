@@ -197,8 +197,10 @@ function App() {
                 bgcolor: "#52C41A",
                 color: "#fff",
               },
-              ml: 3,
+
+              mt: 3,
             }}
+            fullWidth
             component='a'
             href='wa.me/23490631592645'
             target='_blank'
@@ -209,7 +211,7 @@ function App() {
                 fontWeight: 400,
               }}
             />
-            Trade on Whatsapp
+            <Typography>Trade on Whatsapp</Typography>
           </Button>
         </Box>
       )}
