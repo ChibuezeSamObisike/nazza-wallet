@@ -39,6 +39,11 @@ const SideBar = () => {
       path: "/admin",
     },
     {
+      title: "wallet",
+      component: GradingIcon,
+      path: "/admin-wallet",
+    },
+    {
       title: "Orders",
       component: GradingIcon,
       path: "/orders",
@@ -72,7 +77,7 @@ const SideBar = () => {
         flexDirection='column'
         justifyContent='space-around'
       >
-        <Box>
+        <Box position='fixed' pt={50}>
           {sidebar.map(({ component: Component, title, path }) => (
             <NavLink to={path}>
               {({ isActive }) => (
@@ -95,21 +100,22 @@ const SideBar = () => {
               )}
             </NavLink>
           ))}
-        </Box>
-
-        <Box
-          my={2}
-          py={2}
-          pl={1}
-          display='flex'
-          mt={35}
-          alignItems='center'
-          sx={{
-            cursor: "pointer",
-          }}
-        >
-          <LogoutOutlinedIcon />
-          <Typography ml={2}>Logout</Typography>
+          <Box
+            my={2}
+            py={2}
+            pl={1}
+            display='flex'
+            alignItems='center'
+            sx={{
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              window.location.href = "/login";
+            }}
+          >
+            <LogoutOutlinedIcon />
+            <Typography ml={2}>Logout</Typography>
+          </Box>
         </Box>
       </Box>
     </>

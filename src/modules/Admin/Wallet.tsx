@@ -10,7 +10,11 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import TextTag from "shared/TextTag";
 
-import { getAdminStats, getTrades, getTrade } from "services/AppService";
+import {
+  getAdminStats,
+  getWallets as getTrades,
+  getTrade,
+} from "services/AppService";
 import getIcon from "utils/getIcon";
 import { numberToFigure } from "utils/numberToFigure";
 
@@ -35,11 +39,11 @@ export default function Wallet() {
 
   const { showNotification } = useAlert();
 
-  // const onRowItemClick = (id: string) => {
-  //   console.log("Row ID", id);
-  //   setOpenID(id);
-  //   setModal(true);
-  // };
+  const onRowItemClick = (id: string) => {
+    console.log("Row ID", id);
+    setOpenID(id);
+    setModal(true);
+  };
 
   const onClose = () => {
     setOpenID("");
@@ -185,6 +189,94 @@ export default function Wallet() {
       <UpdateRatesModal />
       <AdminLayout>
         <Box>
+          <Box
+            display='flex'
+            flexDirection={{ xs: "column", md: "row" }}
+            mb={4}
+            alignItems={{ xs: "flex-start", md: "center" }}
+            justifyContent='space-between'
+          >
+            <Typography variant='h3' fontWeight='bold' color='#47454C'>
+              Welcome, Admin
+              <span className='wave'>👋</span>
+            </Typography>
+
+            <Box
+              sx={{
+                mt: { xs: 3, md: 0 },
+              }}
+            >
+              <Button
+                sx={{
+                  px: 4,
+                }}
+              >
+                <OpenInNewIcon
+                  sx={{
+                    mr: 1,
+                    fontWeight: 400,
+                  }}
+                />{" "}
+                Sell Message
+              </Button>
+              <Button
+                sx={{
+                  bgcolor: "#ff7262",
+                  color: "white",
+                  fontWeight: 700,
+                  ":hover": {
+                    bgcolor: "#ff7262",
+                    color: "white",
+                  },
+                  ml: 3,
+                  px: 4,
+                }}
+              >
+                <PersonAddAltIcon
+                  sx={{
+                    mr: 1,
+                    fontWeight: 400,
+                  }}
+                />
+                Update Rates
+              </Button>
+            </Box>
+          </Box>
+
+          <Box
+            display='flex'
+            flexDirection={{ xs: "column", md: "row" }}
+            mb={4}
+            alignItems={{ xs: "flex-start", md: "center" }}
+            justifyContent='space-between'
+          >
+            <Box width='30%'>
+              <AdminCard
+                bg='#E9F1FF'
+                title='BTC'
+                subText={
+                  adminStats?.totalPayoutUsd
+                    ? "$ " + adminStats?.totalPayoutUsd
+                    : "--"
+                }
+              />
+            </Box>
+            <Box width='30%'>
+              <AdminCard
+                bg='#FCFFE9'
+                title='ETH'
+                subText={adminStats?.totalUsers ?? "--"}
+              />
+            </Box>
+            <Box width='30%'>
+              <AdminCard
+                bg='#FFE9E9'
+                title='USDT'
+                subText={adminStats?.totalClients ?? "--"}
+              />
+            </Box>
+          </Box>
+
           <Box>
             <TextTag
               label='Recent Orders'
@@ -196,6 +288,7 @@ export default function Wallet() {
               isLoading={isLoading}
               pageSize={pageSize}
               rowsPerPage={rowsPerPage}
+              onRowItemClick={onRowItemClick}
               page={currPage}
               handleChangePage={handleChangePage}
               handleChangeRowsPerPage={handleChangeRowsPerPage}

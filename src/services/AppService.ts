@@ -145,6 +145,17 @@ export const getTrades = async ({ queryKey }: any) => {
     });
 };
 
+export const getWallets = async ({ queryKey }: any) => {
+  const [, { rowsPerPage, currPage }] = queryKey;
+
+  return http
+    .get(`admin/wallets?page=${currPage}&limit=${rowsPerPage}`)
+    .then((res) => {
+      console.log("trades data", res.data);
+      return res.data;
+    });
+};
+
 export const getTrade = async ({ queryKey }: any) => {
   const [, { id }] = queryKey;
 

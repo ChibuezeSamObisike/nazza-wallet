@@ -397,7 +397,7 @@ export default function SellModal({
                   borderRadius={1}
                   border='1px solid #A4A3A7'
                   onClick={() => setOpen(true)}
-                  sx={{ width: "100%" }}
+                  sx={{ width: "100%", cursor: "pointer" }}
                 >
                   <Typography>Select bank account</Typography>
                   <KeyboardArrowDownIcon />
@@ -417,6 +417,9 @@ export default function SellModal({
                     display='flex'
                     alignItems='center'
                     justifyContent='space-between'
+                    sx={{
+                      cursor: "pointer",
+                    }}
                     onClick={() => setOpen(false)}
                   >
                     <Typography fontSize={"14px"}>

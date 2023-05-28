@@ -105,10 +105,10 @@ export default function BasicTable({
 
   // console.log("Price... data", rows);
 
-  if (isMobile && tableMobile.length > 0) {
+  if (isMobile && tableMobile?.length > 0) {
     return (
       <>
-        {tableMobile.map((x, i) => (
+        {tableMobile?.map((x, i) => (
           <div key={i}>
             <MobileTransactionCard {...x} />
           </div>
@@ -117,7 +117,7 @@ export default function BasicTable({
     );
   }
 
-  if (isMobile && tableMobile.length <= 0) {
+  if (isMobile && tableMobile?.length <= 0) {
     return (
       <TableRow>
         <TableCell
@@ -162,7 +162,7 @@ export default function BasicTable({
             }}
           >
             <TableRow>
-              {columns.map((head: any) => (
+              {columns?.map((head: any) => (
                 <TableCell
                   key={head.key}
                   sx={{ color: "#5D5C63", fontWeight: 500 }}
@@ -173,12 +173,12 @@ export default function BasicTable({
               ))}
             </TableRow>
           </TableHead>
-          {rows.length >= 0 && !isLoading && (
+          {rows?.length >= 0 && !isLoading && (
             <TableBody>
-              {rows.map((row: any) => {
+              {rows?.map((row: any) => {
                 return (
                   <TableRow
-                    key={row.price}
+                    key={row?.price}
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
                       cursor: "pointer",
@@ -187,10 +187,10 @@ export default function BasicTable({
                       onRowItemClick?.(row?._id);
                     }}
                   >
-                    {columns.map((x: any) => {
+                    {columns?.map((x: any) => {
                       return (
                         <TableCell component='th' scope='row'>
-                          {row[x.key]}
+                          {row?.[x?.key]}
                         </TableCell>
                       );
                     })}
@@ -200,7 +200,7 @@ export default function BasicTable({
             </TableBody>
           )}
 
-          {!(rows.length > 0) && !isLoading && (
+          {!(rows?.length > 0) && !isLoading && (
             <TableRow>
               <TableCell
                 component='td'
@@ -242,7 +242,7 @@ export default function BasicTable({
           )}
         </Table>
       </TableContainer>
-      {!(rows.length > 0) && !isLoading && (
+      {!(rows?.length > 0) && !isLoading && (
         <TablePagination
           component='div'
           count={rows?.length}
