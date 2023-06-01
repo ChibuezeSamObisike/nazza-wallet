@@ -51,7 +51,7 @@ export default function HorizontalLinearStepper() {
 
   return (
     <Box sx={{ width: "100%" }}>
-      {/* {isMobile && (
+      {isMobile && (
         <Box
           bgcolor='#D4D4D4'
           sx={{
@@ -90,19 +90,19 @@ export default function HorizontalLinearStepper() {
             );
           })}
         </Stepper>
-      )} */}
+      )}
 
       <SellProvider>
         <Box mt={10} mx={{ xs: 2, md: 40 }}>
           {activeStep === 0 && <SellModal openNext={handleNext} />}
-          {activeStep === 3 && (
+          {activeStep === 1 && (
             <CashDestination back={handleBack} openNext={handleNext} />
           )}
           {activeStep === 2 && (
             <SummaryModal back={handleBack} openNext={handleNext} />
           )}
-          {activeStep === 4 && <TransferCrypto openNext={handleNext} />}
-          {activeStep === 1 && <TransferProcessing />}
+          {activeStep === 3 && <TransferCrypto openNext={handleNext} />}
+          {activeStep === 4 && <TransferProcessing />}
         </Box>
       </SellProvider>
     </Box>
