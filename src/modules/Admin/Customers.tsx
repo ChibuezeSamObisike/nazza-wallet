@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 
-import { Box, IconButton, Menu, MenuItem } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  Menu,
+  MenuItem,
+  CircularProgress,
+} from "@mui/material";
 
-import { useQuery } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 
 import AdminLayout from "./Components/AdminLayout";
 import BasicTable from "shared/Table";
@@ -10,7 +16,12 @@ import BasicTable from "shared/Table";
 import AppBreadCrumb from "shared/AppBreadCrumb";
 import ThreeDots from "@mui/icons-material/MoreVert";
 
-import { getAllUsers } from "services/AppService";
+import { getAllUsers, suspendUser } from "services/AppService";
+import { AxiosError } from "axios";
+
+import { handleAppError } from "utils/handleApiError";
+import { useAlert } from "hooks/useAlert";
+import { useNavigate } from "react-router-dom";
 
 export default function Customers() {
   const [tableData, setTableData] = useState<any>([]);
@@ -19,15 +30,19 @@ export default function Customers() {
   const [pageSize, setPageSize] = useState<number | null>(0);
   const [payOutData, setPayOutData] = useState<any | null | undefined>(null);
 
+  const queryClient = useQueryClient();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
 
+  const { showNotification } = useAlert();
+
   const { isLoading } = useQuery(
     [
-      "getHistory",
+      "getHistory-customers",
       {
         rowsPerPage,
         currPage: currPage + 1,
@@ -44,7 +59,32 @@ export default function Customers() {
     }
   );
 
+  const navigate = useNavigate();
+
+  const onRowItemClick = (data: any) => {
+    console.log("Row item click", data);
+    navigate(`/customers/${data}`);
+  };
+
+  const { mutate: SuspendUser, isLoading: mutationSuspendLoading } =
+    useMutation(suspendUser, {
+      onSuccess(data) {
+        queryClient.invalidateQueries("getHistory-customers");
+        setAnchorEl(null);
+        showNotification?.("Suspended user", {
+          type: "success",
+        });
+      },
+      onError(error: AxiosError) {
+        setAnchorEl(null);
+        showNotification?.(handleAppError(error), {
+          type: "error",
+        });
+      },
+    });
+
   function createData(
+    _id: string,
     name: string,
     email: string,
     phone: string,
@@ -52,6 +92,7 @@ export default function Customers() {
     action: any
   ) {
     return {
+      _id,
       name,
       email,
       phone,
@@ -67,9 +108,11 @@ export default function Customers() {
         email: string;
         phone?: string;
         last_login?: string;
+        _id?: string;
       }>
     ) =>
       createData(
+        x?._id ?? "--",
         x?.name ?? "--",
         x?.email ?? "--",
         x?.phone ?? "--",
@@ -94,7 +137,13 @@ export default function Customers() {
               sx={{
                 color: "red",
               }}
+              onClick={() => {
+                SuspendUser(x?._id);
+              }}
             >
+              {mutationSuspendLoading && (
+                <CircularProgress color='primary' size='24px' />
+              )}
               Suspend users
             </MenuItem>
 
@@ -145,6 +194,7 @@ export default function Customers() {
             isLoading={isLoading}
             pageSize={pageSize}
             rowsPerPage={rowsPerPage}
+            onRowItemClick={onRowItemClick}
             page={currPage}
             handleChangePage={handleChangePage}
             handleChangeRowsPerPage={handleChangeRowsPerPage}

@@ -21,6 +21,7 @@ export default function SellSmallScreen({
           alignItems='center'
           justifyContent='center'
           flexDirection='column'
+          textAlign='center'
         >
           <>
             <Typography fontWeight={700} color='#5D5C63' fontSize={pxToRem(32)}>

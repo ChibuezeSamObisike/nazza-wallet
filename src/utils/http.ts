@@ -6,10 +6,22 @@ export const baseUrl = "https://api.mynazza.com/";
 
 const http = axios.create({
   baseURL: baseUrl,
+  withCredentials: true,
 });
 
 http.defaults.headers.common["Content-Type"] = "application/json";
 http.defaults.headers.common["x-auth-apiKey"] = 1;
+
+const refresh = async () => {
+  const response = await http.get("/refreshtoken", {
+    withCredentials: true,
+  });
+
+  console.log("Response refresh", refresh);
+  return response;
+};
+
+refresh();
 
 // Request interceptor for API calls
 http.interceptors.request.use(
@@ -20,7 +32,13 @@ http.interceptors.request.use(
     };
     return config;
   },
-  (error) => {
+  async (error) => {
+    console.log("Error>>>>>", error);
+    const prevRequest = error?.config;
+    if (error?.response?.status === 403 && !prevRequest?.sent) {
+      const refreshT = await refresh();
+      console.log("Refresh Token", refreshT);
+    }
     Promise.reject(error);
   }
 );

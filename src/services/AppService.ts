@@ -93,6 +93,11 @@ export const resetPassword = async ({ data }: any) => {
   return http.put("user/changepassword", data).then((res) => res.data);
 };
 
+export const suspendUser = async (data: any) => {
+  console.log("Get data", data);
+  return http.put(`admin/suspend/${data}`, data).then((res) => res.data);
+};
+
 export const toggle2fa = async () => {
   return http.put("user/toggle2fa").then((res) => res.data);
 };
