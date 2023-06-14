@@ -203,13 +203,15 @@ function App() {
                 bgcolor: "#52C41A",
                 color: "#fff",
               },
-
               mt: 3,
             }}
             fullWidth
+            rel='noopener noreferrer'
             component='a'
-            href='wa.me/23490631592645'
-            target='_blank'
+            onClick={() => {
+              // window.location.href = "https://wa.me/23490631592645";
+              window.open("http://wa.me/23490631592645", "_blank")?.focus();
+            }}
           >
             <PersonAddAltIcon
               sx={{

@@ -26,7 +26,7 @@ import { getProfileDetails } from "services/AppService";
 
 import { useQuery } from "react-query";
 
-export default function Index({ children }: { children: any }) {
+export default function Index({ children }: { children: React.ReactNode }) {
   const isMobile = useSmallScreen();
   const [value, setValue] = React.useState(0);
 

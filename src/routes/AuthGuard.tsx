@@ -5,7 +5,7 @@ import { isAuthenticated, getToken } from "utils/auth";
 
 const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
-  if (isAuthenticated() && Boolean(getToken())) {
+  if (isAuthenticated()) {
     return <>{children}</>;
   }
   return <Navigate to={"/login"} state={{ from: location }} replace />;

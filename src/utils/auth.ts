@@ -18,7 +18,7 @@ export const getName = (): string | null => {
   return localStorage.getItem("name");
 };
 
-export const getDecodedJwt = (tokn: string = "") => {
+export const getDecodedJwt = (tokn: string = ""): any => {
   try {
     const token = getToken();
 
@@ -56,9 +56,10 @@ export const logOut = (cb: VoidFunction): void => {
 export const isAuthenticated = () => {
   try {
     const decodedToken = getDecodedJwt();
-
-    if (decodedToken && Object.keys(decodedToken).length !== 0) {
-      return true;
+    if (decodedToken) {
+      const { exp } = decodedToken;
+      const currentTime = Date.now() / 1000;
+      return exp > currentTime;
     }
     return false;
   } catch (e) {

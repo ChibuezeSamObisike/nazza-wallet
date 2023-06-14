@@ -13,15 +13,15 @@ http.defaults.headers.common["Content-Type"] = "application/json";
 http.defaults.headers.common["x-auth-apiKey"] = 1;
 
 const refresh = async () => {
-  const response = await http.get("/refreshtoken", {
-    withCredentials: true,
+  const response = await http.post("user/refreshtoken", {
+    refreshToken: "",
   });
-
-  console.log("Response refresh", refresh);
   return response;
 };
 
-refresh();
+refresh()
+  .then((x) => console.log("Refresh then", x))
+  .catch((x) => console.log("Refresh Error", x));
 
 // Request interceptor for API calls
 http.interceptors.request.use(
@@ -33,12 +33,33 @@ http.interceptors.request.use(
     return config;
   },
   async (error) => {
+    // console.log("Error>>>>>", error);
+    // const prevRequest = error?.config;
+    // if (error?.response?.status === 400 && !prevRequest?.sent) {
+    //   const refreshT = await refresh();
+    //   console.log("Refresh Token", refreshT);
+    // }
+
+    Promise.reject(error);
+  }
+);
+http.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
     console.log("Error>>>>>", error);
     const prevRequest = error?.config;
-    if (error?.response?.status === 403 && !prevRequest?.sent) {
+    if (error?.response?.status === 400) {
       const refreshT = await refresh();
       console.log("Refresh Token", refreshT);
+      prevRequest.headers[
+        "x-auth-token"
+      ] = `Bearer ${refreshT.data?.accessToken}`;
+
+      return http(prevRequest);
     }
+
     Promise.reject(error);
   }
 );
