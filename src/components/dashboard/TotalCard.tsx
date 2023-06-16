@@ -72,7 +72,7 @@ export default function TotalCard({
             <Skeleton width={"90%"} height={60} />
           ) : (
             <Typography color='#7587a5' fontWeight={700} fontSize={pxToRem(18)}>
-              {viewPrice ? `N ${naira ?? "--"}` : "-------"}
+              {viewPrice ? `₦ ${naira ?? "--"}` : "-------"}
             </Typography>
           )}
         </Box>

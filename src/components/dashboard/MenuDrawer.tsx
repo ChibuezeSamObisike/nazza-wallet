@@ -37,13 +37,15 @@ function MenuItem({
   icon: Icon,
   label,
   path,
+  onClick,
 }: {
   icon: typeof SettingsIcon;
   label: string;
   path: string;
+  onClick: any;
 }) {
   return (
-    <NavLink to={path}>
+    <NavLink onClick={onClick} to={path}>
       {({ isActive }) => (
         <Box
           p={2}
@@ -86,7 +88,7 @@ export default function MenuDrawer({ open, close }: IMenuProps) {
           >
             <Box width='70vw' px={2} mt={15}>
               {menuLink.map((x) => (
-                <MenuItem {...x} />
+                <MenuItem {...x} onClick={() => close()} />
               ))}
             </Box>
           </Drawer>
