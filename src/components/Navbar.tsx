@@ -179,7 +179,7 @@ export default function Navbar() {
                   margin: "0px 20px",
                 }}
               >
-                <NotificationsIcon />
+                {true ? <NotificationIcon /> : <NotificationsIcon />}
               </NavLink>
 
               <Box position='relative'>

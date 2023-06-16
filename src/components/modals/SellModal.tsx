@@ -52,6 +52,7 @@ export default function SellModal({
 
   useEffect(() => {
     setCoin("USD");
+    setViewData({ ...viewData, currency: "USD" });
   }, []);
 
   return (
