@@ -99,7 +99,7 @@ export default function SummaryModal({
         <Box mt={3}>
           {renderPrice("Coin", `${viewData?.coinName}`)}
           {renderPrice(
-            "Amount",
+            "Amount to pay",
             `NGN ${numberToFigure?.(sellVal?.amount * viewData?.coinValue)}`
           )}
           {renderPrice("Cash Destination", "Bank")}

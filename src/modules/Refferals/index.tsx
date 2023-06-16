@@ -34,7 +34,7 @@ export default function Index({ children }: { children: React.ReactNode }) {
     setValue(val);
   };
 
-  const { data } = useQuery("fetchUserDetails", getProfileDetails, {
+  const { data } = useQuery("fetchUserDetails-x", getProfileDetails, {
     onSuccess(data) {
       console.log("Profile Data>>", data);
     },

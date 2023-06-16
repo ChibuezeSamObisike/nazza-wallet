@@ -26,6 +26,7 @@ import {
 } from "services/AppService";
 
 import { useAlert } from "hooks/useAlert";
+import { useAmount } from "hooks/useAmount";
 import { useForm, FieldValues } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -61,6 +62,7 @@ export default function CashDestination({
   const resolver = yupResolver(schema);
 
   const { sellVal, viewData } = useSell();
+  const { convertToAmount } = useAmount(viewData.currency);
 
   const {
     setValue,
@@ -333,9 +335,9 @@ export default function CashDestination({
                 className='input'
                 disabled
                 style={{
-                  width: "45%",
+                  width: "65%",
                 }}
-                value={sellVal.amount}
+                value={convertToAmount?.(sellVal.amount)}
               />
             </Typography>
           </Typography>

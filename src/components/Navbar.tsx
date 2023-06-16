@@ -9,6 +9,7 @@ import {
   ClickAwayListener,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import NotificationIcon from "@mui/icons-material/Notifications";
 import logo from "assets/Nazza-logo.svg";
 import avatar from "assets/avatar.svg";
 import { Container } from "@mui/system";
@@ -102,7 +103,7 @@ export default function Navbar() {
                   margin: "0px 20px",
                 }}
               >
-                <NotificationsIcon />
+                {true ? <NotificationIcon /> : <NotificationsIcon />}
               </NavLink>
               <img
                 style={{

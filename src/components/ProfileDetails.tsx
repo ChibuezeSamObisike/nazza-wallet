@@ -18,7 +18,7 @@ import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 
-import { useQuery, useMutation } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import { FieldValues, useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -38,19 +38,20 @@ import { handleAppError } from "utils/handleApiError";
 
 export default function ProfileDetails() {
   const [showName, setShowName] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
   const { showNotification } = useAlert();
 
   const { data, isLoading } = useQuery("fetchUserDetails", getProfileDetails, {
-    onSuccess(data) {
-      console.log("Profile Data", data);
-    },
+    onSuccess(data) {},
   });
 
   const { mutate, isLoading: isMutateChangeNameLoading } = useMutation(
     changeName,
     {
       onSuccess(data) {
+        queryClient.invalidateQueries("fetchUserDetails-x");
+        queryClient.invalidateQueries("fetchUserDetails");
         showNotification?.("Success", { type: "success" });
       },
       onError(err) {
@@ -282,7 +283,7 @@ export default function ProfileDetails() {
               sx={{
                 marginTop: "30px",
               }}
-              placeholder='000000'
+              placeholder='Type your phone number'
             />
             <Alert
               sx={{

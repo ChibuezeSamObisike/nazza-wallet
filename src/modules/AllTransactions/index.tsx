@@ -82,7 +82,7 @@ export default function AllTransactions() {
   };
   return (
     <div style={{ marginTop: "40px" }}>
-      <TextTag label='Transaction History' />
+      <TextTag label='Transaction history' />
       <div style={{ marginBottom: "50px" }}></div>
       <AppTable
         rows={dataTable}
