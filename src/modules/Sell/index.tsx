@@ -13,6 +13,8 @@ import TransferProcessing from "components/modals/TransferProcessing";
 
 import useSmallScreen from "hooks/useSmallScreen";
 
+import axios from "axios";
+
 const steps = [
   { title: "Choose amount", subtitle: "Enter the amount you want to sell " },
   { title: "Account", subtitle: "Select your cash destination " },
@@ -48,6 +50,32 @@ export default function HorizontalLinearStepper() {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
+
+  React.useEffect(() => {
+    const dataInfo = async () => {
+      // const res = await axios.get(
+      //   `https://api.coingecko.com/api/v3/coins/markets?vs_currency=USD&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+      // );
+
+      const res = await axios.get(
+        `https://api.coingecko.com/api/v3/coins/markets`,
+        {
+          params: {
+            vs_currency: "usd", // Set the currency to USD
+            ids: "bitcoin,ethereum,tether", // Comma-separated list of coin ids
+            order: "market_cap_desc",
+            per_page: 10,
+            page: 1,
+          },
+        }
+      );
+
+      console.log("Data info for coins", res.data[0].current_price);
+      return res.data[0].current_price;
+    };
+
+    dataInfo();
+  }, []);
 
   return (
     <Box sx={{ width: "100%" }}>

@@ -112,8 +112,8 @@ export default function AccountSetUp() {
         fontWeight={400}
         fontSize={pxToRem(18)}
       >
-        Please make sure the details are correct as they will be use used to
-        verify your identity.
+        Please make sure the details are correct as they will be used to verify
+        your identity.
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box display='flex' flexDirection={{ xs: "column", md: "row" }}>

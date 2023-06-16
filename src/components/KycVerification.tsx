@@ -21,7 +21,7 @@ export default function KycVerification({
             <Typography fontWeight='bold' mb={2}>
               Level 1 - Verification
             </Typography>
-            <Typography>Sell Limit : NGN 50,000</Typography>
+            <Typography>Profile setup</Typography>
           </Box>
           {verifyStatus ? (
             <Box>

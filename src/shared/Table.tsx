@@ -134,7 +134,7 @@ export default function BasicTable({
 
             <Box marginX='auto' width='80%'>
               <Typography mt='20px' variant='subtitle2' fontWeight={300}>
-                When you start using your wallet, transactions Your recent
+                When you start using your wallet, transactions your recent
                 transaction activities show up here, but you haven’t done any
                 transactions yet.ill show here
               </Typography>

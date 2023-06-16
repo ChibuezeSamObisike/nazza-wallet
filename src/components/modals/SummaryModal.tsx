@@ -72,7 +72,7 @@ export default function SummaryModal({
           color='#2574F5'
           fontWeight='bold'
         >
-          {sellVal?.amount}
+          {viewData?.coinValue / sellVal?.amount}
           <span
             style={{
               fontSize: pxToRem(18),

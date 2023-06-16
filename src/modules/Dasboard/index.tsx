@@ -153,7 +153,7 @@ function App() {
                 ml: 3,
               }}
               component='a'
-              href='wa.me/23490631592645'
+              href='https://wa.me/23490631592645'
               target='_blank'
             >
               <PersonAddAltIcon
@@ -224,9 +224,9 @@ function App() {
         </Box>
       )}
 
-      <div style={{ marginTop: "40px" }}>
-        <TextTag label='Transaction History' />
-        <div style={{ marginBottom: "50px" }}></div>
+      <div>
+        <TextTag label='Transaction history' />
+
         <AppTable
           rows={dataTable}
           columns={columns}

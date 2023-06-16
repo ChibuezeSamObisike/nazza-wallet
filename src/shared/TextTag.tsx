@@ -9,13 +9,7 @@ export default function TextTag({
   style?: React.CSSProperties;
 }) {
   return (
-    <Box
-      bgcolor='#FFFFFF'
-      borderRadius='8px'
-      p='10px'
-      color='#101628'
-      sx={{ ...style }}
-    >
+    <Box bgcolor='#FFFFFF' p='10px' color='#101628' sx={{ ...style }}>
       <Typography variant='subtitle2' fontWeight='bold'>
         {label}
       </Typography>

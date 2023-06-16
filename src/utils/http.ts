@@ -19,10 +19,6 @@ const refresh = async () => {
   return response;
 };
 
-refresh()
-  .then((x) => console.log("Refresh then", x))
-  .catch((x) => console.log("Refresh Error", x));
-
 // Request interceptor for API calls
 http.interceptors.request.use(
   async (config: AxiosRequestConfig) => {
@@ -52,7 +48,7 @@ http.interceptors.response.use(
     const prevRequest = error?.config;
     if (error?.response?.status === 400) {
       const refreshT = await refresh();
-      console.log("Refresh Token", refreshT);
+      // console.log("Refresh Token", refreshT);
       prevRequest.headers[
         "x-auth-token"
       ] = `Bearer ${refreshT.data?.accessToken}`;

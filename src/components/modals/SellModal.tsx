@@ -132,8 +132,8 @@ export default function SellModal({
               }}
               textAlign='left'
             >
-              1 {`${coindData?.target.value.name.toUpperCase()}`} ~{" "}
-              {`${coindData?.target.value.rate}  NAIRA`}
+              {`${coindData?.target.value.name.toUpperCase()} RATE`} ~{" "}
+              {`${coindData?.target.value.rate}  NAIRA/ DOLLAR`}
             </Typography>
           )}
 
