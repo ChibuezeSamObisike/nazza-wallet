@@ -22,19 +22,9 @@ const menuLink = [
     icon: AccountBalanceWalletRoundedIcon,
   },
   {
-    label: "Settings",
-    path: "/profile",
-    icon: SettingsIcon,
-  },
-  {
     label: "Invite",
-    path: "/invite",
+    path: "/referrals",
     icon: PersonAddIcon,
-  },
-  {
-    label: "Help",
-    path: "/help",
-    icon: InfoIcon,
   },
   {
     label: "Logout",
