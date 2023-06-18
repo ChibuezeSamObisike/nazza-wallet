@@ -44,7 +44,7 @@ http.interceptors.response.use(
     return response;
   },
   async (error) => {
-    console.log("Error>>>>>", error);
+    // console.log("Error>>>>>", error);
     const prevRequest = error?.config;
     if (error?.response?.status === 400) {
       const refreshT = await refresh();

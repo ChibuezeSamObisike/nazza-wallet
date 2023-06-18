@@ -34,7 +34,20 @@ export default function Sidebar({
         ml={20}
         pt={10}
       >
-        <Avatar />
+        {/* <Avatar /> */}
+        <Box
+          width='200px'
+          height='200px'
+          display='flex'
+          alignItems='center'
+          justifyContent='center'
+          bgcolor='grey'
+          borderRadius='50%'
+        >
+          <Typography color='#fff' fontSize={90}>
+            {data?.name[0]} {data?.lastname[0]}
+          </Typography>
+        </Box>
         <Typography textAlign={"center"} variant='h3' pt={4} fontWeight='bold'>
           {data?.name} {data?.lastname}
         </Typography>

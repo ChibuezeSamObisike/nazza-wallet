@@ -66,11 +66,11 @@ function App() {
 
   const dataTable = tableData?.map((x: any) =>
     createData(
-      x?.coin?.name,
-      `${x?.amount} ${x?.coin?.name}`,
+      x?.network,
+      `${x?.amount_usd} `,
       `N ${numberToFigure(x?.amount_ngn)}`,
       `${x?.createdAt.split("T")[0]}`,
-      `${x?.coin.network}`,
+      `${x?.network}`,
       "Deposit"
     )
   );
@@ -95,7 +95,7 @@ function App() {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     console.log("Change Page row", event?.target?.value);
-    setRowsPerPage(parseInt(event.target.value, 10));
+    setRowsPerPage(+event?.target?.value);
   };
 
   const { data } = useQuery("fetchUserDetails", getProfileDetails, {
@@ -153,7 +153,7 @@ function App() {
                 ml: 3,
               }}
               component='a'
-              href='https://wa.me/23490631592645'
+              href='https://wa.me/2348182681223'
               target='_blank'
             >
               <PersonAddAltIcon

@@ -242,7 +242,7 @@ export default function BasicTable({
           )}
         </Table>
       </TableContainer>
-      {!(rows?.length > 0) && !isLoading && (
+      {rows?.length > 0 && !isLoading && (
         <TablePagination
           component='div'
           count={rows?.length}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -63,6 +63,10 @@ export default function CashDestination({
 
   const { sellVal, viewData } = useSell();
   const { convertToAmount } = useAmount(viewData.currency);
+
+  useEffect(() => {
+    setChecked(true);
+  }, []);
 
   const {
     setValue,
@@ -367,6 +371,7 @@ export default function CashDestination({
               flexDirection={{ md: "row", xs: "column" }}
             >
               <Checkbox
+                checked={checked}
                 sx={{}}
                 onChange={(e) => {
                   // setBankID(x?._id);

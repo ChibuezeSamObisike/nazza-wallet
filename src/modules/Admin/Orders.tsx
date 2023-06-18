@@ -251,8 +251,8 @@ export function AppModal({ open, onClose, loading, data }: any) {
         width={{ md: "30%", xs: "85%" }}
         borderRadius='13px'
         p={4}
-        mt='10%'
-        minHeight='40%'
+        mt='4%'
+        // minHeight='40%'
         bgcolor='#fff'
         mx='auto'
       >
@@ -285,7 +285,7 @@ export function AppModal({ open, onClose, loading, data }: any) {
                   fontWeight: "bold",
                 }}
               >
-                {data?.amount}
+                {data?.amount.toFixed(4)}
                 <span
                   style={{
                     fontSize: pxToRem(13),
@@ -342,9 +342,11 @@ export function AppModal({ open, onClose, loading, data }: any) {
                 )}`
               )}
 
+              <Button fullWidth>Confirm Transaction</Button>
+
               <Button
                 sx={{
-                  mt: 4,
+                  mt: 2,
                 }}
                 fullWidth
                 variant='outlined'

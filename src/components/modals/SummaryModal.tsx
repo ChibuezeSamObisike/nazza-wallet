@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Box,
   Typography,
@@ -72,7 +72,7 @@ export default function SummaryModal({
           color='#2574F5'
           fontWeight='bold'
         >
-          {viewData?.coinValue / sellVal?.amount}
+          {(viewData?.coinValue / sellVal?.amount).toFixed(4)}
           <span
             style={{
               fontSize: pxToRem(18),
@@ -99,7 +99,7 @@ export default function SummaryModal({
         <Box mt={3}>
           {renderPrice("Coin", `${viewData?.coinName}`)}
           {renderPrice(
-            "Amount to pay",
+            "Total payout",
             `NGN ${numberToFigure?.(sellVal?.amount * viewData?.coinValue)}`
           )}
           {renderPrice("Cash Destination", "Bank")}
