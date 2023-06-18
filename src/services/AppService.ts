@@ -62,7 +62,6 @@ export const getHistory = async ({ queryKey }: any) => {
   return http
     .get(`trade/history?page=${currPage}&limit=${rowsPerPage}`)
     .then((res) => {
-      console.log("trade data", res.data);
       return res.data;
     });
 };

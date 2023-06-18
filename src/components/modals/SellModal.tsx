@@ -10,13 +10,11 @@ import {
 } from "@mui/material";
 
 import { useQuery } from "react-query";
-
 import { getCoinRates } from "services/AppService";
+import { useSell } from "modules/Sell";
 
 import SellSmallScreen from "shared/layout/SellSmallScreen";
 import getIcon from "utils/getIcon";
-
-import { useSell } from "modules/Sell";
 
 export default function SellModal({
   open,
@@ -133,7 +131,7 @@ export default function SellModal({
               textAlign='left'
             >
               {`${coindData?.target.value.name.toUpperCase()} RATE`} ~{" "}
-              {`${coindData?.target.value.rate}  NAIRA/ DOLLAR`}
+              {`${coindData?.target.value.rate}  ₦/$`}
             </Typography>
           )}
 

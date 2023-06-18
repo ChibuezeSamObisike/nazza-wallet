@@ -25,7 +25,8 @@ const Empty: React.FC<IEmptyProps> = ({
       sx={{ placeItems: "center", height: "100%" }}
     >
       <Box>
-        {CustomeEmptyIcon ? <CustomeEmptyIcon /> : <EmptyIcon />}
+        {/* {CustomeEmptyIcon ? <CustomeEmptyIcon /> : <EmptyIcon />} */}
+        <h1>No values</h1>
         <Box mb={2}>
           <Typography
             variant='body1'

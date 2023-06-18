@@ -83,9 +83,8 @@ export default function SummaryModal({
             {viewData?.coinName}
           </span>
         </Typography>
-
         <Typography>
-          1 {viewData?.coinName} ~ N{viewData?.coinValue}
+          {viewData?.coinName} RATE ~ {viewData?.coinValue} ₦/$
         </Typography>
 
         <Divider

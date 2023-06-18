@@ -12,6 +12,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import SellSmallScreen from "shared/layout/SellSmallScreen";
 import { useSell } from "modules/Sell";
 import { useAlert } from "hooks/useAlert";
+import { useAmount } from "hooks/useAmount";
 
 import QRCode from "react-qr-code";
 import { pxToRem } from "utils/pxToRem";
@@ -27,6 +28,7 @@ export default function TransferCrypto({
 }) {
   const { viewData } = useSell();
   const { showNotification } = useAlert();
+  const { convertToAmount } = useAmount(viewData.currency);
 
   React.useEffect(() => {
     console.log("View Data", viewData);
@@ -57,18 +59,24 @@ export default function TransferCrypto({
                   marginRight: "4px",
                 }}
               >
-                ${viewData?.amount_usd}
+                {convertToAmount?.(viewData?.amount_usd)}
               </span>
-              to this Bitcoin address below or scan the QR code
+              worth of {viewData?.coinName} to this address below or scan the QR
+              code.
             </Typography>
-            <Alert
-              severity='warning'
-              sx={{
-                my: 3,
-              }}
-            >
-              make sure you are sending to a TRN20 network.
-            </Alert>
+            {!(viewData?.coinName === "BTC") && (
+              <Alert
+                severity='warning'
+                sx={{
+                  my: 3,
+                }}
+              >
+                make sure you are sending to a{" "}
+                {viewData.coinName === "USD" && "ERC 20 "}
+                {viewData.coinName === "ETH" && "BEP 20 "}
+                network.
+              </Alert>
+            )}
 
             <Box
               mx='auto'

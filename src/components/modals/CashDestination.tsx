@@ -347,7 +347,7 @@ export default function CashDestination({
           </Typography>
 
           <Typography>
-            {viewData?.coinName} RATE ~ N{viewData?.coinValue} NAIRA / DOLLAR
+            {viewData?.coinName} RATE ~ {viewData?.coinValue} ₦/$
           </Typography>
 
           {isLoading && (

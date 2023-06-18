@@ -66,11 +66,11 @@ function App() {
 
   const dataTable = tableData?.map((x: any) =>
     createData(
-      x?.network,
-      `${x?.amount_usd} `,
+      x?.coin?.name,
+      `${x?.amount} ${x?.coin?.name}`,
       `N ${numberToFigure(x?.amount_ngn)}`,
       `${x?.createdAt.split("T")[0]}`,
-      `${x?.network}`,
+      `${x?.coin.network}`,
       "Deposit"
     )
   );
@@ -95,7 +95,7 @@ function App() {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     console.log("Change Page row", event?.target?.value);
-    setRowsPerPage(+event?.target?.value);
+    setRowsPerPage(parseInt(event.target.value, 10));
   };
 
   const { data } = useQuery("fetchUserDetails", getProfileDetails, {
