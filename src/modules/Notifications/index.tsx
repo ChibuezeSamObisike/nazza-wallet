@@ -13,6 +13,8 @@ import { useQuery } from "react-query";
 import { getNotifications } from "services/AppService";
 import { handleAppError } from "utils/handleApiError";
 
+import { format, parseISO } from "date-fns";
+
 import moment from "moment";
 
 export default function Index() {
@@ -101,10 +103,9 @@ export default function Index() {
                         color: "#A4A3A7",
                       }}
                     />
-                    <Typography ml={1}>{getTime(x?.updateAt)}</Typography>
-                    <Typography mx={2}>|</Typography>
                     <Typography ml={1}>
-                      {dateToDateConverter(x.updatedAt)}
+                      {" "}
+                      {format(parseISO(x?.updatedAt), "d MMMM yyyy HH:mm:ss")}
                     </Typography>
                   </Box>
                 </Box>

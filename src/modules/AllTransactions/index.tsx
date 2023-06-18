@@ -1,21 +1,26 @@
 import AppTable from "shared/Table";
 import TextTag from "shared/TextTag";
 
+import { useGetUser } from "contexts/UserProvider";
+
 import { getHistory } from "services/AppService";
 import { useQuery } from "react-query";
 import { createData } from "shared/Table";
 import { useState } from "react";
 import { numberToFigure } from "utils/numberToFigure";
-import { getTotalPayout } from "services/AppService";
+import { getTotalPayout, getProfileDetails } from "services/AppService";
+import { pxToRem } from "utils/pxToRem";
+import { convertToSentenceCase } from "hooks/sentenceCase";
 
-export default function AllTransactions() {
+function App() {
   const [tableData, setTableData] = useState<any>([]);
   const [currPage, setCurrPage] = useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [pageSize, setPageSize] = useState<number | null>(0);
+  const [totalItems, setTotalItems] = useState<number>(5);
   const [payOutData, setPayOutData] = useState<any | null | undefined>(null);
 
-  const { isLoading } = useQuery(
+  const { isLoading, data: historyData } = useQuery(
     [
       "getHistory",
       {
@@ -28,9 +33,12 @@ export default function AllTransactions() {
       onSuccess(data) {
         setTableData(data?.trades);
         setPageSize(data?.paginationMeta.totalPages);
-        setRowsPerPage(data?.paginationMeta.totalRecords);
+        setTotalItems(data?.paginationMeta.totalRecords);
+        // setRowsPerPage(data?.paginationMeta.totalRecords);
       },
-      onError(err) {},
+      onError(err) {
+        console.log("Table error", err);
+      },
     }
   );
 
@@ -46,11 +54,11 @@ export default function AllTransactions() {
 
   const dataTable = tableData?.map((x: any) =>
     createData(
-      x?.coin?.name,
-      `${x?.amount} ${x?.coin?.name}`,
+      x?.coin.toUpperCase(),
+      `${x?.amount.toFixed(4)} ${x?.coin.toUpperCase()}`,
       `N ${numberToFigure(x?.amount_ngn)}`,
       `${x?.createdAt.split("T")[0]}`,
-      `${x?.coin.network}`,
+      `${convertToSentenceCase(x?.network)}`,
       "Deposit"
     )
   );
@@ -77,20 +85,32 @@ export default function AllTransactions() {
     console.log("Change Page row", event?.target?.value);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
+
+  const { data } = useQuery("fetchUserDetails", getProfileDetails, {
+    onSuccess(data) {
+      console.log("Profile Data1>", data);
+    },
+  });
   return (
-    <div style={{ marginTop: "40px" }}>
-      <TextTag label='Transaction history' />
-      <div style={{ marginBottom: "50px" }}></div>
-      <AppTable
-        rows={dataTable}
-        columns={columns}
-        isLoading={isLoading}
-        pageSize={pageSize}
-        rowsPerPage={rowsPerPage}
-        page={currPage}
-        handleChangePage={handleChangePage}
-        handleChangeRowsPerPage={handleChangeRowsPerPage}
-      />
+    <div>
+      <div>
+        <TextTag label='All transactions' />
+
+        <AppTable
+          rows={dataTable}
+          data={historyData}
+          count={totalItems}
+          columns={columns}
+          isLoading={isLoading}
+          pageSize={pageSize}
+          rowsPerPage={rowsPerPage}
+          page={currPage}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
+        />
+      </div>
     </div>
   );
 }
+
+export default App;

@@ -18,6 +18,8 @@ import MobileTransactionCard from "./MobileTransaction";
 import status from "utils/status";
 import { numberToFigure } from "utils/numberToFigure";
 
+import { format, parseISO } from "date-fns";
+
 export function createData(
   crypto: string,
   number: string,
@@ -101,7 +103,9 @@ export default function BasicTable({
               px={2}
             >
               <div>
-                <h5>{x?.createdAt.split("T")[0]}</h5>
+                <h5>
+                  {format(parseISO(x?.createdAt), "d MMMM yyyy HH:mm:ss")}
+                </h5>
                 <div style={{ display: "flex" }}>
                   <img
                     src={getIcon(x?.coin.toUpperCase())}
