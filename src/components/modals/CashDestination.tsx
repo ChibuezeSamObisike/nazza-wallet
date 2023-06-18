@@ -117,7 +117,7 @@ export default function CashDestination({
       setAccountName(data?.account_name);
     },
     onError(err) {
-      showNotification?.(handleAppError(err), {
+      showNotification?.("Invalid account details" || handleAppError(err), {
         type: "error",
       });
     },
@@ -128,7 +128,7 @@ export default function CashDestination({
       showNotification?.("Success", { type: "success" });
     },
     onError(err) {
-      showNotification?.(handleAppError(err), {
+      showNotification?.("Account name does not match" || handleAppError(err), {
         type: "error",
       });
     },
