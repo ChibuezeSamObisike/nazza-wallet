@@ -51,8 +51,6 @@ export default function Login() {
       } else if (data?.user?.twofa?.on) {
         navigate("/verify-email-otp", { state: { email: data?.user?.email } });
       }
-
-      console.log("Access Token>", data?.user?.twofa);
     },
     onError(error) {
       console.log("Error login", error);

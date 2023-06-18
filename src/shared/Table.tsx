@@ -66,6 +66,10 @@ export default function BasicTable({
   data,
 }: any) {
   const isMobile = useSmallScreen();
+  React.useEffect(() => {
+    console.log("is Mobile", isMobile);
+    console.log("Data", data);
+  }, []);
 
   function toTitleCase(str: string) {
     return str.replace(/\w\S*/g, function (txt: string) {
@@ -73,21 +77,7 @@ export default function BasicTable({
     });
   }
 
-  // console.log("Price... data", rows);
-
-  if (isMobile && tableMobile?.length > 0) {
-    return (
-      <>
-        {tableMobile?.map((x, i) => (
-          <div key={i}>
-            <MobileTransactionCard {...x} />
-          </div>
-        ))}
-      </>
-    );
-  }
-
-  if (isMobile && tableMobile?.length <= 0) {
+  if (isMobile && data?.trades?.length > 0) {
     return (
       <div>
         {data?.trades?.map((x: any) => {
@@ -153,6 +143,34 @@ export default function BasicTable({
       </div>
     );
   }
+
+  if (isMobile && !data) {
+    return (
+      <>
+        <Box
+          mx='auto'
+          display='flex'
+          alignItems='center'
+          justifyContent='center'
+          mt={4}
+        >
+          <EmptyIcon />
+        </Box>
+
+        <Box marginX='auto' width='70%'>
+          <Typography
+            mt='20px'
+            textAlign='center'
+            variant='subtitle2'
+            fontWeight={300}
+          >
+            You haven't done any transactions yet.
+          </Typography>
+        </Box>
+      </>
+    );
+  }
+
   return (
     <>
       <TableContainer
