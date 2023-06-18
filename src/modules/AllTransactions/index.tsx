@@ -26,14 +26,11 @@ export default function AllTransactions() {
     getHistory,
     {
       onSuccess(data) {
-        console.log("Data table", data);
         setTableData(data?.trades);
         setPageSize(data?.paginationMeta.totalPages);
         setRowsPerPage(data?.paginationMeta.totalRecords);
       },
-      onError(err) {
-        console.log("Table error", err);
-      },
+      onError(err) {},
     }
   );
 

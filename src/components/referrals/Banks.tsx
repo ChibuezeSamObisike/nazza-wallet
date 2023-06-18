@@ -54,9 +54,7 @@ export default function Banks() {
 
     {
       enabled: true,
-      onSuccess(data) {
-        console.log("Bank list", data);
-      },
+      onSuccess(data) {},
     }
   );
 

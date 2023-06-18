@@ -99,13 +99,11 @@ export default function Wallet() {
     getTrades,
     {
       onSuccess(data) {
-        console.log("Data table", data.trades);
         setTableData(data?.trades);
         setPageSize(data?.paginationMeta.totalPages);
         setRowsPerPage(data?.paginationMeta.totalRecords);
       },
       onError(err) {
-        console.log("table error", err);
         showNotification?.(handleAppError(err), {
           type: "error",
         });

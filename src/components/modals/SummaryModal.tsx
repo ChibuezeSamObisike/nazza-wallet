@@ -42,7 +42,7 @@ export default function SummaryModal({
         address: data?.trade?.address,
         amount_usd: data?.trade?.amount_usd,
       });
-      showNotification?.("Sell triggered!", { type: "success" });
+      showNotification?.("Sucessful", { type: "success" });
       openNext!();
     },
     onError(error) {

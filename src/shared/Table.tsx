@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import Paper from "@mui/material/Paper";
-import { Box, Typography } from "@mui/material";
+import { Box, Chip, Typography } from "@mui/material";
 
 import Loader from "./Loader";
 import getIcon from "utils/getIcon";
@@ -15,6 +15,8 @@ import useSmallScreen from "hooks/useSmallScreen";
 
 import { ReactComponent as EmptyIcon } from "assets/EmptyStateIcon.svg";
 import MobileTransactionCard from "./MobileTransaction";
+import status from "utils/status";
+import { numberToFigure } from "utils/numberToFigure";
 
 export function createData(
   crypto: string,
@@ -46,42 +48,6 @@ export function createData(
   };
 }
 
-// const tableMobile = [
-//   {
-//     chip: "Sell",
-//     number: "1.3BTC",
-//     price: "N23,000",
-//     network: "BNB",
-//     date: "23rd May 2022",
-//     icon: "USDT",
-//   },
-//   {
-//     chip: "Sell",
-//     number: "1.3BTC",
-//     price: "N23,000",
-//     network: "BNB",
-//     date: "23rd May 2022",
-//     icon: "Lite Coin",
-//   },
-//   {
-//     chip: "Deposit",
-//     number: "1.3BTC",
-//     price: "N23,000",
-//     network: "BNB",
-//     date: "23rd May 2022",
-//     icon: "Dodge",
-//   },
-
-//   {
-//     chip: "Withdraw",
-//     number: "1.3BTC",
-//     price: "N23,000",
-//     network: "BNB",
-//     date: "23rd May 2022",
-//     icon: "Bitcoin",
-//   },
-// ];
-
 const tableMobile: any[] = [];
 
 export default function BasicTable({
@@ -89,11 +55,13 @@ export default function BasicTable({
   columns,
   isLoading,
   pageSize,
+  count,
   page,
   rowsPerPage,
   handleChangePage,
   handleChangeRowsPerPage,
   onRowItemClick,
+  data,
 }: any) {
   const isMobile = useSmallScreen();
 
@@ -119,29 +87,66 @@ export default function BasicTable({
 
   if (isMobile && tableMobile?.length <= 0) {
     return (
-      <TableRow>
-        <TableCell
-          component='td'
-          scope='row'
-          colSpan={40}
-          sx={{
-            textAlign: "center",
-            height: "35vh",
-          }}
-        >
-          <>
-            <EmptyIcon />
-
-            <Box marginX='auto' width='80%'>
-              <Typography mt='20px' variant='subtitle2' fontWeight={300}>
-                When you start using your wallet, transactions your recent
-                transaction activities show up here, but you haven’t done any
-                transactions yet.ill show here
-              </Typography>
+      <div>
+        {data?.trades?.map((x: any) => {
+          console.log("Small table x", x);
+          return (
+            <Box
+              display='flex'
+              alignItems='center'
+              justifyContent='space-between'
+              bgcolor='#fff'
+              my={1}
+              p={1}
+              px={2}
+            >
+              <div>
+                <h5>{x?.createdAt.split("T")[0]}</h5>
+                <div style={{ display: "flex" }}>
+                  <img
+                    src={getIcon(x?.coin.toUpperCase())}
+                    style={{ marginRight: "15px" }}
+                    alt='Icon'
+                  />
+                  <p>{x?.coin.toUpperCase()} </p>
+                </div>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "right",
+                  flexDirection: "column",
+                }}
+              >
+                <Chip
+                  label={status(x?.status)?.text}
+                  sx={{
+                    bgcolor: status(x?.status)?.bgcolor,
+                    color: status(x?.status)?.color,
+                    mb: 2,
+                    alignSelf: "right",
+                  }}
+                />
+                <Typography fontWeight='bold'>
+                  ₦{numberToFigure(x?.amount_ngn)}
+                </Typography>
+              </div>
             </Box>
-          </>
-        </TableCell>
-      </TableRow>
+          );
+        })}
+
+        {rows?.length > 0 && !isLoading && (
+          <TablePagination
+            component='div'
+            count={count}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPageOptions={[1, 5, 10, 15, 20]}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        )}
+      </div>
     );
   }
   return (
@@ -245,7 +250,7 @@ export default function BasicTable({
       {rows?.length > 0 && !isLoading && (
         <TablePagination
           component='div'
-          count={rows?.length}
+          count={count}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPageOptions={[1, 5, 10, 15, 20]}

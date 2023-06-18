@@ -19,6 +19,7 @@ import { useState } from "react";
 import { numberToFigure } from "utils/numberToFigure";
 import { getTotalPayout, getProfileDetails } from "services/AppService";
 import { pxToRem } from "utils/pxToRem";
+import { convertToSentenceCase } from "hooks/sentenceCase";
 
 function App() {
   const navigate = useNavigate();
@@ -26,13 +27,14 @@ function App() {
 
   const [tableData, setTableData] = useState<any>([]);
   const [currPage, setCurrPage] = useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [pageSize, setPageSize] = useState<number | null>(0);
+  const [totalItems, setTotalItems] = useState<number>(5);
   const [payOutData, setPayOutData] = useState<any | null | undefined>(null);
 
   const user = useGetUser();
 
-  const { isLoading } = useQuery(
+  const { isLoading, data: historyData } = useQuery(
     [
       "getHistory",
       {
@@ -43,10 +45,10 @@ function App() {
     getHistory,
     {
       onSuccess(data) {
-        console.log("Data table", data);
         setTableData(data?.trades);
         setPageSize(data?.paginationMeta.totalPages);
-        setRowsPerPage(data?.paginationMeta.totalRecords);
+        setTotalItems(data?.paginationMeta.totalRecords);
+        // setRowsPerPage(data?.paginationMeta.totalRecords);
       },
       onError(err) {
         console.log("Table error", err);
@@ -66,11 +68,11 @@ function App() {
 
   const dataTable = tableData?.map((x: any) =>
     createData(
-      x?.coin?.name,
-      `${x?.amount} ${x?.coin?.name}`,
+      x?.coin.toUpperCase(),
+      `${x?.amount.toFixed(4)} ${x?.coin.toUpperCase()}`,
       `N ${numberToFigure(x?.amount_ngn)}`,
       `${x?.createdAt.split("T")[0]}`,
-      `${x?.coin.network}`,
+      `${convertToSentenceCase(x?.network)}`,
       "Deposit"
     )
   );
@@ -206,12 +208,9 @@ function App() {
               mt: 3,
             }}
             fullWidth
-            rel='noopener noreferrer'
             component='a'
-            onClick={() => {
-              // window.location.href = "https://wa.me/23490631592645";
-              window.open("http://wa.me/23490631592645", "_blank")?.focus();
-            }}
+            href='https://wa.me/2348182681223'
+            target='_blank'
           >
             <PersonAddAltIcon
               sx={{
@@ -229,6 +228,8 @@ function App() {
 
         <AppTable
           rows={dataTable}
+          data={historyData}
+          count={totalItems}
           columns={columns}
           isLoading={isLoading}
           pageSize={pageSize}

@@ -95,9 +95,7 @@ export default function CashDestination({
 
   const { data, isLoading } = useQuery("fetchBanks", getBanks, {
     enabled: true,
-    onSuccess(data) {
-      console.log("Bank Data", data);
-    },
+    onSuccess(data) {},
   });
 
   const { data: listOfBanks, isLoading: isBankListLoading } = useQuery(
@@ -105,9 +103,7 @@ export default function CashDestination({
     getBankList,
     {
       enabled: true,
-      onSuccess(data) {
-        console.log("Bank list", data);
-      },
+      onSuccess(data) {},
     }
   );
 
@@ -130,7 +126,6 @@ export default function CashDestination({
   const addBankMutate = useMutation(addBankFunc, {
     onSuccess(data) {
       showNotification?.("Success", { type: "success" });
-      console.log("Bank data successful", data);
     },
     onError(err) {
       showNotification?.(handleAppError(err), {
@@ -238,12 +233,6 @@ export default function CashDestination({
           {accountName !== "" && (
             <Button
               onClick={() => {
-                console.log(
-                  "Bank details",
-                  listOfBanks?.find(
-                    (x: any) => x.code === getValues().bank_code
-                  )?.name
-                );
                 addBankMutate.mutate({
                   bank_name: listOfBanks?.find(
                     (x: any) => x.code === getValues().bank_code

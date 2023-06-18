@@ -93,7 +93,6 @@ export const resetPassword = async ({ data }: any) => {
 };
 
 export const suspendUser = async (data: any) => {
-  console.log("Get data", data);
   return http.put(`admin/suspend/${data}`, data).then((res) => res.data);
 };
 
@@ -102,7 +101,6 @@ export const toggle2fa = async () => {
 };
 
 export const login2fa = async (data: any) => {
-  console.log("Login 2fa data", data);
   return http.post("user/login/2fa", data).then((r) => r.data);
 };
 
@@ -111,7 +109,6 @@ export const changeName = async ({ data }: any) => {
 };
 
 export const updateProfile = async (data: any) => {
-  console.log("From API", data);
   return http.put("user/profile", data).then((r) => r.data);
 };
 
@@ -128,7 +125,6 @@ export const getBankList = async () => {
 };
 
 export const deleteBank = async (id: any) => {
-  console.log("query keyyyyyyyss", id);
   return http.delete(`user/bank/${id}`);
 };
 
@@ -144,7 +140,6 @@ export const getTrades = async ({ queryKey }: any) => {
   return http
     .get(`admin/trades?page=${currPage}&limit=${rowsPerPage}`)
     .then((res) => {
-      console.log("trades data", res.data);
       return res.data;
     });
 };
@@ -155,7 +150,6 @@ export const getWallets = async ({ queryKey }: any) => {
   return http
     .get(`admin/wallets?page=${currPage}&limit=${rowsPerPage}`)
     .then((res) => {
-      console.log("trades data", res.data);
       return res.data;
     });
 };
@@ -164,7 +158,6 @@ export const getTrade = async ({ queryKey }: any) => {
   const [, { id }] = queryKey;
 
   return http.get(`admin/trade/${id}`).then((res) => {
-    console.log("trades data", res.data);
     return res.data;
   });
 };
@@ -175,7 +168,6 @@ export const getAllUsers = async ({ queryKey }: any) => {
   return http
     .get(`admin/users?page=${currPage}&limit=${rowsPerPage}`)
     .then((res) => {
-      console.log("trades data", res.data);
       return res.data;
     });
 };

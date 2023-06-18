@@ -27,12 +27,8 @@ export default function SellModal({
 }) {
   const { data } = useQuery("getCoinRatess", getCoinRates, {
     enabled: true,
-    onSuccess(data) {
-      console.log("Data", data);
-    },
-    onError(err) {
-      console.log("Error", err);
-    },
+    onSuccess(data) {},
+    onError(err) {},
   });
 
   const { sellVal, setSellVal, setViewData, viewData } = useSell();
