@@ -26,6 +26,7 @@ export function createData(
   price: string,
   date: string,
   network: string,
+  status: any,
   type: string
 ) {
   return {
@@ -46,7 +47,9 @@ export function createData(
     number,
     price,
     date,
+    status,
     network,
+    type,
   };
 }
 
@@ -66,10 +69,6 @@ export default function BasicTable({
   data,
 }: any) {
   const isMobile = useSmallScreen();
-  React.useEffect(() => {
-    console.log("is Mobile", isMobile);
-    console.log("Data", data);
-  }, []);
 
   function toTitleCase(str: string) {
     return str.replace(/\w\S*/g, function (txt: string) {

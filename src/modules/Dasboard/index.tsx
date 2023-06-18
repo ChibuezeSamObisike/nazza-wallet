@@ -1,7 +1,7 @@
 import TotalCard from "components/dashboard/TotalCard";
 
 import PersonAddAltIcon from "@mui/icons-material/WhatsApp";
-import { Box, Button, Typography, Skeleton } from "@mui/material";
+import { Box, Button, Typography, Skeleton, Chip } from "@mui/material";
 import AppTable from "shared/Table";
 import TextTag from "shared/TextTag";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,7 @@ import { useState } from "react";
 import { numberToFigure } from "utils/numberToFigure";
 import { getTotalPayout, getProfileDetails } from "services/AppService";
 import { pxToRem } from "utils/pxToRem";
+import status from "utils/status";
 import { convertToSentenceCase } from "hooks/sentenceCase";
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
     getHistory,
     {
       onSuccess(data) {
+        console.log("Dataa Trades", data?.trades);
         setTableData(data?.trades);
         setPageSize(data?.paginationMeta.totalPages);
         setTotalItems(data?.paginationMeta.totalRecords);
@@ -73,6 +75,15 @@ function App() {
       `N ${numberToFigure(x?.amount_ngn)}`,
       `${x?.createdAt.split("T")[0]}`,
       `${convertToSentenceCase(x?.network)}`,
+      <Chip
+        label={status(x?.status)?.text}
+        sx={{
+          bgcolor: status(x?.status)?.bgcolor,
+          color: status(x?.status)?.color,
+          mb: 2,
+          alignSelf: "right",
+        }}
+      />,
       "Deposit"
     )
   );
@@ -83,6 +94,7 @@ function App() {
     { key: "price" },
     { key: "date" },
     { key: "network" },
+    { key: "status", align: "right" },
   ];
 
   const handleChangePage = (
@@ -101,9 +113,7 @@ function App() {
   };
 
   const { data } = useQuery("fetchUserDetails", getProfileDetails, {
-    onSuccess(data) {
-      console.log("Profile Data1>", data);
-    },
+    onSuccess(data) {},
   });
   return (
     <div>
