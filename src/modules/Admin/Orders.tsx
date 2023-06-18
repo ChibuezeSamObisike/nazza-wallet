@@ -244,7 +244,13 @@ export default function Orders() {
   );
 }
 
-export function AppModal({ open, onClose, loading, data }: any) {
+export function AppModal({
+  open,
+  onClose,
+  loading,
+  data,
+  onConfirmClick,
+}: any) {
   return (
     <Modal open={open} onClose={onClose}>
       <Box
@@ -342,7 +348,9 @@ export function AppModal({ open, onClose, loading, data }: any) {
                 )}`
               )}
 
-              <Button fullWidth>Confirm Transaction</Button>
+              <Button onClick={() => onConfirmClick?.()} fullWidth>
+                Confirm Transaction
+              </Button>
 
               <Button
                 sx={{

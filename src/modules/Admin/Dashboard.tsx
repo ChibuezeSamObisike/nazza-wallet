@@ -1,8 +1,20 @@
 import React, { useState } from "react";
 import AdminLayout from "./Components/AdminLayout";
-import { Box, Typography, Button, Chip, Modal } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  Chip,
+  Modal,
+  CircularProgress,
+} from "@mui/material";
+import GenericModal from "components/modals/GenericModal";
 
-import { useQuery } from "react-query";
+import http from "utils/http";
+
+import { useQuery, useMutation, useQueryClient } from "react-query";
+
+import { AxiosError } from "axios";
 
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
@@ -10,6 +22,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import TextTag from "shared/TextTag";
 
+import deleteGif from "assets/bank-delete.gif";
 import { getAdminStats, getTrades, getTrade } from "services/AppService";
 import getIcon from "utils/getIcon";
 import { numberToFigure } from "utils/numberToFigure";
@@ -26,12 +39,18 @@ import { AppModal } from "./Orders";
 export default function Dashboard() {
   const [tableData, setTableData] = useState<any>([]);
   const [currPage, setCurrPage] = useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = useState(3);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [pageSize, setPageSize] = useState<number | null>(0);
+  const [totalItems, setTotalItems] = useState<number>(5);
+  const [payOutData, setPayOutData] = useState<any | null | undefined>(null);
   const [adminStats, setAdminStats] = useState<any | null | undefined>(null);
-  const [openID, setOpenID] = useState<string>();
+  const [openID, setOpenID] = useState<string>("");
   const [modal, setModal] = useState(false);
   const [modalData, setModalData] = useState<any>();
+
+  const [openBank, setOpenBank] = useState<boolean>();
+
+  const queryClient = useQueryClient();
 
   const { showNotification } = useAlert();
 
@@ -44,6 +63,11 @@ export default function Dashboard() {
   const onClose = () => {
     setOpenID("");
     setModal(false);
+  };
+
+  const closeBankModal = () => {
+    setOpenID("");
+    setOpenBank(false);
   };
 
   function createData(
@@ -84,6 +108,27 @@ export default function Dashboard() {
     };
   }
 
+  const deleteBankMute = useMutation(
+    (id: string | number) => {
+      return http.delete(`admin/trade/${id}`);
+    },
+    {
+      onSuccess() {
+        showNotification?.("Successfully Paid out", {
+          type: "success",
+        });
+        setOpenID("");
+        queryClient.invalidateQueries("getTrade2");
+        closeBankModal();
+      },
+      onError(error: AxiosError) {
+        showNotification?.(handleAppError(error), {
+          type: "error",
+        });
+      },
+    }
+  );
+
   const { isLoading } = useQuery(
     [
       "getTrades",
@@ -97,7 +142,8 @@ export default function Dashboard() {
       onSuccess(data) {
         setTableData(data?.trades);
         setPageSize(data?.paginationMeta.totalPages);
-        setRowsPerPage(data?.paginationMeta.totalRecords);
+        setTotalItems(data?.paginationMeta.totalRecords);
+        // setRowsPerPage(data?.paginationMeta.totalRecords);
       },
       onError(err) {
         showNotification?.(handleAppError(err), {
@@ -177,9 +223,58 @@ export default function Dashboard() {
       <AppModal
         loading={isTradeLoading}
         open={modal}
+        onConfirmClick={() => {
+          onClose();
+          setOpenBank(true);
+        }}
         onClose={onClose}
         data={modalData}
       />
+
+      <GenericModal open={openBank} close={closeBankModal}>
+        <Box textAlign='center'>
+          <Box>
+            <img src={deleteGif} alt='delete gif' width={200} />
+          </Box>
+          <Typography fontWeight='bold' fontSize={pxToRem(18)}>
+            Confirm Transaction
+          </Typography>
+          <Typography mt={3} fontWeight={300} color='#8C8B90'>
+            Make sure you check profile name with users bank account name before
+            you send cash.
+          </Typography>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Button
+              sx={{
+                my: 3,
+              }}
+              onClick={() => deleteBankMute.mutate(openID)}
+              startIcon={
+                deleteBankMute?.isLoading && (
+                  <CircularProgress
+                    size={16}
+                    sx={{
+                      fontSize: 2,
+                      color: "#fff",
+                    }}
+                  />
+                )
+              }
+            >
+              Confirm Transaction
+            </Button>
+            <Button variant='outlined' onClick={() => closeBankModal()}>
+              Close
+            </Button>
+          </div>
+        </Box>
+      </GenericModal>
       <UpdateRatesModal />
       <AdminLayout>
         <Box>
@@ -279,6 +374,7 @@ export default function Dashboard() {
             <BasicTable
               rows={dataTable}
               columns={columns}
+              count={totalItems}
               isLoading={isLoading}
               pageSize={pageSize}
               rowsPerPage={rowsPerPage}
