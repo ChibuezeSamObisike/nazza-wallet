@@ -15,8 +15,6 @@ import { handleAppError } from "utils/handleApiError";
 
 import { format, parseISO } from "date-fns";
 
-import moment from "moment";
-
 export default function Index() {
   const { showNotification } = useAlert();
   const { data, isLoading, isError } = useQuery(
@@ -34,16 +32,6 @@ export default function Index() {
       },
     }
   );
-
-  const dateToDateConverter = (date: any): any => {
-    let dateFx = moment(new Date(date)).format("Do MMM YYYY, h:mm a");
-
-    return dateFx;
-  };
-
-  const getTime = (date: any) => {
-    return moment(new Date(date)).format("h:mm a");
-  };
 
   return (
     <Box>

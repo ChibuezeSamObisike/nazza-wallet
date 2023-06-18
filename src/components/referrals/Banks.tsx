@@ -82,15 +82,13 @@ export default function Banks() {
 
   const addBank = useMutation(getBankAcctName, {
     onSuccess(data) {
-      showNotification?.("Success", { type: "success" });
-      console.log("Bank data successful", data);
       setAccountName(data?.account_name);
       // reset();
       // setOpenM1(false);
       // setOpenM2(true);
     },
     onError(err) {
-      showNotification?.(handleAppError(err), {
+      showNotification?.("Invalid account details" || handleAppError(err), {
         type: "error",
       });
     },
@@ -99,13 +97,14 @@ export default function Banks() {
   const addBankMutate = useMutation(addBankFunc, {
     onSuccess(data) {
       queryClient.invalidateQueries("fetchBanks");
-      showNotification?.("Success", { type: "success" });
+
       setOpenM1(false);
       setOpenM2(true);
       console.log("Bank data successful", data);
     },
     onError(err) {
-      showNotification?.(handleAppError(err), {
+      console.log("Add bank error", err);
+      showNotification?.("Account name does not match" || handleAppError(err), {
         type: "error",
       });
     },
