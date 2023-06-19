@@ -45,7 +45,6 @@ export default function Orders() {
   const { showNotification } = useAlert();
 
   const onRowItemClick = (id: string) => {
-    console.log("Row ID", id);
     setOpenID(id);
     setModal(true);
   };
@@ -131,11 +130,9 @@ export default function Orders() {
     {
       enabled: !!openID && openID !== "",
       onSuccess(data) {
-        console.log("Orders", data);
         setModalData(data);
       },
       onError(err) {
-        console.log("table error", err);
         showNotification?.(handleAppError(err), {
           type: "error",
         });
@@ -154,13 +151,11 @@ export default function Orders() {
     getTrades,
     {
       onSuccess(data) {
-        console.log("Data table1", data);
         setTableData(data?.trades);
         setPageSize(data?.paginationMeta.totalPages);
         setRowsPerPage(data?.paginationMeta.totalRecords);
       },
       onError(err) {
-        console.log("table error", err);
         showNotification?.(handleAppError(err), {
           type: "error",
         });
@@ -196,7 +191,6 @@ export default function Orders() {
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    console.log("Page No>>", Event);
     setCurrPage(newPage);
   };
 

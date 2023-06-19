@@ -30,9 +30,6 @@ export default function TransferCrypto({
   const { showNotification } = useAlert();
   const { convertToAmount } = useAmount(viewData.currency);
 
-  React.useEffect(() => {
-    console.log("View Data", viewData);
-  }, []);
   return (
     <Box>
       <SellSmallScreen

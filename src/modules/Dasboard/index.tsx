@@ -46,15 +46,12 @@ function App() {
     getHistory,
     {
       onSuccess(data) {
-        console.log("Dataa Trades", data?.trades);
         setTableData(data?.trades);
         setPageSize(data?.paginationMeta.totalPages);
         setTotalItems(data?.paginationMeta.totalRecords);
         // setRowsPerPage(data?.paginationMeta.totalRecords);
       },
-      onError(err) {
-        console.log("Table error", err);
-      },
+      onError(err) {},
     }
   );
 
@@ -83,8 +80,7 @@ function App() {
           mb: 2,
           alignSelf: "right",
         }}
-      />,
-      "Deposit"
+      />
     )
   );
 
@@ -101,14 +97,12 @@ function App() {
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    console.log("Page No>>", Event);
     setCurrPage(newPage);
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    console.log("Change Page row", event?.target?.value);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 

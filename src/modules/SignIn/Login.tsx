@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Typography,
@@ -20,7 +20,7 @@ import { useForm, FieldValues } from "react-hook-form";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 import { yupResolver } from "@hookform/resolvers/yup";
-import { handleAppError } from "utils/handleApiError";
+import handleApiError, { handleAppError } from "utils/handleApiError";
 
 import { setRefreshToken, setToken } from "utils/auth";
 
@@ -38,7 +38,7 @@ export default function Login() {
     setShowPassword(!showPassword);
   };
 
-  const { mutate, isLoading } = useMutation(login, {
+  const { mutate, isLoading, error, isError } = useMutation(login, {
     onSuccess(data) {
       console.log("Login data info", data);
       setName(JSON.stringify(data?.user));
@@ -53,8 +53,9 @@ export default function Login() {
       }
     },
     onError(error) {
-      console.log("Error login", error);
-      showNotification?.(handleAppError(error), { type: "error" });
+      showNotification?.(handleAppError(error) || handleApiError(error), {
+        type: "error",
+      });
     },
   });
 

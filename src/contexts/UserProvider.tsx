@@ -18,9 +18,7 @@ export default function UserProvider({ children }: any) {
     onSuccess(data) {
       setUser(data);
     },
-    onError(error) {
-      console.log(error);
-    },
+    onError(error) {},
   });
 
   return (

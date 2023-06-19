@@ -7,14 +7,12 @@ export const login = async (payload: any) => {
 };
 
 export const register = async (data: any) => {
-  console.log("Register data", data);
   return http.post("user/register/", data).then((res) => {
     return res.data;
   });
 };
 
 export const sellCoin = async (data: any) => {
-  console.log("Sell coin API", data);
   return http.post("trade/sell/", data).then((res) => {
     return res.data;
   });
@@ -67,7 +65,6 @@ export const getHistory = async ({ queryKey }: any) => {
 };
 
 export const addBankFunc = async (data: any) => {
-  console.log("Add bank func", data);
   return http.post("user/bank/add/", data).then((res) => {
     return res.data;
   });

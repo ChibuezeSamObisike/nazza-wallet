@@ -93,7 +93,10 @@ export default function Index() {
                     />
                     <Typography ml={1}>
                       {" "}
-                      {format(parseISO(x?.updatedAt), "d MMMM yyyy HH:mm:ss")}
+                      {format(
+                        parseISO(x?.createdAt || x?.updatedAt),
+                        "d MMMM yyyy HH:mm:ss"
+                      )}
                     </Typography>
                   </Box>
                 </Box>

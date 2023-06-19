@@ -89,7 +89,6 @@ export default function SellModal({
                 },
               }}
               onChange={(x: any) => {
-                console.log("Coin data change", x.target.value);
                 setCoinData(x);
                 setViewData({
                   ...viewData,
@@ -167,7 +166,7 @@ export default function SellModal({
                 }}
                 onChange={(x: any) => {
                   setCoin(x.target?.value);
-                  console.log("Coin change", x.target?.value);
+
                   setViewData({ ...viewData, currency: x?.target?.value });
                 }}
                 defaultValue={"USD"}

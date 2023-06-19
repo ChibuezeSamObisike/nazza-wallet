@@ -51,7 +51,6 @@ export default function Customers() {
     getAllUsers,
     {
       onSuccess(data) {
-        console.log("Data table", data);
         setTableData(data?.users);
         setPageSize(data?.paginationMeta.totalPages);
         setRowsPerPage(data?.paginationMeta.totalRecords);
@@ -62,7 +61,6 @@ export default function Customers() {
   const navigate = useNavigate();
 
   const onRowItemClick = (data: any) => {
-    console.log("Row item click", data);
     navigate(`/customers/${data}`);
   };
 
@@ -171,7 +169,6 @@ export default function Customers() {
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    console.log("Change Page row", event?.target?.value);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
   return (

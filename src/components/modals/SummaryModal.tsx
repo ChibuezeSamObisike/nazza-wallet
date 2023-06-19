@@ -36,7 +36,6 @@ export default function SummaryModal({
 
   const { mutate, isLoading } = useMutation(sellCoin, {
     onSuccess(data) {
-      console.log("Sell succcsss", data);
       setViewData({
         ...viewData,
         address: data?.trade?.address,

@@ -26,8 +26,7 @@ export function createData(
   price: string,
   date: string,
   network: string,
-  status: any,
-  type: string
+  status: any
 ) {
   return {
     crypto: (
@@ -49,7 +48,6 @@ export function createData(
     date,
     status,
     network,
-    type,
   };
 }
 
@@ -80,7 +78,6 @@ export default function BasicTable({
     return (
       <div>
         {data?.trades?.map((x: any) => {
-          console.log("Small table x", x);
           return (
             <Box
               display='flex'

@@ -100,11 +100,9 @@ export default function Banks() {
 
       setOpenM1(false);
       setOpenM2(true);
-      console.log("Bank data successful", data);
     },
     onError(err) {
-      console.log("Add bank error", err);
-      showNotification?.("Account name does not match" || handleAppError(err), {
+      showNotification?.(handleAppError(err) || "Account name does not match", {
         type: "error",
       });
     },
@@ -198,6 +196,9 @@ export default function Banks() {
               options={listOfBanks}
               fullWidth
               loading={isBankListLoading}
+              sx={{
+                fontSize: 4,
+              }}
               {...register("bank_code")}
               getOptionLabel={(option: { name: string }) => option?.name}
               onChange={(event, item: any) => {

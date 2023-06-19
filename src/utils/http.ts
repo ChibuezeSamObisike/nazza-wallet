@@ -39,26 +39,27 @@ http.interceptors.request.use(
     Promise.reject(error);
   }
 );
-http.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  async (error) => {
-    // console.log("Error>>>>>", error);
-    const prevRequest = error?.config;
-    if (error?.response?.status === 400) {
-      const refreshT = await refresh();
-      // console.log("Refresh Token", refreshT);
-      prevRequest.headers[
-        "x-auth-token"
-      ] = `Bearer ${refreshT.data?.accessToken}`;
 
-      return http(prevRequest);
-    }
+// http.interceptors.response.use(
+//   (response) => {
+//     return response;
+//   },
+//   async (error) => {
+//     // console.log("Error>>>>>", error);
+//     const prevRequest = error?.config;
+//     if (error?.response?.status === 400) {
+//       const refreshT = await refresh();
+//       // console.log("Refresh Token", refreshT);
+//       prevRequest.headers[
+//         "x-auth-token"
+//       ] = `Bearer ${refreshT.data?.accessToken}`;
 
-    Promise.reject(error);
-  }
-);
+//       return http(prevRequest);
+//     }
+
+//     Promise.reject(error);
+//   }
+//);
 
 // Response interceptor for API calls
 // http.interceptors.response.use(

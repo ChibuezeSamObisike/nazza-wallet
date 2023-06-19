@@ -36,7 +36,6 @@ export default function Dashboard() {
   const { showNotification } = useAlert();
 
   const onRowItemClick = (id: string) => {
-    console.log("Row ID", id);
     setOpenID(id);
     setModal(true);
   };
@@ -95,13 +94,11 @@ export default function Dashboard() {
     getTrades,
     {
       onSuccess(data) {
-        console.log("Data table", data.trades);
         setTableData(data?.trades);
         setPageSize(data?.paginationMeta.totalPages);
         setRowsPerPage(data?.paginationMeta.totalRecords);
       },
       onError(err) {
-        console.log("table error", err);
         showNotification?.(handleAppError(err), {
           type: "error",
         });
@@ -139,11 +136,9 @@ export default function Dashboard() {
     {
       enabled: !!openID && openID !== "",
       onSuccess(data) {
-        console.log("Get trade 2 data", data);
         setModalData(data);
       },
       onError(err) {
-        console.log("table error", err);
         showNotification?.(handleAppError(err), {
           type: "error",
         });
@@ -164,14 +159,12 @@ export default function Dashboard() {
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    console.log("Page No>>", Event);
     setCurrPage(newPage);
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    console.log("Change Page row", event?.target?.value);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
   return (

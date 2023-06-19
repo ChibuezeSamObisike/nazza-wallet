@@ -31,13 +31,11 @@ export default function VerifyEmail() {
       getDecodedJwt();
     },
     onError(error) {
-      console.log("Verify Email error", error);
       showNotification?.(handleAppError(error), { type: "error" });
     },
   });
 
   const handleSubmit = (): void => {
-    console.log({ email: location?.state?.email, code: otp });
     mutate({ email: location?.state?.email, code: otp });
   };
 

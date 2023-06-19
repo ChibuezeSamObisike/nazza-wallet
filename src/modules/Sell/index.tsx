@@ -70,7 +70,7 @@ export default function HorizontalLinearStepper() {
         }
       );
 
-      console.log("Data info for coins", res.data[0].current_price);
+      // console.log("Data info for coins", res.data[0].current_price);
       return res.data[0].current_price;
     };
 

@@ -36,9 +36,7 @@ function App() {
         setTotalItems(data?.paginationMeta.totalRecords);
         // setRowsPerPage(data?.paginationMeta.totalRecords);
       },
-      onError(err) {
-        console.log("Table error", err);
-      },
+      onError(err) {},
     }
   );
 
@@ -75,21 +73,17 @@ function App() {
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    console.log("Page No>>", Event);
     setCurrPage(newPage);
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    console.log("Change Page row", event?.target?.value);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 
   const { data } = useQuery("fetchUserDetails", getProfileDetails, {
-    onSuccess(data) {
-      console.log("Profile Data1>", data);
-    },
+    onSuccess(data) {},
   });
   return (
     <div>
