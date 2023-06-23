@@ -142,11 +142,15 @@ export default function Dashboard() {
 
   const { mutate, isLoading: isMutationLoading } = useMutation(putRate, {
     onSuccess() {
+      queryClient.invalidateQueries("getAllCoins");
+      setRate("");
       showNotification?.("Successfully updated rate", {
         type: "success",
       });
     },
     onError(error: AxiosError) {
+      queryClient.invalidateQueries("getAllCoins");
+      setRate("");
       showNotification?.(handleAppError(error), {
         type: "error",
       });
@@ -542,6 +546,23 @@ function UpdateRatesModal({
   handleSubmit,
   isMutationLoading,
 }: any) {
+  const { data } = useQuery("getAllCoins", getAllCoins, {
+    onSuccess(data) {
+      console.log("Data", data);
+    },
+    enabled: true,
+  });
+
+  const [result, setResult] = useState("");
+
+  useEffect(() => {
+    setResult(data?.find((x: any) => x?.name === currCoin.toLowerCase()).rate);
+    console.log(
+      "Result",
+      data?.find((x: any) => x?.name === currCoin.toLowerCase()).rate
+    );
+  }, [currCoin]);
+
   return (
     <Modal
       open={openRates}
@@ -618,7 +639,16 @@ function UpdateRatesModal({
           </Box>
 
           <Box sx={{ width: "100%" }}>
-            <TextField label='Current Rate' fullWidth sx={{ width: "100%" }} />
+            <TextField
+              label='Current Rate'
+              disabled
+              value={result}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              fullWidth
+              sx={{ width: "100%" }}
+            />
             <TextField
               sx={{ my: 2 }}
               label='New Rate'
