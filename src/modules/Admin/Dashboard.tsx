@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminLayout from "./Components/AdminLayout";
 import {
   Box,
@@ -7,12 +7,17 @@ import {
   Chip,
   Modal,
   CircularProgress,
+  IconButton,
+  TextField,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import CandlestickChartIcon from "@mui/icons-material/CandlestickChart";
 import GenericModal from "components/modals/GenericModal";
 
 import http from "utils/http";
 
 import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useAmount } from "hooks/useAmount";
 
 import { AxiosError } from "axios";
 
@@ -24,10 +29,9 @@ import TextTag from "shared/TextTag";
 
 import deleteGif from "assets/bank-delete.gif";
 import { getAdminStats, getTrades, getTrade } from "services/AppService";
-import getIcon from "utils/getIcon";
-import { numberToFigure } from "utils/numberToFigure";
 
 import { pxToRem } from "utils/pxToRem";
+import getIcon from "utils/getIcon";
 
 import BasicTable from "shared/Table";
 
@@ -42,7 +46,6 @@ export default function Dashboard() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [pageSize, setPageSize] = useState<number | null>(0);
   const [totalItems, setTotalItems] = useState<number>(5);
-  const [payOutData, setPayOutData] = useState<any | null | undefined>(null);
   const [adminStats, setAdminStats] = useState<any | null | undefined>(null);
   const [openID, setOpenID] = useState<string>("");
   const [modal, setModal] = useState(false);
@@ -50,9 +53,13 @@ export default function Dashboard() {
 
   const [openBank, setOpenBank] = useState<boolean>();
 
+  const [openRates, setOpenRates] = useState(false);
+  const [currCoin, setCurrCoin] = useState("USDT");
+
   const queryClient = useQueryClient();
 
   const { showNotification } = useAlert();
+  const { convertToAmount } = useAmount("USD");
 
   const onRowItemClick = (id: string) => {
     setOpenID(id);
@@ -60,12 +67,10 @@ export default function Dashboard() {
   };
 
   const onClose = () => {
-    setOpenID("");
     setModal(false);
   };
 
   const closeBankModal = () => {
-    setOpenID("");
     setOpenBank(false);
   };
 
@@ -107,16 +112,21 @@ export default function Dashboard() {
     };
   }
 
+  useEffect(() => {
+    console.log("Open ID", openID);
+  }, [openID]);
+
   const deleteBankMute = useMutation(
     (id: string | number) => {
-      return http.delete(`admin/trade/${id}`);
+      console.log("ID", id);
+      return http.put(`admin/trade/${id}`);
     },
     {
       onSuccess() {
         showNotification?.("Successfully Paid out", {
           type: "success",
         });
-        setOpenID("");
+
         queryClient.invalidateQueries("getTrade2");
         closeBankModal();
       },
@@ -270,7 +280,12 @@ export default function Dashboard() {
           </div>
         </Box>
       </GenericModal>
-      <UpdateRatesModal />
+      <UpdateRatesModal
+        openRates={openRates}
+        closeRates={() => setOpenRates(false)}
+        currCoin={currCoin}
+        setCurrCoin={setCurrCoin}
+      />
       <AdminLayout>
         <Box>
           <Box
@@ -304,6 +319,7 @@ export default function Dashboard() {
                 Sell Message
               </Button>
               <Button
+                onClick={() => setOpenRates(true)}
                 sx={{
                   bgcolor: "#ff7262",
                   color: "white",
@@ -340,7 +356,7 @@ export default function Dashboard() {
                 title='Total Payout'
                 subText={
                   adminStats?.totalPayoutUsd
-                    ? "$ " + adminStats?.totalPayoutUsd
+                    ? convertToAmount(adminStats?.totalPayoutUsd)
                     : "--"
                 }
               />
@@ -405,7 +421,7 @@ function AdminCard({
       }}
     >
       <Typography>{title}</Typography>
-      <Typography fontSize={pxToRem(35)} color='#001D4B' fontWeight='bold'>
+      <Typography fontSize={pxToRem(25)} color='#001D4B' fontWeight='bold'>
         {subText}
       </Typography>
 
@@ -465,20 +481,117 @@ function AdminCard({
   );
 }
 
-function UpdateRatesModal() {
+function UpdateRatesModal({
+  openRates,
+  closeRates,
+  currCoin,
+  setCurrCoin,
+}: any) {
   return (
-    <Modal open={!true}>
+    <Modal
+      open={openRates}
+      sx={{
+        borderRadius: "10px",
+      }}
+    >
       <Box
         sx={{
           bgcolor: "#fff",
-          width: "50%",
+          width: "40%",
           height: "60%",
           mx: "auto",
           mt: "80px",
+          p: 5,
         }}
       >
-        Hello worls
+        <Box display='flex' justifyContent='flex-end'>
+          <IconButton onClick={closeRates}>
+            <CloseIcon />
+          </IconButton>
+        </Box>
+        <Box
+          display='flex'
+          alignItems='center'
+          flexDirection='column'
+          justifyContent='center'
+        >
+          <Box
+            height='80px'
+            display='flex'
+            alignItems='center'
+            justifyContent='center'
+            bgcolor='#E9F1FF'
+            width='80px'
+            borderRadius='50%'
+          >
+            <CandlestickChartIcon
+              sx={{
+                fontSize: pxToRem(50),
+              }}
+            />
+          </Box>
+
+          <Typography mt={2} fontWeight='bold' variant='h5'>
+            Update Rates
+          </Typography>
+
+          <Box
+            display='flex'
+            alignItems='center'
+            justifyContent='space-around'
+            width='100%'
+            mt={2}
+          >
+            <CoinComponent currCoin={currCoin} onClick={setCurrCoin} />{" "}
+            <CoinComponent
+              coin='BTC'
+              currCoin={currCoin}
+              onClick={setCurrCoin}
+            />{" "}
+            <CoinComponent
+              coin='ETH'
+              currCoin={currCoin}
+              onClick={setCurrCoin}
+            />
+          </Box>
+
+          <Box sx={{ width: "100%" }}>
+            <TextField label='Current Rate' fullWidth sx={{ width: "100%" }} />
+            <TextField sx={{ my: 2 }} label='New Rate' fullWidth />
+
+            <Button sx={{ mt: 2 }} fullWidth>
+              Update
+            </Button>
+          </Box>
+        </Box>
       </Box>
     </Modal>
   );
 }
+
+const CoinComponent = ({ coin = "USDT", currCoin, onClick }: Partial<any>) => {
+  return (
+    <Box
+      onClick={() => onClick(coin)}
+      sx={{
+        width: "100%",
+        cursor: "pointer",
+      }}
+      p={2}
+      m={2}
+      display='flex'
+      alignItems='center'
+      border='1px solid #EBEBEB'
+      borderRadius={pxToRem(4)}
+      bgcolor={coin === currCoin ? "#001D4B" : ""}
+      color={coin === currCoin ? "white" : ""}
+    >
+      <img
+        src={getIcon(coin.toUpperCase())}
+        style={{ marginRight: "15px" }}
+        alt='Icon'
+      />
+      {coin.toUpperCase()}{" "}
+    </Box>
+  );
+};

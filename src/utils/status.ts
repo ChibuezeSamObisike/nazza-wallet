@@ -3,7 +3,7 @@
 2-paid out
 3-cancelled*/
 
-const status = (x: number) => {
+const status = (x: {}) => {
   if (x === 0) {
     return { text: "Pending", bgcolor: "#FFF8CC", color: "#806B00" };
   }

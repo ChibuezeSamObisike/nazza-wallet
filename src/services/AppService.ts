@@ -171,3 +171,13 @@ export const getAllUsers = async ({ queryKey }: any) => {
       return res.data;
     });
 };
+
+export const getPayOutHistory = async ({ queryKey }: any) => {
+  const [, { rowsPerPage, currPage }] = queryKey;
+
+  return http
+    .get(`admin/trades?status=2&page=${currPage}&limit=${rowsPerPage}`)
+    .then((res) => {
+      return res.data;
+    });
+};

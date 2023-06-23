@@ -10,7 +10,12 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import TextTag from "shared/TextTag";
 
-import { getAdminStats, getTrades, getTrade } from "services/AppService";
+import {
+  getAdminStats,
+  getTrades,
+  getTrade,
+  getPayOutHistory,
+} from "services/AppService";
 import getIcon from "utils/getIcon";
 import { numberToFigure } from "utils/numberToFigure";
 
@@ -23,6 +28,8 @@ import { handleAppError } from "utils/handleApiError";
 
 import { AppModal } from "./Orders";
 
+import getChipColor from "utils/getChipColor";
+
 export default function Wallet() {
   const [tableData, setTableData] = useState<any>([]);
   const [currPage, setCurrPage] = useState<number>(0);
@@ -32,6 +39,7 @@ export default function Wallet() {
   const [openID, setOpenID] = useState<string>();
   const [modal, setModal] = useState(false);
   const [modalData, setModalData] = useState<any>();
+  const [totalItems, setTotalItems] = useState<number>(5);
 
   const { showNotification } = useAlert();
 
@@ -54,20 +62,12 @@ export default function Wallet() {
       name,
       crypto: (
         <Box display='flex' alignItems='center'>
-          {/* <img
-            src={getIcon(crypto)}
+          <img
+            src={getIcon(crypto.toUpperCase())}
             style={{ marginRight: "15px" }}
             alt='Icon'
-          /> */}
-          {crypto}{" "}
-          {/* <Chip
-          label={type}
-          sx={{
-            color: getChipColor(type).text,
-            bgcolor: getChipColor(type).bg,
-            marginLeft: "15px",
-          }}
-        /> */}
+          />
+          {crypto.toUpperCase()}{" "}
         </Box>
       ),
       number,
@@ -86,12 +86,13 @@ export default function Wallet() {
         currPage: currPage + 1,
       },
     ],
-    getTrades,
+    getPayOutHistory,
     {
       onSuccess(data) {
         setTableData(data?.trades);
         setPageSize(data?.paginationMeta.totalPages);
-        setRowsPerPage(data?.paginationMeta.totalRecords);
+
+        setTotalItems(data?.paginationMeta.totalRecords);
       },
       onError(err) {
         showNotification?.(handleAppError(err), {
@@ -111,11 +112,11 @@ export default function Wallet() {
     createData(
       x?._id,
       x?.user?.name,
-      x?.network,
+      x?.coin,
       x?.user?.name,
       x?.amount_ngn,
       x?.createdAt.split("T")[0],
-      x?.network,
+      x?.network.toUpperCase(),
       x?.network
     )
   );
@@ -179,6 +180,7 @@ export default function Wallet() {
               style={{ padding: "6px", marginBottom: "40px" }}
             />
             <BasicTable
+              count={totalItems}
               rows={dataTable}
               columns={columns}
               isLoading={isLoading}

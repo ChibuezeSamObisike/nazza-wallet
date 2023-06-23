@@ -36,11 +36,12 @@ import ClearIcon from "@mui/icons-material/Clear";
 export default function Orders() {
   const [tableData, setTableData] = useState<any>([]);
   const [currPage, setCurrPage] = useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [pageSize, setPageSize] = useState<number | null>(0);
   const [openID, setOpenID] = useState<string>();
   const [modal, setModal] = useState(false);
   const [modalData, setModalData] = useState<any>();
+  const [totalItems, setTotalItems] = useState<number>(5);
 
   const { showNotification } = useAlert();
 
@@ -105,11 +106,11 @@ export default function Orders() {
       crypto: (
         <Box display='flex' alignItems='center'>
           <img
-            src={getIcon(crypto)}
+            src={getIcon(crypto.toUpperCase())}
             style={{ marginRight: "15px" }}
             alt='Icon'
           />
-          {crypto}{" "}
+          {crypto?.toUpperCase()}{" "}
         </Box>
       ),
       number,
@@ -151,9 +152,11 @@ export default function Orders() {
     getTrades,
     {
       onSuccess(data) {
+        console.log("Crypto trades data", data);
         setTableData(data?.trades);
         setPageSize(data?.paginationMeta.totalPages);
-        setRowsPerPage(data?.paginationMeta.totalRecords);
+
+        setTotalItems(data?.paginationMeta.totalRecords);
       },
       onError(err) {
         showNotification?.(handleAppError(err), {
@@ -167,12 +170,12 @@ export default function Orders() {
     createData(
       x?._id,
       x?.status,
-      x?.user?.name,
-      x?.network,
+      `${x?.user?.name} ${x?.user?.lastname}`,
+      x?.coin,
       `${x?.amount}`,
       `N ${numberToFigure(x?.amount_ngn)}`,
       `${x?.createdAt.split("T")[0]}`,
-      x?.network,
+      x?.network.toUpperCase(),
       "Deposit"
     )
   );
@@ -224,6 +227,7 @@ export default function Orders() {
               rows={dataTable}
               columns={columns}
               isLoading={isLoading}
+              count={totalItems}
               pageSize={pageSize}
               rowsPerPage={rowsPerPage}
               page={currPage}

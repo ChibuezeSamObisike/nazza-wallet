@@ -26,9 +26,9 @@ import { useNavigate } from "react-router-dom";
 export default function Customers() {
   const [tableData, setTableData] = useState<any>([]);
   const [currPage, setCurrPage] = useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [pageSize, setPageSize] = useState<number | null>(0);
-  const [payOutData, setPayOutData] = useState<any | null | undefined>(null);
+  const [totalItems, setTotalItems] = useState<number>(5);
 
   const queryClient = useQueryClient();
 
@@ -51,9 +51,11 @@ export default function Customers() {
     getAllUsers,
     {
       onSuccess(data) {
+        console.log("Data", data);
         setTableData(data?.users);
         setPageSize(data?.paginationMeta.totalPages);
-        setRowsPerPage(data?.paginationMeta.totalRecords);
+
+        setTotalItems(data?.paginationMeta.totalRecords);
       },
     }
   );
@@ -188,6 +190,7 @@ export default function Customers() {
           <BasicTable
             rows={dataTable}
             columns={columns}
+            count={totalItems}
             isLoading={isLoading}
             pageSize={pageSize}
             rowsPerPage={rowsPerPage}
