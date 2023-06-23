@@ -181,3 +181,14 @@ export const getPayOutHistory = async ({ queryKey }: any) => {
       return res.data;
     });
 };
+
+export const getAllCoins = async () => {
+  return http.get("admin/coins").then((res) => res.data);
+};
+
+export const putRate = async (payload: any) => {
+  console.log("Coin ID payload", payload);
+  return http.put("admin/rate", payload).then((res) => {
+    return res.data;
+  });
+};

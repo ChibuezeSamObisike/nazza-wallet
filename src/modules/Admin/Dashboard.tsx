@@ -28,7 +28,13 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import TextTag from "shared/TextTag";
 
 import deleteGif from "assets/bank-delete.gif";
-import { getAdminStats, getTrades, getTrade } from "services/AppService";
+import {
+  getAdminStats,
+  getTrades,
+  getTrade,
+  getAllCoins,
+  putRate,
+} from "services/AppService";
 
 import { pxToRem } from "utils/pxToRem";
 import getIcon from "utils/getIcon";
@@ -56,10 +62,20 @@ export default function Dashboard() {
   const [openRates, setOpenRates] = useState(false);
   const [currCoin, setCurrCoin] = useState("USDT");
 
+  const [rate, setRate] = useState("");
+
+  const [allCoins, setAllCoins] = useState([]);
+  const [coinID, setCoinID] = useState("");
+
   const queryClient = useQueryClient();
 
   const { showNotification } = useAlert();
   const { convertToAmount } = useAmount("USD");
+
+  const handleInputChange = (e: any) => {
+    console.log("Input change", e?.target?.value);
+    setRate(e?.target?.value);
+  };
 
   const onRowItemClick = (id: string) => {
     setOpenID(id);
@@ -73,6 +89,18 @@ export default function Dashboard() {
   const closeBankModal = () => {
     setOpenBank(false);
   };
+
+  const handleFindAndSetCoin = (coin: string) => {
+    const result: any = allCoins.find(
+      (x: any) => x?.name === coin.toLowerCase()
+    );
+    console.log("result ID", result);
+    setCoinID(result?._id);
+  };
+
+  useEffect(() => {
+    handleFindAndSetCoin("USDT");
+  }, []);
 
   function createData(
     _id: string,
@@ -112,13 +140,26 @@ export default function Dashboard() {
     };
   }
 
-  useEffect(() => {
-    console.log("Open ID", openID);
-  }, [openID]);
+  const { mutate, isLoading: isMutationLoading } = useMutation(putRate, {
+    onSuccess() {
+      showNotification?.("Successfully updated rate", {
+        type: "success",
+      });
+    },
+    onError(error: AxiosError) {
+      showNotification?.(handleAppError(error), {
+        type: "error",
+      });
+    },
+  });
+
+  const handleSubmit = () => {
+    console.log("coin ID", coinID);
+    mutate({ id: coinID, rate: Number(rate) });
+  };
 
   const deleteBankMute = useMutation(
     (id: string | number) => {
-      console.log("ID", id);
       return http.put(`admin/trade/${id}`);
     },
     {
@@ -165,6 +206,12 @@ export default function Dashboard() {
   useQuery("getAdminStats", getAdminStats, {
     onSuccess(data) {
       setAdminStats(data);
+    },
+  });
+
+  useQuery("getAllCoins", getAllCoins, {
+    onSuccess(data) {
+      setAllCoins(data);
     },
   });
 
@@ -285,6 +332,10 @@ export default function Dashboard() {
         closeRates={() => setOpenRates(false)}
         currCoin={currCoin}
         setCurrCoin={setCurrCoin}
+        handleInputChange={handleInputChange}
+        handleFindAndSetCoin={handleFindAndSetCoin}
+        handleSubmit={handleSubmit}
+        isMutationLoading={isMutationLoading}
       />
       <AdminLayout>
         <Box>
@@ -486,10 +537,15 @@ function UpdateRatesModal({
   closeRates,
   currCoin,
   setCurrCoin,
+  handleFindAndSetCoin,
+  handleInputChange,
+  handleSubmit,
+  isMutationLoading,
 }: any) {
   return (
     <Modal
       open={openRates}
+      onClose={closeRates}
       sx={{
         borderRadius: "10px",
       }}
@@ -542,24 +598,50 @@ function UpdateRatesModal({
             width='100%'
             mt={2}
           >
-            <CoinComponent currCoin={currCoin} onClick={setCurrCoin} />{" "}
+            <CoinComponent
+              handleFindAndSetCoin={handleFindAndSetCoin}
+              currCoin={currCoin}
+              onClick={setCurrCoin}
+            />{" "}
             <CoinComponent
               coin='BTC'
               currCoin={currCoin}
+              handleFindAndSetCoin={handleFindAndSetCoin}
               onClick={setCurrCoin}
             />{" "}
             <CoinComponent
               coin='ETH'
               currCoin={currCoin}
+              handleFindAndSetCoin={handleFindAndSetCoin}
               onClick={setCurrCoin}
             />
           </Box>
 
           <Box sx={{ width: "100%" }}>
             <TextField label='Current Rate' fullWidth sx={{ width: "100%" }} />
-            <TextField sx={{ my: 2 }} label='New Rate' fullWidth />
+            <TextField
+              sx={{ my: 2 }}
+              label='New Rate'
+              onChange={handleInputChange}
+              fullWidth
+            />
 
-            <Button sx={{ mt: 2 }} fullWidth>
+            <Button
+              sx={{ mt: 2 }}
+              fullWidth
+              onClick={() => handleSubmit()}
+              startIcon={
+                isMutationLoading && (
+                  <CircularProgress
+                    size={16}
+                    sx={{
+                      fontSize: 2,
+                      color: "#fff",
+                    }}
+                  />
+                )
+              }
+            >
               Update
             </Button>
           </Box>
@@ -569,10 +651,18 @@ function UpdateRatesModal({
   );
 }
 
-const CoinComponent = ({ coin = "USDT", currCoin, onClick }: Partial<any>) => {
+const CoinComponent = ({
+  coin = "USDT",
+  currCoin,
+  onClick,
+  handleFindAndSetCoin,
+}: Partial<any>) => {
   return (
     <Box
-      onClick={() => onClick(coin)}
+      onClick={() => {
+        handleFindAndSetCoin(coin);
+        onClick(coin);
+      }}
       sx={{
         width: "100%",
         cursor: "pointer",
