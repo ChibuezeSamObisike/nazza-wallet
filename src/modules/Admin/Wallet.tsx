@@ -1,12 +1,29 @@
 import React, { useState } from "react";
 import AdminLayout from "./Components/AdminLayout";
-import { Box, Typography, Button, Chip, Modal } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  Chip,
+  Modal,
+  TextField,
+  InputAdornment,
+  FormControl,
+  MenuItem,
+  Select,
+  Alert,
+} from "@mui/material";
+
+import QRCode from "react-qr-code";
 
 import { useQuery } from "react-query";
 
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import NorthIcon from "@mui/icons-material/North";
+import SouthIcon from "@mui/icons-material/South";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import ScheduleIcon from "@mui/icons-material/Schedule";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 import TextTag from "shared/TextTag";
 
@@ -24,6 +41,7 @@ import BasicTable from "shared/Table";
 
 import { useAlert } from "hooks/useAlert";
 import { handleAppError } from "utils/handleApiError";
+import { getAllWallets } from "services/AppService";
 
 import { AppModal } from "./Orders";
 
@@ -36,6 +54,10 @@ export default function Wallet() {
   const [openID, setOpenID] = useState<string>();
   const [modal, setModal] = useState(false);
   const [modalData, setModalData] = useState<any>();
+
+  const [transferType, setTransferType] = useState("USDT");
+
+  const [openAddFunds, setOpenAddFunds] = useState<boolean>(false);
 
   const { showNotification } = useAlert();
 
@@ -116,6 +138,12 @@ export default function Wallet() {
     },
   });
 
+  const { data } = useQuery("getWalletStats", getAllWallets, {
+    onSuccess(data) {
+      console.log("Wallet stats", data);
+    },
+  });
+
   const dataTable = tableData?.map((x: any) =>
     createData(
       x?._id,
@@ -173,6 +201,179 @@ export default function Wallet() {
   };
   return (
     <>
+      <Modal open={openAddFunds} onClose={() => setOpenAddFunds(false)}>
+        <Box
+          sx={{
+            bgcolor: "#fff",
+            width: "30%",
+            height: "auto",
+            mx: "auto",
+            mt: "80px",
+          }}
+          p={3}
+        >
+          <Box>
+            <Box
+              display='flex'
+              alignItems='center'
+              justifyContent='space-between'
+            >
+              <Box display='flex' alignItems='center'>
+                <KeyboardBackspaceIcon />
+                <Typography ml={2} color='#5D5C63' fontWeight='bold'>
+                  Select transfer type
+                </Typography>
+              </Box>
+              <Typography
+                color='primary'
+                component='button'
+                onClick={() => setOpenAddFunds(false)}
+              >
+                Close
+              </Typography>
+            </Box>
+            <FormControl fullWidth sx={{ my: 3 }}>
+              <Select
+                labelId='demo-simple-select-label'
+                id='demo-simple-select'
+                value={transferType}
+                onChange={(e: any) => {
+                  setTransferType(e?.target?.value);
+                }}
+              >
+                <MenuItem value={"CASH"}>Cash</MenuItem>
+                <MenuItem value={"USDT"}>Crypto (USDT)</MenuItem>
+              </Select>
+            </FormControl>
+            {transferType === "USDT" && (
+              <Box>
+                <Box
+                  mx='auto'
+                  display='flex'
+                  alignItems='center'
+                  justifyContent='center'
+                >
+                  <Box border='1px solid #2574F5' p={2} borderRadius={"19px"}>
+                    <QRCode value={"12345493030"} />
+                  </Box>
+                </Box>
+                <TextField
+                  value='12233ifhjvjkkx.....kkxnkm'
+                  fullWidth
+                  sx={{
+                    my: 2,
+                  }}
+                  label='USDT (BEP 20) Address'
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position='start'>
+                        <ContentCopyIcon
+                          sx={{
+                            color: "#2574F5",
+                          }}
+                        />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <Alert
+                  severity='warning'
+                  sx={{
+                    my: 3,
+                  }}
+                >
+                  make sure you are sending to a TRN20 network.
+                </Alert>
+              </Box>
+            )}
+            {!(transferType === "USDT") && (
+              <Box>
+                <Box
+                  display='flex'
+                  alignItems='center'
+                  my={4}
+                  justifyContent='center'
+                >
+                  <Typography
+                    color='#232D4A'
+                    fontWeight='bold'
+                    fontSize={pxToRem(36)}
+                  >
+                    9837279503
+                  </Typography>{" "}
+                  <ContentCopyIcon
+                    sx={{
+                      ml: 3,
+                      color: "#2574F5",
+                    }}
+                  />
+                </Box>
+
+                <Box
+                  display='flex'
+                  alignItems='center'
+                  justifyContent='justify-between'
+                  flexDirection='column'
+                  sx={{
+                    width: "100%",
+                  }}
+                >
+                  <TextField
+                    value='Nazza Technology'
+                    fullWidth
+                    sx={{
+                      my: 2,
+                    }}
+                    label='Account Name'
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position='start'>
+                          <ContentCopyIcon
+                            sx={{
+                              color: "#2574F5",
+                            }}
+                          />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    value='Access Bank'
+                    label='Bank Name'
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position='start'>
+                          <ContentCopyIcon
+                            sx={{
+                              color: "#2574F5",
+                            }}
+                          />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={{
+                      my: 2,
+                    }}
+                  />
+
+                  <Box
+                    display='flex'
+                    my={2}
+                    alignItems='center'
+                    justifyContent='center'
+                  >
+                    <ScheduleIcon /> <Typography>9:05</Typography>
+                  </Box>
+                </Box>
+              </Box>
+            )}
+            <Button fullWidth onClick={() => setOpenAddFunds(false)}>
+              I have made this payment
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
       <AppModal
         loading={isTradeLoading}
         open={modal}
@@ -202,36 +403,38 @@ export default function Wallet() {
               <Button
                 sx={{
                   px: 4,
+                  bgcolor: "#2574F5",
                 }}
+                onClick={() => setOpenAddFunds(true)}
               >
-                <OpenInNewIcon
+                <NorthIcon
                   sx={{
                     mr: 1,
                     fontWeight: 400,
                   }}
                 />{" "}
-                Sell Message
+                Add Funds
               </Button>
               <Button
                 sx={{
-                  bgcolor: "#ff7262",
+                  bgcolor: "#52C41A",
                   color: "white",
                   fontWeight: 700,
                   ":hover": {
-                    bgcolor: "#ff7262",
+                    bgcolor: "#52C41A",
                     color: "white",
                   },
                   ml: 3,
                   px: 4,
                 }}
               >
-                <PersonAddAltIcon
+                <SouthIcon
                   sx={{
                     mr: 1,
                     fontWeight: 400,
                   }}
                 />
-                Update Rates
+                Request Withdrawal
               </Button>
             </Box>
           </Box>

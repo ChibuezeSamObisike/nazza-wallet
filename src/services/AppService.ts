@@ -186,6 +186,10 @@ export const getAllCoins = async () => {
   return http.get("admin/coins").then((res) => res.data);
 };
 
+export const getAllWallets = async () => {
+  return http.get("admin/wallet_stats").then((res) => res.data);
+};
+
 export const putRate = async (payload: any) => {
   console.log("Coin ID payload", payload);
   return http.put("admin/rate", payload).then((res) => {
