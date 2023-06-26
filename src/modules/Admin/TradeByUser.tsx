@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminLayout from "./Components/AdminLayout";
 import { Box, Typography, Button, Chip, Modal } from "@mui/material";
 
@@ -22,6 +22,8 @@ import { useAlert } from "hooks/useAlert";
 import { handleAppError } from "utils/handleApiError";
 
 import { AppModal } from "./Orders";
+import { useParams } from "react-router-dom";
+import { da } from "date-fns/locale";
 
 export default function Dashboard() {
   const [tableData, setTableData] = useState<any>([]);
@@ -34,6 +36,12 @@ export default function Dashboard() {
   const [modalData, setModalData] = useState<any>();
 
   const { showNotification } = useAlert();
+
+  const params = useParams();
+
+  useEffect(() => {
+    console.log("Params", params);
+  }, [params]);
 
   const onRowItemClick = (id: string) => {
     setOpenID(id);
@@ -85,18 +93,20 @@ export default function Dashboard() {
 
   const { isLoading } = useQuery(
     [
-      "getTrades",
+      "getTradePerUser",
       {
+        id: params?.id,
         rowsPerPage,
         currPage: currPage + 1,
       },
     ],
-    getTrades,
+    getTrade,
     {
       onSuccess(data) {
-        setTableData(data?.trades);
-        setPageSize(data?.paginationMeta.totalPages);
-        setRowsPerPage(data?.paginationMeta.totalRecords);
+        console.log("User data", data);
+        setTableData(data);
+        // setPageSize(data?.paginationMeta.totalPages);
+        // setRowsPerPage(data?.paginationMeta.totalRecords);
       },
       onError(err) {
         showNotification?.(handleAppError(err), {

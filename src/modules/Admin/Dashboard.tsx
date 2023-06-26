@@ -73,7 +73,6 @@ export default function Dashboard() {
   const { convertToAmount } = useAmount("USD");
 
   const handleInputChange = (e: any) => {
-    console.log("Input change", e?.target?.value);
     setRate(e?.target?.value);
   };
 
@@ -94,11 +93,11 @@ export default function Dashboard() {
     const result: any = allCoins.find(
       (x: any) => x?.name === coin.toLowerCase()
     );
-    console.log("result ID", result);
     setCoinID(result?._id);
   };
 
   useEffect(() => {
+    console.log("All coins", allCoins);
     handleFindAndSetCoin("USDT");
   }, []);
 
@@ -116,20 +115,14 @@ export default function Dashboard() {
       name,
       crypto: (
         <Box display='flex' alignItems='center'>
-          {/* <img
-            src={getIcon(crypto)}
-            style={{ marginRight: "15px" }}
-            alt='Icon'
-          /> */}
-          {crypto}{" "}
-          {/* <Chip
-          label={type}
-          sx={{
-            color: getChipColor(type).text,
-            bgcolor: getChipColor(type).bg,
-            marginLeft: "15px",
-          }}
-        /> */}
+          <Box
+            display='flex'
+            justifyContent={"space-between"}
+            alignItems='center'
+          >
+            <img src={getIcon(crypto.toString().toUpperCase())} alt='' />
+            <Typography ml={2}>{crypto.toString().toUpperCase()}</Typography>
+          </Box>
         </Box>
       ),
       number,
@@ -574,8 +567,8 @@ function UpdateRatesModal({
       <Box
         sx={{
           bgcolor: "#fff",
-          width: "40%",
-          height: "60%",
+          width: "30%",
+          height: "auto",
           mx: "auto",
           mt: "80px",
           p: 5,

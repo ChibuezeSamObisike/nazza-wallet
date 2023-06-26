@@ -155,11 +155,13 @@ export const getWallets = async ({ queryKey }: any) => {
 };
 
 export const getTrade = async ({ queryKey }: any) => {
-  const [, { id }] = queryKey;
+  const [, { id, rowsPerPage, currPage }] = queryKey;
 
-  return http.get(`admin/trade/${id}`).then((res) => {
-    return res.data;
-  });
+  return http
+    .get(`admin/trade/user/${id}?page=${currPage}&limit=${rowsPerPage}`)
+    .then((res) => {
+      return res.data;
+    });
 };
 
 export const getAllUsers = async ({ queryKey }: any) => {

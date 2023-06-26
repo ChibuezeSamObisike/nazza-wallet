@@ -12,6 +12,7 @@ import {
   MenuItem,
   Select,
   Alert,
+  IconButton,
 } from "@mui/material";
 
 import QRCode from "react-qr-code";
@@ -199,6 +200,19 @@ export default function Wallet() {
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
   };
+
+  const getColorByCurrency = (curr: string): string => {
+    let bgcolor: string = "";
+    if (curr === "USDT") {
+      bgcolor = "#EBEBEB";
+    } else if (curr === "BTC") {
+      bgcolor = "#FFE9D4";
+    } else if (curr === "ETH") {
+      bgcolor = "#DEF8EE";
+    }
+
+    return bgcolor;
+  };
   return (
     <>
       <Modal open={openAddFunds} onClose={() => setOpenAddFunds(false)}>
@@ -206,9 +220,10 @@ export default function Wallet() {
           sx={{
             bgcolor: "#fff",
             width: "30%",
-            height: "auto",
+            height: "80vh",
             mx: "auto",
             mt: "80px",
+            overflow: "auto",
           }}
           p={3}
         >
@@ -301,12 +316,22 @@ export default function Wallet() {
                   >
                     9837279503
                   </Typography>{" "}
-                  <ContentCopyIcon
-                    sx={{
-                      ml: 3,
-                      color: "#2574F5",
+                  <IconButton
+                    sx={{ ml: 3 }}
+                    onClick={() => {
+                      navigator.clipboard.writeText("9837279503").then(() =>
+                        showNotification?.("Text copy successful", {
+                          type: "success",
+                        })
+                      );
                     }}
-                  />
+                  >
+                    <ContentCopyIcon
+                      sx={{
+                        color: "#2574F5",
+                      }}
+                    />
+                  </IconButton>
                 </Box>
 
                 <Box
@@ -321,6 +346,7 @@ export default function Wallet() {
                   <TextField
                     value='Nazza Technology'
                     fullWidth
+                    disabled
                     sx={{
                       my: 2,
                     }}
@@ -339,6 +365,7 @@ export default function Wallet() {
                   />
                   <TextField
                     fullWidth
+                    disabled
                     value='Access Bank'
                     label='Bank Name'
                     InputProps={{
@@ -445,32 +472,28 @@ export default function Wallet() {
             mb={4}
             alignItems={{ xs: "flex-start", md: "center" }}
             justifyContent='space-between'
+            sx={{
+              overflowX: "auto",
+            }}
           >
-            <Box width='30%'>
+            <Box width='20%'>
               <AdminCard
-                bg='#E9F1FF'
-                title='BTC'
-                subText={
-                  adminStats?.totalPayoutUsd
-                    ? "$ " + adminStats?.totalPayoutUsd
-                    : "--"
-                }
+                bg='black'
+                title='Total'
+                subText={data?.totalBalance.toFixed(2)}
               />
             </Box>
-            <Box width='30%'>
-              <AdminCard
-                bg='#FCFFE9'
-                title='ETH'
-                subText={adminStats?.totalUsers ?? "--"}
-              />
-            </Box>
-            <Box width='30%'>
-              <AdminCard
-                bg='#FFE9E9'
-                title='USDT'
-                subText={adminStats?.totalClients ?? "--"}
-              />
-            </Box>
+            {data?.stats?.map((x: any) => {
+              return (
+                <Box width='20%'>
+                  <AdminCard
+                    bg={getColorByCurrency(x?.currency)}
+                    title={x?.currency}
+                    subText={x?.value?.toFixed(3)}
+                  />
+                </Box>
+              );
+            })}
           </Box>
 
           <Box>
@@ -508,6 +531,7 @@ function AdminCard({
   return (
     <Box
       bgcolor={bg}
+      color={title?.toLowerCase() === "total" ? "white" : ""}
       p={3}
       borderRadius='2px'
       pr={6}
@@ -516,7 +540,11 @@ function AdminCard({
       }}
     >
       <Typography>{title}</Typography>
-      <Typography fontSize={pxToRem(35)} color='#001D4B' fontWeight='bold'>
+      <Typography
+        fontSize={pxToRem(35)}
+        color={title?.toLowerCase() === "total" ? "white" : "#001D4B"}
+        fontWeight='bold'
+      >
         {subText}
       </Typography>
 

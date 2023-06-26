@@ -63,7 +63,7 @@ export default function Customers() {
   const navigate = useNavigate();
 
   const onRowItemClick = (data: any) => {
-    navigate(`/customers/${data}`);
+    // navigate(`/customers/${data}`);
   };
 
   const { mutate: SuspendUser, isLoading: mutationSuspendLoading } =
@@ -147,7 +147,13 @@ export default function Customers() {
               Suspend users
             </MenuItem>
 
-            <MenuItem>See activity </MenuItem>
+            <MenuItem
+              onClick={() => {
+                navigate(`/customers/${x?._id}`);
+              }}
+            >
+              See activity{" "}
+            </MenuItem>
           </Menu>
         </Box>
       )
