@@ -45,6 +45,7 @@ import { useAlert } from "hooks/useAlert";
 import { handleAppError } from "utils/handleApiError";
 
 import { AppModal } from "./Orders";
+import { convertToSentenceCase } from "hooks/sentenceCase";
 
 export default function Dashboard() {
   const [tableData, setTableData] = useState<any>([]);
@@ -120,15 +121,17 @@ export default function Dashboard() {
             justifyContent={"space-between"}
             alignItems='center'
           >
-            <img src={getIcon(crypto.toString().toUpperCase())} alt='' />
-            <Typography ml={2}>{crypto.toString().toUpperCase()}</Typography>
+            <img src={getIcon(crypto.toString())} alt='' />
+            <Typography ml={2}>
+              {convertToSentenceCase(crypto.toString())}
+            </Typography>
           </Box>
         </Box>
       ),
       number,
       price,
       date,
-      network,
+      network: convertToSentenceCase(network),
       _id,
     };
   }
@@ -187,6 +190,7 @@ export default function Dashboard() {
     getTrades,
     {
       onSuccess(data) {
+        console.log("Dtaa", data);
         setTableData(data?.trades);
         setPageSize(data?.paginationMeta.totalPages);
         setTotalItems(data?.paginationMeta.totalRecords);

@@ -22,6 +22,7 @@ import { pxToRem } from "utils/pxToRem";
 import BasicTable from "shared/Table";
 
 import { useAlert } from "hooks/useAlert";
+import { useAmount } from "hooks/useAmount";
 import { handleAppError } from "utils/handleApiError";
 
 import { AppModal } from "./Orders";
@@ -42,6 +43,7 @@ export default function Dashboard() {
   const { showNotification } = useAlert();
 
   const params = useParams();
+  const { convertToAmount } = useAmount();
 
   const onRowItemClick = (id: string) => {
     setOpenID(id);
@@ -63,6 +65,7 @@ export default function Dashboard() {
     network: string
   ) {
     return {
+      _id,
       crypto: (
         <Box display='flex' alignItems='center'>
           {convertToSentenceCase(crypto)}{" "}
@@ -82,8 +85,7 @@ export default function Dashboard() {
       number,
       price,
       date,
-      network,
-      _id,
+      newtwork: convertToSentenceCase(network),
     };
   }
 
@@ -123,10 +125,10 @@ export default function Dashboard() {
       x?._id,
       x?.network,
       x?.status,
-      x?.number,
-      x?.amount_ngn,
+      x?.amount.toFixed(3),
+      convertToAmount(x?.amount_ngn),
       x?.createdAt.split("T")[0],
-      x?.network
+      convertToSentenceCase(x?.network)
     )
   );
 

@@ -65,6 +65,7 @@ export default function BasicTable({
   handleChangeRowsPerPage,
   onRowItemClick,
   data,
+  isPaginate,
 }: any) {
   const isMobile = useSmallScreen();
 
