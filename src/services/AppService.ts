@@ -196,3 +196,11 @@ export const putRate = async (payload: any) => {
     return res.data;
   });
 };
+
+export const getAllTradesPerUser = async ({ queryKey }: any) => {
+  const [, { id }] = queryKey;
+
+  return http.get(`admin/trade/user/${id}`).then((res) => {
+    return res.data;
+  });
+};

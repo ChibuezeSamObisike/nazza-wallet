@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import AdminLayout from "./Components/AdminLayout";
-import { Box, Typography, Button, Chip, Modal } from "@mui/material";
+import { Box, Typography, Chip, Modal } from "@mui/material";
 
 import { useQuery } from "react-query";
 
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import TextTag from "shared/TextTag";
 
-import { getAdminStats, getTrades, getTrade } from "services/AppService";
+import {
+  getAdminStats,
+  getTrades,
+  getAllTradesPerUser,
+  getTrade,
+} from "services/AppService";
 import getIcon from "utils/getIcon";
 import { numberToFigure } from "utils/numberToFigure";
 
@@ -23,7 +26,8 @@ import { handleAppError } from "utils/handleApiError";
 
 import { AppModal } from "./Orders";
 import { useParams } from "react-router-dom";
-import { da } from "date-fns/locale";
+import statusFunc from "utils/status";
+import { convertToSentenceCase } from "hooks/sentenceCase";
 
 export default function Dashboard() {
   const [tableData, setTableData] = useState<any>([]);
@@ -39,10 +43,6 @@ export default function Dashboard() {
 
   const params = useParams();
 
-  useEffect(() => {
-    console.log("Params", params);
-  }, [params]);
-
   const onRowItemClick = (id: string) => {
     setOpenID(id);
     setModal(true);
@@ -55,33 +55,29 @@ export default function Dashboard() {
 
   function createData(
     _id: string,
-    name: string,
     crypto: string,
+    status: string,
     number: string,
     price: string,
     date: string,
-    network: string,
-    type: string
+    network: string
   ) {
     return {
-      name,
       crypto: (
         <Box display='flex' alignItems='center'>
-          {/* <img
-            src={getIcon(crypto)}
-            style={{ marginRight: "15px" }}
-            alt='Icon'
-          /> */}
-          {crypto}{" "}
-          {/* <Chip
-          label={type}
-          sx={{
-            color: getChipColor(type).text,
-            bgcolor: getChipColor(type).bg,
-            marginLeft: "15px",
-          }}
-        /> */}
+          {convertToSentenceCase(crypto)}{" "}
         </Box>
+      ),
+      status: (
+        <Chip
+          label={statusFunc(status)?.text}
+          sx={{
+            bgcolor: statusFunc(status)?.bgcolor,
+            color: statusFunc(status)?.color,
+            mb: 2,
+            alignSelf: "right",
+          }}
+        />
       ),
       number,
       price,
@@ -100,7 +96,7 @@ export default function Dashboard() {
         currPage: currPage + 1,
       },
     ],
-    getTrade,
+    getAllTradesPerUser,
     {
       onSuccess(data) {
         console.log("User data", data);
@@ -125,12 +121,11 @@ export default function Dashboard() {
   const dataTable = tableData?.map((x: any) =>
     createData(
       x?._id,
-      x?.user?.name,
       x?.network,
-      x?.user?.name,
+      x?.status,
+      x?.number,
       x?.amount_ngn,
       x?.createdAt.split("T")[0],
-      x?.network,
       x?.network
     )
   );
@@ -157,8 +152,8 @@ export default function Dashboard() {
   );
 
   const columns = [
-    { key: "name" },
     { key: "crypto", align: "" },
+    { key: "status", align: "" },
     { key: "number" },
     { key: "price" },
     { key: "date" },
