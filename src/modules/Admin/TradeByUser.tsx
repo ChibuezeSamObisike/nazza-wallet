@@ -185,7 +185,7 @@ export default function Dashboard() {
       <UpdateRatesModal />
       <AdminLayout>
         <Box display='flex' justifyContent='space-between'>
-          <Box width='30%' bgcolor='red'>
+          <Box width='30%'>
             <Box>
               <Typography>Name of user</Typography>
             </Box>

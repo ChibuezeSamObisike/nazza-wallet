@@ -58,11 +58,11 @@ const SideBar = () => {
       component: TelegramIcon,
       path: "/payout-history",
     },
-    {
-      title: "Referral Programme",
-      component: TelegramIcon,
-      path: "/referral-programme",
-    },
+    // {
+    //   title: "Referral Programme",
+    //   component: TelegramIcon,
+    //   path: "/referral-programme",
+    // },
     {
       title: "Settings",
       component: SettingsIcon,

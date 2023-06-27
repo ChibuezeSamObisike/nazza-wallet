@@ -8,12 +8,15 @@ import {
   Button,
   Modal,
   LinearProgress,
+  CircularProgress,
 } from "@mui/material";
 import { pxToRem } from "utils/pxToRem";
 
 import lableByCode from "utils/labelByCode";
 
-import { useQuery } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import { AxiosError } from "axios";
+import http from "utils/http";
 
 import AdminLayout from "./Components/AdminLayout";
 import BasicTable from "shared/Table";
@@ -38,7 +41,7 @@ export default function Orders() {
   const [currPage, setCurrPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [pageSize, setPageSize] = useState<number | null>(0);
-  const [openID, setOpenID] = useState<string>();
+  const [openID, setOpenID] = useState<string>("");
   const [modal, setModal] = useState(false);
   const [modalData, setModalData] = useState<any>();
   const [totalItems, setTotalItems] = useState<number>(5);
@@ -166,6 +169,8 @@ export default function Orders() {
     }
   );
 
+  const queryClient = useQueryClient();
+
   const dataTable = tableData?.map((x: any) =>
     createData(
       x?._id,
@@ -178,6 +183,26 @@ export default function Orders() {
       x?.network.toUpperCase(),
       "Deposit"
     )
+  );
+
+  const deleteBankMute = useMutation(
+    (id: string | number) => {
+      return http.put(`admin/trade/${id}`);
+    },
+    {
+      onSuccess() {
+        showNotification?.("Successfully Paid out", {
+          type: "success",
+        });
+
+        queryClient.invalidateQueries("getTrade2");
+      },
+      onError(error: AxiosError) {
+        showNotification?.(handleAppError(error), {
+          type: "error",
+        });
+      },
+    }
   );
 
   const columns = [
@@ -204,12 +229,135 @@ export default function Orders() {
   };
   return (
     <>
-      <AppModal
-        loading={isTradeLoading}
-        open={modal}
-        onClose={onClose}
-        data={modalData}
-      />
+      <Modal open={modal} onClose={onClose}>
+        <Box
+          width={{ md: "30%", xs: "85%" }}
+          borderRadius='13px'
+          p={4}
+          mt='4%'
+          // minHeight='40%'
+          bgcolor='#fff'
+          mx='auto'
+        >
+          {isTradeLoading && <LinearProgress />}
+          {!isTradeLoading && (
+            <>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <IconButton onClick={() => onClose()}>
+                  <ClearIcon
+                    sx={{
+                      fontSize: "40px",
+                    }}
+                  />
+                </IconButton>
+              </Box>
+              <div
+                style={{
+                  textAlign: "center",
+                }}
+              >
+                <Typography
+                  sx={{
+                    textAlign: "center",
+                    fontSize: pxToRem(39),
+                    fontWeight: "bold",
+                  }}
+                >
+                  {modalData?.amount.toFixed(4)}
+                  <span
+                    style={{
+                      fontSize: pxToRem(13),
+                    }}
+                  >
+                    BTC
+                  </span>
+                </Typography>
+
+                {/* <Typography color='#5D5C63'> 1 BTC ~ NGN 747.5</Typography> */}
+                {renderPrice("Coin", `${modalData?.network}`)}
+                {renderPrice("Network", `${modalData?.network}`)}
+                {renderPrice("Receipients", modalData?.user?.email)}
+                {renderPrice("Contact", modalData?.user?.phone)}
+                {renderPrice(
+                  <div>
+                    Amount Paid{" "}
+                    <span
+                      style={{
+                        color: "#9DAAD2",
+                      }}
+                    >
+                      (by One liquidity)
+                    </span>
+                  </div>,
+                  <div>{modalData?.amount_ngn}</div>
+                )}
+                {renderPrice(
+                  "Cash destination",
+                  <div>
+                    {" "}
+                    <span
+                      style={{
+                        color: "#5797FF",
+                        marginRight: "10px",
+                      }}
+                    >
+                      {modalData?.bank?.acc_number}
+                    </span>
+                    {modalData?.bank?.bank_name}
+                  </div>
+                )}
+                {renderPrice(
+                  "Status",
+                  <Chip
+                    label={lableByCode(modalData?.status).code}
+                    sx={lableByCode(modalData?.status).sx}
+                  />
+                )}
+                {renderPrice(
+                  "Date",
+                  `${moment(new Date(modalData?.createdAt)).format(
+                    "Do MMM YYYY, h:mm a"
+                  )}`
+                )}
+
+                <Button
+                  onClick={() => deleteBankMute.mutate(openID)}
+                  startIcon={
+                    deleteBankMute?.isLoading && (
+                      <CircularProgress
+                        size={16}
+                        sx={{
+                          fontSize: 2,
+                          color: "#fff",
+                        }}
+                      />
+                    )
+                  }
+                  fullWidth
+                >
+                  Confirm Transaction
+                </Button>
+
+                <Button
+                  sx={{
+                    mt: 2,
+                  }}
+                  fullWidth
+                  variant='outlined'
+                  onClick={() => onClose?.()}
+                >
+                  Close
+                </Button>
+              </div>
+            </>
+          )}
+        </Box>
+      </Modal>
       <AdminLayout>
         <Box>
           <Box>

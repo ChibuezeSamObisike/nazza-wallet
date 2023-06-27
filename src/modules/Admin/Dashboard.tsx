@@ -46,6 +46,7 @@ import { handleAppError } from "utils/handleApiError";
 
 import { AppModal } from "./Orders";
 import { convertToSentenceCase } from "hooks/sentenceCase";
+import { coverSomeNums } from "utils/convertNums";
 
 export default function Dashboard() {
   const [tableData, setTableData] = useState<any>([]);
@@ -57,14 +58,10 @@ export default function Dashboard() {
   const [openID, setOpenID] = useState<string>("");
   const [modal, setModal] = useState(false);
   const [modalData, setModalData] = useState<any>();
-
   const [openBank, setOpenBank] = useState<boolean>();
-
   const [openRates, setOpenRates] = useState(false);
   const [currCoin, setCurrCoin] = useState("USDT");
-
   const [rate, setRate] = useState("");
-
   const [allCoins, setAllCoins] = useState([]);
   const [coinID, setCoinID] = useState("");
 
@@ -72,7 +69,7 @@ export default function Dashboard() {
 
   const { showNotification } = useAlert();
   const { convertToAmount } = useAmount("USD");
-
+  const { convertToAmount: convertToNaira } = useAmount();
   const handleInputChange = (e: any) => {
     setRate(e?.target?.value);
   };
@@ -103,16 +100,18 @@ export default function Dashboard() {
   }, []);
 
   function createData(
+    type: string,
     _id: string,
     name: string,
     crypto: string,
     number: string,
     price: string,
+    transaction_id: string,
     date: string,
-    network: string,
-    type: string
+    network: string
   ) {
     return {
+      type,
       name,
       crypto: (
         <Box display='flex' alignItems='center'>
@@ -129,6 +128,7 @@ export default function Dashboard() {
         </Box>
       ),
       number,
+      transaction_id,
       price,
       date,
       network: convertToSentenceCase(network),
@@ -218,13 +218,14 @@ export default function Dashboard() {
 
   const dataTable = tableData?.map((x: any) =>
     createData(
-      x?._id,
-      x?.user?.name,
-      x?.network,
-      x?.user?.name,
-      x?.amount_ngn,
-      x?.createdAt.split("T")[0],
-      x?.network,
+      "Sell",
+      x?._id, //ID
+      x?.user?.name, //Name
+      x?.coin?.toUpperCase(), //Crypto
+      x?.amount.toFixed(3), //Number
+      convertToNaira(x?.amount_ngn),
+      coverSomeNums(x?._id),
+      x?.createdAt.split("T")[0], //Price
       x?.network
     )
   );
@@ -251,10 +252,12 @@ export default function Dashboard() {
   );
 
   const columns = [
+    { key: "type" },
     { key: "name" },
     { key: "crypto", align: "" },
     { key: "number" },
     { key: "price" },
+    { key: "transaction_id" },
     { key: "date" },
     { key: "network" },
   ];
