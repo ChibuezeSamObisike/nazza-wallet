@@ -68,7 +68,12 @@ export default function Dashboard() {
       _id,
       crypto: (
         <Box display='flex' alignItems='center'>
-          {convertToSentenceCase(crypto)}{" "}
+          <img
+            src={getIcon(crypto.toUpperCase())}
+            style={{ marginRight: "15px" }}
+            alt='Icon'
+          />
+          {crypto?.toUpperCase()}{" "}
         </Box>
       ),
       status: (
@@ -85,7 +90,7 @@ export default function Dashboard() {
       number,
       price,
       date,
-      newtwork: convertToSentenceCase(network),
+      network,
     };
   }
 
@@ -123,7 +128,7 @@ export default function Dashboard() {
   const dataTable = tableData?.map((x: any) =>
     createData(
       x?._id,
-      x?.network,
+      x?.coin,
       x?.status,
       x?.amount.toFixed(3),
       convertToAmount(x?.amount_ngn),
