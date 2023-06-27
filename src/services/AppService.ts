@@ -93,6 +93,7 @@ export const resetPassword = async ({ data }: any) => {
 };
 
 export const suspendUser = async (data: any) => {
+  console.log("Data of user to suspend", data);
   return http.put(`admin/suspend/${data}`, data).then((res) => res.data);
 };
 

@@ -137,8 +137,9 @@ export default function Customers() {
               sx={{
                 color: "red",
               }}
-              onClick={() => {
-                SuspendUser(x?._id);
+              onClick={async () => {
+                console.log("Suspend User", x?._id);
+                await SuspendUser(x?._id);
               }}
             >
               {mutationSuspendLoading && (
