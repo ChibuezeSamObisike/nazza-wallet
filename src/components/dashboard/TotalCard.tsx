@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Box, IconButton, Typography, Skeleton } from "@mui/material";
 import { ReactComponent as Bg } from "assets/card-svg.svg";
+
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
 import { pxToRem } from "utils/pxToRem";
-import { numberToFigure } from "utils/numberToFigure";
 import useSmallScreen from "hooks/useSmallScreen";
 
 export default function TotalCard({
@@ -86,13 +86,19 @@ export default function TotalCard({
             }}
             onClick={() => setViewPrice(!viewPrice)}
           >
-           { viewPrice? <VisibilityOffIcon
-              sx={{
-                color: "#7785B0",
-              }}
-            /> : <VisibilityIcon sx={{
-                color: "#7785B0",
-              }}/>}
+            {viewPrice ? (
+              <VisibilityOffIcon
+                sx={{
+                  color: "#7785B0",
+                }}
+              />
+            ) : (
+              <VisibilityIcon
+                sx={{
+                  color: "#7785B0",
+                }}
+              />
+            )}
           </IconButton>
         )}
       </Box>

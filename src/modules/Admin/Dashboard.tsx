@@ -9,6 +9,7 @@ import {
   CircularProgress,
   IconButton,
   TextField,
+  Skeleton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import CandlestickChartIcon from "@mui/icons-material/CandlestickChart";
@@ -210,7 +211,7 @@ export default function Dashboard() {
     },
   });
 
-  useQuery("getAllCoins", getAllCoins, {
+  const { isLoading: isCoinLoading } = useQuery("getAllCoins", getAllCoins, {
     onSuccess(data) {
       setAllCoins(data);
     },
@@ -334,6 +335,7 @@ export default function Dashboard() {
       <UpdateRatesModal
         openRates={openRates}
         closeRates={() => setOpenRates(false)}
+        isLoading={isCoinLoading}
         currCoin={currCoin}
         setCurrCoin={setCurrCoin}
         handleInputChange={handleInputChange}
@@ -545,6 +547,7 @@ function UpdateRatesModal({
   handleInputChange,
   handleSubmit,
   isMutationLoading,
+  isLoading,
 }: any) {
   const { data } = useQuery("getAllCoins", getAllCoins, {
     onSuccess(data) {
@@ -639,16 +642,20 @@ function UpdateRatesModal({
           </Box>
 
           <Box sx={{ width: "100%" }}>
-            <TextField
-              label='Current Rate'
-              disabled
-              value={result}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              fullWidth
-              sx={{ width: "100%" }}
-            />
+            {!isLoading ? (
+              <TextField
+                label='Current Rate'
+                disabled
+                value={result}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                fullWidth
+                sx={{ width: "100%" }}
+              />
+            ) : (
+              <Skeleton width={"100%"} height={80} />
+            )}
             <TextField
               sx={{ my: 2 }}
               label='New Rate'

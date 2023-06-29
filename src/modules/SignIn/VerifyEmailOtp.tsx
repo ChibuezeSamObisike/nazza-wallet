@@ -25,8 +25,9 @@ export default function VerifyEmail() {
 
   const { mutate, isLoading } = useMutation(login2fa, {
     onSuccess(data) {
+      console.log("2 fa data", data);
       showNotification?.("Login Successful", { type: "success" });
-      setToken(data?.accessToken?.token);
+      setToken(data?.accessToken);
       navigate("/");
       getDecodedJwt();
     },

@@ -33,8 +33,6 @@ import {
   getWallets as getTrades,
   getTrade,
 } from "services/AppService";
-import getIcon from "utils/getIcon";
-import { numberToFigure } from "utils/numberToFigure";
 
 import { pxToRem } from "utils/pxToRem";
 

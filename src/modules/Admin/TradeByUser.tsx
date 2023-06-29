@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AdminLayout from "./Components/AdminLayout";
 import { Box, Typography, Chip, Modal } from "@mui/material";
 
@@ -6,16 +6,12 @@ import { useQuery } from "react-query";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-import TextTag from "shared/TextTag";
-
 import {
   getAdminStats,
-  getTrades,
   getAllTradesPerUser,
   getTrade,
 } from "services/AppService";
 import getIcon from "utils/getIcon";
-import { numberToFigure } from "utils/numberToFigure";
 
 import { pxToRem } from "utils/pxToRem";
 
