@@ -56,7 +56,6 @@ export const profile = async () => {
 
 export const getHistory = async ({ queryKey }: any) => {
   const [, { rowsPerPage, currPage }] = queryKey;
-
   return http
     .get(`trade/history?page=${currPage}&limit=${rowsPerPage}`)
     .then((res) => {
@@ -93,6 +92,10 @@ export const resetPassword = async ({ data }: any) => {
 };
 
 export const suspendUser = async (data: any) => {
+  return http.put(`admin/suspend/${data}`, data).then((res) => res.data);
+};
+
+export const unsuspendUser = async (data: any) => {
   return http.put(`admin/suspend/${data}`, data).then((res) => res.data);
 };
 
@@ -136,7 +139,6 @@ export const getAdminStats = async () => {
 
 export const getTrades = async ({ queryKey }: any) => {
   const [, { rowsPerPage, currPage }] = queryKey;
-
   return http
     .get(`admin/trades?page=${currPage}&limit=${rowsPerPage}`)
     .then((res) => {
@@ -146,7 +148,6 @@ export const getTrades = async ({ queryKey }: any) => {
 
 export const getWallets = async ({ queryKey }: any) => {
   const [, { rowsPerPage, currPage }] = queryKey;
-
   return http
     .get(`admin/wallets?page=${currPage}&limit=${rowsPerPage}`)
     .then((res) => {
@@ -156,15 +157,20 @@ export const getWallets = async ({ queryKey }: any) => {
 
 export const getTrade = async ({ queryKey }: any) => {
   const [, { id }] = queryKey;
-
   return http.get(`admin/trade/${id}`).then((res) => {
+    return res.data;
+  });
+};
+
+export const getUserTrade = async ({ queryKey }: any) => {
+  const [, { id }] = queryKey;
+  return http.get(`admin/user/${id}`).then((res) => {
     return res.data;
   });
 };
 
 export const getAllUsers = async ({ queryKey }: any) => {
   const [, { rowsPerPage, currPage }] = queryKey;
-
   return http
     .get(`admin/users?page=${currPage}&limit=${rowsPerPage}`)
     .then((res) => {
@@ -174,7 +180,6 @@ export const getAllUsers = async ({ queryKey }: any) => {
 
 export const getPayOutHistory = async ({ queryKey }: any) => {
   const [, { rowsPerPage, currPage }] = queryKey;
-
   return http
     .get(`admin/trades?status=2&page=${currPage}&limit=${rowsPerPage}`)
     .then((res) => {
@@ -191,7 +196,6 @@ export const getAllWallets = async () => {
 };
 
 export const putRate = async (payload: any) => {
-  console.log("Coin ID payload", payload);
   return http.put("admin/rate", payload).then((res) => {
     return res.data;
   });

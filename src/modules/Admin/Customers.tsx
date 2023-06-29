@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Box,
@@ -16,12 +16,12 @@ import BasicTable from "shared/Table";
 import AppBreadCrumb from "shared/AppBreadCrumb";
 import ThreeDots from "@mui/icons-material/MoreVert";
 
-import { getAllUsers, suspendUser } from "services/AppService";
+import { getAllUsers, suspendUser, getUserTrade } from "services/AppService";
 import { AxiosError } from "axios";
 
 import { handleAppError } from "utils/handleApiError";
 import { useAlert } from "hooks/useAlert";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function Customers() {
   const [tableData, setTableData] = useState<any>([]);

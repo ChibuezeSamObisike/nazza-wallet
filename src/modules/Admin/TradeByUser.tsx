@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import AdminLayout from "./Components/AdminLayout";
-import { Box, Typography, Chip, Modal } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Chip,
+  Modal,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 
-import { useQuery } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
@@ -10,6 +17,10 @@ import {
   getAdminStats,
   getAllTradesPerUser,
   getTrade,
+  getUserTrade,
+  getProfileDetails,
+  suspendUser,
+  unsuspendUser,
 } from "services/AppService";
 import getIcon from "utils/getIcon";
 
@@ -25,6 +36,9 @@ import { AppModal } from "./Orders";
 import { useParams } from "react-router-dom";
 import statusFunc from "utils/status";
 import { convertToSentenceCase } from "hooks/sentenceCase";
+import { AxiosError } from "axios";
+
+import { format, parseISO } from "date-fns";
 
 export default function Dashboard() {
   const [tableData, setTableData] = useState<any>([]);
@@ -37,6 +51,7 @@ export default function Dashboard() {
   const [modalData, setModalData] = useState<any>();
 
   const { showNotification } = useAlert();
+  const queryClient = useQueryClient();
 
   const params = useParams();
   const { convertToAmount } = useAmount();
@@ -104,13 +119,13 @@ export default function Dashboard() {
       onSuccess(data) {
         console.log("User data", data);
         setTableData(data);
-        // setPageSize(data?.paginationMeta.totalPages);
-        // setRowsPerPage(data?.paginationMeta.totalRecords);
+        setPageSize(data?.paginationMeta.totalPages);
+        setRowsPerPage(data?.paginationMeta.totalRecords);
       },
       onError(err) {
-        showNotification?.(handleAppError(err), {
-          type: "error",
-        });
+        // showNotification?.(handleAppError(err), {
+        //   type: "error",
+        // });
       },
     }
   );
@@ -147,9 +162,9 @@ export default function Dashboard() {
         setModalData(data);
       },
       onError(err) {
-        showNotification?.(handleAppError(err), {
-          type: "error",
-        });
+        // showNotification?.(handleAppError(err), {
+        //   type: "error",
+        // });
       },
     }
   );
@@ -175,6 +190,37 @@ export default function Dashboard() {
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
   };
+
+  const { isLoading: userTradeLoading, data } = useQuery(
+    [
+      "getUserData",
+      {
+        id: useParams()?.id,
+      },
+    ],
+    getUserTrade,
+    {
+      onSuccess(data) {
+        queryClient.refetchQueries("getUserData");
+        console.log("User Data", data);
+      },
+    }
+  );
+
+  const { mutate: SuspendUser, isLoading: mutationSuspendLoading } =
+    useMutation(!data?.user?.suspend ? suspendUser : unsuspendUser, {
+      onSuccess(data) {
+        showNotification?.("Success", {
+          type: "success",
+        });
+      },
+      onError(error: AxiosError) {
+        showNotification?.(handleAppError(error), {
+          type: "error",
+        });
+      },
+    });
+
   return (
     <>
       <AppModal
@@ -187,8 +233,62 @@ export default function Dashboard() {
       <AdminLayout>
         <Box display='flex' justifyContent='space-between'>
           <Box width='30%'>
-            <Box>
-              <Typography>Name of user</Typography>
+            <Box bgcolor='#fff' p={2} textAlign='center'>
+              <Box
+                width='150px'
+                height='150px'
+                display='flex'
+                alignItems='center'
+                justifyContent='center'
+                bgcolor='grey'
+                borderRadius='50%'
+                mx='auto'
+              >
+                <Typography color='#fff' fontSize={70}>
+                  {data?.user?.name[0]} {data?.user?.lastname[0]}
+                </Typography>
+              </Box>
+              <Typography variant='h5' my={2} fontWeight='bold'>
+                {data?.user?.name} {data?.user?.lastname}
+              </Typography>
+              <Typography my={2}>{data?.user?.phone || "No phone"}</Typography>
+              <Typography my={2}>
+                {/* {format(
+                  parseISO(data?.user?.last_login ?? ""),
+                  "MMM do yyyy | ha"
+                ) ?? "----"} */}
+              </Typography>
+              <Typography my={2} fontWeight='bold'>
+                KYC Level {data?.user?.verify?.kyc_status}
+              </Typography>
+              <Typography color='primary' my={1}>
+                {data?.user?.email}
+              </Typography>
+              <Button
+                sx={{
+                  color: "red",
+                }}
+                variant='text'
+                startIcon={
+                  mutationSuspendLoading && (
+                    <CircularProgress
+                      size={16}
+                      sx={{
+                        fontSize: 2,
+                        color: "red",
+                      }}
+                    />
+                  )
+                }
+                onClick={async () => {
+                  // eslint-disable-next-line react-hooks/rules-of-hooks
+                  console.log("Suspend User", params?.id);
+                  // eslint-disable-next-line react-hooks/rules-of-hooks
+                  await SuspendUser(params?.id);
+                }}
+              >
+                {!data?.user?.suspend ? "Suspend User" : "Activate User"}
+              </Button>
             </Box>
           </Box>
 
