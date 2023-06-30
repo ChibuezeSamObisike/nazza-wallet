@@ -79,8 +79,8 @@ export default function ForgotPassword() {
         }}
         mx='auto'
       >
-        Don't worry, just enter enter your email address send a code to your
-        email address to reset your password.
+        Don't worry, just enter your email address send a code to your email
+        address to reset your password.
       </Typography>
 
       <form onSubmit={handleSubmit(onSubmit)}>

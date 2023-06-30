@@ -117,7 +117,6 @@ export default function Dashboard() {
     getAllTradesPerUser,
     {
       onSuccess(data) {
-        console.log("User data", data);
         setTableData(data);
         setPageSize(data?.paginationMeta.totalPages);
         setRowsPerPage(data?.paginationMeta.totalRecords);
@@ -201,7 +200,6 @@ export default function Dashboard() {
     getUserTrade,
     {
       onSuccess(data) {
-        queryClient.refetchQueries("getUserData");
         console.log("User Data", data);
       },
     }
@@ -210,6 +208,8 @@ export default function Dashboard() {
   const { mutate: SuspendUser, isLoading: mutationSuspendLoading } =
     useMutation(!data?.user?.suspend ? suspendUser : unsuspendUser, {
       onSuccess(data) {
+        console.log("user status", data);
+        queryClient.refetchQueries("getUserData");
         showNotification?.("Success", {
           type: "success",
         });
