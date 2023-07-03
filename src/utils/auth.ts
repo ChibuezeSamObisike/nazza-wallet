@@ -2,12 +2,14 @@
 
 import jwtDecode from "jwt-decode";
 
-export const setToken = (token: string): void => {
-  localStorage.setItem("accessToken", token);
+type TokenType = "userToken" | "adminToken";
+
+export const setToken = (tokenType: TokenType, token: string): void => {
+  localStorage.setItem(tokenType, token);
 };
 
-export const getToken = (): string | null => {
-  return localStorage.getItem("accessToken");
+export const getToken = (tokenType: TokenType): string | null => {
+  return localStorage.getItem(tokenType);
 };
 
 export const setName = (name: string): void => {
@@ -18,13 +20,12 @@ export const getName = (): string | null => {
   return localStorage.getItem("name");
 };
 
-export const getDecodedJwt = (tokn: string = ""): any => {
+export const getDecodedJwt = (tokenType: TokenType, tokn: string = ""): any => {
   try {
-    const token = getToken();
+    const token = getToken(tokenType);
 
     const t = token || tokn;
     const decoded = jwtDecode(t);
-
     return decoded;
   } catch (e) {
     return {};
@@ -53,9 +54,13 @@ export const logOut = (cb: VoidFunction): void => {
   cb();
 };
 
-export const isAuthenticated = () => {
+export const logOutFromAdmin = (): void => {
+  localStorage.removeItem("adminToken");
+};
+
+export const isAuthenticated = (tokenType: TokenType) => {
   try {
-    const decodedToken = getDecodedJwt();
+    const decodedToken = getDecodedJwt(tokenType);
     if (decodedToken) {
       const { exp } = decodedToken;
       const currentTime = Date.now() / 1000;

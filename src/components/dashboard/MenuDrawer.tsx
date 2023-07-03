@@ -51,8 +51,8 @@ function MenuItem({
           p={2}
           color={isActive ? "#001D4B" : "#47454C"}
           mt={2}
-          display='flex'
-          alignItems='center'
+          display="flex"
+          alignItems="center"
           sx={{
             bgcolor: isActive ? "#EFF3FF" : "#fff",
             p: 3,
@@ -78,7 +78,7 @@ export default function MenuDrawer({ open, close }: IMenuProps) {
       }}
     >
       <React.Fragment>
-        <Box width='100%'>
+        <Box width="100%">
           <Drawer
             open={open}
             sx={{
@@ -86,9 +86,9 @@ export default function MenuDrawer({ open, close }: IMenuProps) {
             }}
             onClose={() => close()}
           >
-            <Box width='70vw' px={2} mt={15}>
-              {menuLink.map((x) => (
-                <MenuItem {...x} onClick={() => close()} />
+            <Box width="70vw" px={2} mt={15}>
+              {menuLink.map((x, i) => (
+                <MenuItem key={i} {...x} onClick={() => close()} />
               ))}
             </Box>
           </Drawer>

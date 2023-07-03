@@ -45,9 +45,9 @@ export default function Login() {
       if (!data?.user?.twofa?.on) {
         showNotification?.("Login Successful", { type: "success" });
         navigate("/");
-        setToken(data?.accessToken);
+        setToken("userToken", data?.accessToken);
         // setRefreshToken(data?.acc)
-        getDecodedJwt();
+        getDecodedJwt("userToken");
       } else if (data?.user?.twofa?.on) {
         navigate("/verify-email-otp", { state: { email: data?.user?.email } });
       }
@@ -88,24 +88,24 @@ export default function Login() {
   } = useForm({ resolver, defaultValues });
 
   return (
-    <Box sx={{ width: { md: "60%", xs: "100%" } }} textAlign='center'>
+    <Box sx={{ width: { md: "60%", xs: "100%" } }} textAlign="center">
       <img
         src={nazaLogo}
-        alt='logo'
+        alt="logo"
         width={"123px"}
         style={{
           color: "red",
           marginBottom: 4,
         }}
       />
-      <Typography variant='subtitle1' fontWeight='bold'>
+      <Typography variant="subtitle1" fontWeight="bold">
         Login to your account
       </Typography>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
-          placeholder='Email'
-          label='Email'
+          placeholder="Email"
+          label="Email"
           fullWidth
           {...register("email")}
           sx={{
@@ -116,12 +116,12 @@ export default function Login() {
         />
 
         <TextField
-          placeholder='Password'
-          label='Password'
+          placeholder="Password"
+          label="Password"
           type={showPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (
-              <InputAdornment position='end'>
+              <InputAdornment position="end">
                 <IconButton onClick={() => togglePasswordVisibility()}>
                   {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
                 </IconButton>
@@ -142,7 +142,8 @@ export default function Login() {
             mt: 3,
             width: "100%",
           }}
-          type='submit'
+          type="submit"
+          disabled={isLoading}
           startIcon={
             isLoading && (
               <CircularProgress
@@ -160,14 +161,14 @@ export default function Login() {
       </form>
 
       <Box
-        display='flex'
+        display="flex"
         mt={2}
-        alignItems='center'
+        alignItems="center"
         mb={4}
-        justifyContent='flex-end'
+        justifyContent="flex-end"
       >
         <Typography
-          color='#145CD3'
+          color="#145CD3"
           fontWeight={400}
           sx={{
             cursor: "pointer",
@@ -178,11 +179,11 @@ export default function Login() {
         </Typography>
       </Box>
 
-      <Typography display='flex' mt={2} alignItems='center' fontWeight={300}>
+      <Typography display="flex" mt={2} alignItems="center" fontWeight={300}>
         Don't Have an account?{" "}
         <Typography
           ml={1}
-          color='#2574F5'
+          color="#2574F5"
           sx={{
             cursor: "pointer",
           }}

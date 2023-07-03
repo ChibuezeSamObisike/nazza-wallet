@@ -8,23 +8,24 @@ import TelegramIcon from "@mui/icons-material/Telegram";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { logOutFromAdmin } from "utils/auth";
 
 export default function AdminLayout({ children }: { children: any }) {
   return (
-    <Box display='flex' justifyContent='space-between' alignItems='flex-start'>
+    <Box display="flex" justifyContent="space-between" alignItems="flex-start">
       <Box
-        width='24%'
+        width="24%"
         sx={{
           display: { xs: "none", md: "block" },
         }}
         pt={10}
-        height='100vh'
-        bgcolor='#fff'
+        height="100vh"
+        bgcolor="#fff"
       >
         <SideBar />
       </Box>
-      <Box width='100%' p='40px'>
+      <Box width="100%" p="40px">
         {children}
       </Box>
     </Box>
@@ -32,6 +33,7 @@ export default function AdminLayout({ children }: { children: any }) {
 }
 
 const SideBar = () => {
+  const navigate = useNavigate();
   const sidebar = [
     {
       title: "Dashboard",
@@ -41,22 +43,22 @@ const SideBar = () => {
     {
       title: "wallet",
       component: GradingIcon,
-      path: "/admin-wallet",
+      path: "/admin/admin-wallet",
     },
     {
       title: "Orders",
       component: GradingIcon,
-      path: "/orders",
+      path: "/admin/orders",
     },
     {
       title: "Customers",
       component: PeopleAltIcon,
-      path: "/customers",
+      path: "/admin/customers",
     },
     {
       title: "Payout History",
       component: TelegramIcon,
-      path: "/payout-history",
+      path: "/admin/payout-history",
     },
     // {
     //   title: "Referral Programme",
@@ -66,25 +68,25 @@ const SideBar = () => {
     {
       title: "Settings",
       component: SettingsIcon,
-      path: "/settings",
+      path: "/admin/settings",
     },
   ];
   return (
     <>
       <Box
-        p='20px'
-        display='flex'
-        flexDirection='column'
-        justifyContent='space-around'
+        p="20px"
+        display="flex"
+        flexDirection="column"
+        justifyContent="space-around"
       >
-        <Box position='fixed' pt={50}>
+        <Box position="fixed" pt={50}>
           {sidebar.map(({ component: Component, title, path }) => (
             <NavLink to={path}>
               {({ isActive }) => (
                 <Box
-                  display='flex'
-                  alignItems='center'
-                  color='#101628'
+                  display="flex"
+                  alignItems="center"
+                  color="#101628"
                   my={2}
                   py={2}
                   pl={1}
@@ -104,13 +106,14 @@ const SideBar = () => {
             my={2}
             py={2}
             pl={1}
-            display='flex'
-            alignItems='center'
+            display="flex"
+            alignItems="center"
             sx={{
               cursor: "pointer",
             }}
             onClick={() => {
-              window.location.href = "/login";
+              logOutFromAdmin();
+              navigate("/admin");
             }}
           >
             <LogoutOutlinedIcon />
