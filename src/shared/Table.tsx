@@ -192,7 +192,7 @@ export default function BasicTable({
                   sx={{ color: "#5D5C63", fontWeight: 500 }}
                   align='left'
                 >
-                  {toTitleCase(head.key)}
+                  {head.title ?? toTitleCase(head.key)}
                 </TableCell>
               ))}
             </TableRow>

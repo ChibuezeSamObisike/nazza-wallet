@@ -13,6 +13,8 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import CandlestickChartIcon from "@mui/icons-material/CandlestickChart";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import NorthIcon from "@mui/icons-material/North";
 import GenericModal from "components/modals/GenericModal";
 
 import http from "utils/http";
@@ -258,7 +260,7 @@ export default function Dashboard() {
     { key: "crypto", align: "" },
     { key: "number" },
     { key: "price" },
-    { key: "transaction_id" },
+    { key: "transaction_id", title: "Transaction ID" },
     { key: "date" },
     { key: "network" },
   ];
@@ -401,9 +403,37 @@ export default function Dashboard() {
           </Box>
 
           <Box
+            sx={{
+              mt: { xs: 3, md: 0 },
+            }}
+            mb={2}
+            display='flex'
+            alignItems='center'
+            justifyContent='space-between'
+          >
+            <Typography variant='body1' fontWeight={100}>
+              Home
+            </Typography>
+            <Box>
+              <Button variant='text' sx={{ mr: 2 }}>
+                <KeyboardArrowDownIcon />
+                Today
+              </Button>
+              <Button variant='text'>
+                <NorthIcon
+                  sx={{
+                    mr: 1,
+                    fontWeight: 400,
+                  }}
+                />{" "}
+                Export report
+              </Button>
+            </Box>
+          </Box>
+
+          <Box
             display='flex'
             flexDirection={{ xs: "column", md: "row" }}
-            mb={4}
             alignItems={{ xs: "flex-start", md: "center" }}
             justifyContent='space-between'
           >
@@ -435,10 +465,7 @@ export default function Dashboard() {
           </Box>
 
           <Box>
-            <TextTag
-              label='Recent Orders'
-              style={{ padding: "6px", marginBottom: "40px" }}
-            />
+            <TextTag label='Recent Orders' isSearch />
             <BasicTable
               rows={dataTable}
               columns={columns}

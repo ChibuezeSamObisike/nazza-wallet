@@ -19,7 +19,7 @@ import QRCode from "react-qr-code";
 
 import { useQuery } from "react-query";
 
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import NorthIcon from "@mui/icons-material/North";
 import SouthIcon from "@mui/icons-material/South";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -415,9 +415,8 @@ export default function Wallet() {
             alignItems={{ xs: "flex-start", md: "center" }}
             justifyContent='space-between'
           >
-            <Typography variant='h3' fontWeight='bold' color='#47454C'>
-              Welcome, Admin
-              <span className='wave'>👋</span>
+            <Typography variant='body1' fontWeight={100}>
+              Wallet
             </Typography>
 
             <Box
@@ -425,6 +424,10 @@ export default function Wallet() {
                 mt: { xs: 3, md: 0 },
               }}
             >
+              <Button variant='text' sx={{ mr: 2 }}>
+                <KeyboardArrowDownIcon />
+                Today
+              </Button>
               <Button
                 sx={{
                   px: 4,
@@ -467,7 +470,6 @@ export default function Wallet() {
           <Box
             display='flex'
             flexDirection={{ xs: "column", md: "row" }}
-            mb={4}
             alignItems={{ xs: "flex-start", md: "center" }}
             justifyContent='space-between'
             sx={{
@@ -477,8 +479,9 @@ export default function Wallet() {
             <Box width='20%'>
               <AdminCard
                 bg='black'
-                title='Total'
+                title='Total (Naira)'
                 subText={data?.totalBalance.toFixed(2)}
+                lowTxt={data?.totalBalance.toFixed(3)}
               />
             </Box>
             {data?.stats?.map((x: any) => {
@@ -488,6 +491,7 @@ export default function Wallet() {
                     bg={getColorByCurrency(x?.currency)}
                     title={x?.currency}
                     subText={x?.value?.toFixed(3)}
+                    lowTxt={x?.balance.toFixed(3)}
                   />
                 </Box>
               );
@@ -497,7 +501,8 @@ export default function Wallet() {
           <Box>
             <TextTag
               label='Recent Orders'
-              style={{ padding: "6px", marginBottom: "40px" }}
+              isSearch
+              // style={{ padding: "6px", marginBottom: "40px" }}
             />
             <BasicTable
               rows={dataTable}
@@ -521,15 +526,17 @@ function AdminCard({
   bg,
   subText,
   title,
+  lowTxt,
 }: {
   bg: string;
   subText?: string | number;
   title?: string;
+  lowTxt?: string | number;
 }) {
   return (
     <Box
       bgcolor={bg}
-      color={title?.toLowerCase() === "total" ? "white" : ""}
+      color={title?.toLowerCase() === "total (naira)" ? "white" : ""}
       p={3}
       borderRadius='2px'
       pr={6}
@@ -540,14 +547,14 @@ function AdminCard({
       <Typography>{title}</Typography>
       <Typography
         fontSize={pxToRem(35)}
-        color={title?.toLowerCase() === "total" ? "white" : "#001D4B"}
+        color={title?.toLowerCase() === "total (naira)" ? "white" : "#001D4B"}
         fontWeight='bold'
       >
         {subText}
       </Typography>
 
       <Box display='flex' alignItems='center' mt={3}>
-        <Chip
+        {/* <Chip
           label={
             <div
               style={{
@@ -567,14 +574,26 @@ function AdminCard({
             borderRadius: "8px",
             opacity: "50%",
           }}
-        />
+        /> */}
 
         <Box
-          sx={{
-            ml: 4,
-          }}
+          display='flex'
+          alignItems='center'
+          sx={
+            {
+              // ml: 4,
+            }
+          }
         >
-          <Chip
+          <Typography
+            fontSize={pxToRem(25)}
+            color={
+              title?.toLowerCase() === "total (naira)" ? "white" : "#001D4B"
+            }
+          >
+            $ {lowTxt}
+          </Typography>
+          {/* <Chip
             label={
               <div
                 style={{
@@ -595,7 +614,7 @@ function AdminCard({
               bgcolor: "#fff",
               color: "#3DA20B",
             }}
-          />
+          /> */}
         </Box>
       </Box>
     </Box>

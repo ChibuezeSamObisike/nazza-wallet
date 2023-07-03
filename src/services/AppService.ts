@@ -96,7 +96,7 @@ export const suspendUser = async (data: any) => {
 };
 
 export const unsuspendUser = async (data: any) => {
-  return http.put(`admin/suspend/${data}`, data).then((res) => res.data);
+  return http.put(`admin/unsuspend/${data}`, data).then((res) => res.data);
 };
 
 export const toggle2fa = async () => {

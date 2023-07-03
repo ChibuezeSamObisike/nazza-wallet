@@ -7,6 +7,7 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
 import { NavLink, useNavigate } from "react-router-dom";
 import { logOutFromAdmin } from "utils/auth";
@@ -81,7 +82,7 @@ const SideBar = () => {
       >
         <Box position="fixed" pt={50}>
           {sidebar.map(({ component: Component, title, path }) => (
-            <NavLink to={path}>
+            <NavLink to={path} style={{ width: "100%" }}>
               {({ isActive }) => (
                 <Box
                   display="flex"

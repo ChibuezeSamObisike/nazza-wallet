@@ -9,7 +9,14 @@ import {
   Modal,
   LinearProgress,
   CircularProgress,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
+
+import SearchIcon from "@mui/icons-material/Search";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import NorthIcon from "@mui/icons-material/North";
+
 import { pxToRem } from "utils/pxToRem";
 
 import lableByCode from "utils/labelByCode";
@@ -208,7 +215,7 @@ export default function Orders() {
   const columns = [
     { key: "name" },
     { key: "crypto", align: "" },
-    { key: "number" },
+    { key: "number", title: "Amount" },
     { key: "status" },
     { key: "price" },
     { key: "date" },
@@ -361,16 +368,81 @@ export default function Orders() {
       <AdminLayout>
         <Box>
           <Box>
-            <div
-              style={{
-                marginBottom: "50px",
-              }}
+            <Box
+              display='flex'
+              alignItems='center'
+              justifyContent='space-between'
+              mb={2}
             >
-              <AppBreadCrumb
-                current='Orders'
-                links={[{ link: "/admin", title: "Home" }]}
+              <Typography>Orders</Typography>
+              <TextField
+                placeholder='Search'
+                sx={{
+                  bgcolor: "grey.100",
+                }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position='end'>
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                }}
               />
-            </div>
+            </Box>
+            <Box
+              display='flex'
+              alignItems='center'
+              justifyContent='space-between'
+              mb={2}
+            >
+              <Box
+                display='flex'
+                alignItems='center'
+                justifyContent='space-between'
+                width='20%'
+              >
+                <Typography>All</Typography>
+                <Typography
+                  sx={{
+                    opacity: "0.5",
+                    cursor: "pointer",
+                  }}
+                >
+                  Sell
+                </Typography>
+                <Typography
+                  sx={{
+                    opacity: "0.5",
+                    cursor: "pointer",
+                  }}
+                >
+                  Buy
+                </Typography>
+                <Typography
+                  sx={{
+                    opacity: "0.5",
+                    cursor: "pointer",
+                  }}
+                >
+                  Swap
+                </Typography>
+              </Box>
+              <Box>
+                <Button variant='text' sx={{ mr: 2 }}>
+                  <KeyboardArrowDownIcon />
+                  Today
+                </Button>
+                <Button variant='text'>
+                  <NorthIcon
+                    sx={{
+                      mr: 1,
+                      fontWeight: 400,
+                    }}
+                  />{" "}
+                  Export report
+                </Button>
+              </Box>
+            </Box>
             <BasicTable
               rows={dataTable}
               columns={columns}
@@ -494,7 +566,7 @@ export function AppModal({
                 )}`
               )}
 
-              {data?.status?.toLowerCase() !== "paid" ? (
+              {data?.status !== 2 ? (
                 <Button onClick={() => onConfirmClick?.()} fullWidth>
                   Confirm Transaction
                 </Button>
