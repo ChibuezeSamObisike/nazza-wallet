@@ -415,9 +415,8 @@ export default function Wallet() {
             alignItems={{ xs: "flex-start", md: "center" }}
             justifyContent='space-between'
           >
-            <Typography variant='h3' fontWeight='bold' color='#47454C'>
-              Welcome, Admin
-              <span className='wave'>👋</span>
+            <Typography variant='body1' fontWeight={100}>
+              Wallet
             </Typography>
 
             <Box
@@ -502,6 +501,7 @@ export default function Wallet() {
           <Box>
             <TextTag
               label='Recent Orders'
+              isSearch
               // style={{ padding: "6px", marginBottom: "40px" }}
             />
             <BasicTable

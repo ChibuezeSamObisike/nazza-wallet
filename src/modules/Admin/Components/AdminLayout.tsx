@@ -67,7 +67,7 @@ const SideBar = () => {
     {
       title: "Settings",
       component: SettingsIcon,
-      path: "/settings",
+      path: "/admin/settings",
     },
   ];
   return (
@@ -80,7 +80,7 @@ const SideBar = () => {
       >
         <Box position='fixed' pt={50}>
           {sidebar.map(({ component: Component, title, path }) => (
-            <NavLink to={path}>
+            <NavLink to={path} style={{ width: "100%" }}>
               {({ isActive }) => (
                 <Box
                   display='flex'
