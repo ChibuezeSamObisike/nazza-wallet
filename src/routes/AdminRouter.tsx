@@ -1,17 +1,18 @@
 import { Suspense, lazy, Fragment, ReactNode } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { isAuthenticated } from "utils/auth";
 
 interface IProps {
-  component: React.LazyExoticComponent<() => JSX.Element>;
+  component: React.LazyExoticComponent<() => JSX.Element> | Function;
   path: string;
   auth: boolean;
   layout?: typeof Fragment;
 }
 
 const AdminAuthGuard = ({ children }: { children: ReactNode }) => {
-  let notAuth = false;
-  if (notAuth) {
-    return <Navigate to='/admin-login' />;
+  const location = useLocation();
+  if (!isAuthenticated("adminToken")) {
+    return <Navigate to="/admin-login" state={{ from: location.pathname }} />;
   }
   return <div>{children}</div>;
 };
@@ -22,6 +23,36 @@ export default function AdminGuard() {
       path: "",
       component: lazy(() => import("modules/Admin/Dashboard")),
       auth: true,
+    },
+    {
+      path: "orders",
+      component: lazy(() => import("modules/Admin/Orders")),
+      auth: true,
+    },
+    {
+      path: "payout-history",
+      component: lazy(() => import("modules/Admin/PayoutHistory")),
+      auth: true,
+    },
+    {
+      path: "customers",
+      component: lazy(() => import("modules/Admin/Customers")),
+      auth: true,
+    },
+    {
+      path: "customers/:id",
+      component: lazy(() => import("modules/Admin/TradeByUser")),
+      auth: true,
+    },
+    {
+      path: "wallet",
+      component: lazy(() => import("modules/Admin/Wallet")),
+      auth: true,
+    },
+    {
+      path: "*",
+      component: () => <h2>You see to be lost</h2>,
+      auth: false,
     },
   ];
   return (

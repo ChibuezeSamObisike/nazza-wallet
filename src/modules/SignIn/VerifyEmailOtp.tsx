@@ -27,9 +27,9 @@ export default function VerifyEmail() {
     onSuccess(data) {
       console.log("2 fa data", data);
       showNotification?.("Login Successful", { type: "success" });
-      setToken(data?.accessToken);
+      setToken("userToken", data?.accessToken);
       navigate("/");
-      getDecodedJwt();
+      getDecodedJwt("userToken");
     },
     onError(error) {
       showNotification?.(handleAppError(error), { type: "error" });
@@ -42,17 +42,17 @@ export default function VerifyEmail() {
 
   return (
     <>
-      <Box alignItems='center' textAlign='center'>
+      <Box alignItems="center" textAlign="center">
         <ResetEmail />
 
-        <Typography variant='subtitle1' mt={3} fontWeight='bold'>
+        <Typography variant="subtitle1" mt={3} fontWeight="bold">
           You are almost there
         </Typography>
 
         <Typography
           mt={4}
           fontSize={pxToRem(18)}
-          color='#47454C'
+          color="#47454C"
           fontWeight={400}
         >
           An email was sent to <b> {location?.state?.email ?? "your email"}</b>{" "}
@@ -60,10 +60,10 @@ export default function VerifyEmail() {
         </Typography>
         <Box
           mt={2}
-          display='flex'
-          alignItems='center'
-          justifyContent='center'
-          flexDirection='column'
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          flexDirection="column"
         >
           <MuiOtpInput
             sx={{

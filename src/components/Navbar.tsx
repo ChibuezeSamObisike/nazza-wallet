@@ -55,7 +55,7 @@ export default function Navbar() {
         }}
       />
       <AppBar
-        position='sticky'
+        position="sticky"
         sx={{
           marginBottom: "60px",
         }}
@@ -63,9 +63,9 @@ export default function Navbar() {
       >
         <Container>
           <Box
-            display='flex'
-            justifyContent='space-between'
-            alignItems='center'
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
             py={2}
           >
             <Box display={{ xs: "flex", md: "none" }}>
@@ -77,12 +77,12 @@ export default function Navbar() {
                   setOpenModal(true);
                 }}
               >
-                <MenuIcon fontSize='large' />
+                <MenuIcon fontSize="large" />
               </IconButton>
             </Box>
             <img
               src={logo}
-              alt='logo'
+              alt="logo"
               width={isSmallScreen ? 100 : 129}
               style={{
                 cursor: "pointer",
@@ -92,11 +92,11 @@ export default function Navbar() {
 
             <Box
               display={{ xs: "flex", md: "none" }}
-              alignItems='center'
-              justifyContent='center'
+              alignItems="center"
+              justifyContent="center"
             >
               <NavLink
-                to='/notification'
+                to="/notification"
                 style={{
                   color: "inherit",
                   textDecoration: "inherit",
@@ -113,7 +113,7 @@ export default function Navbar() {
                 }}
                 src={avatar}
                 onClick={() => setMobileMenuOpen(true)}
-                alt='avatar'
+                alt="avatar"
                 width={isSmallScreen ? 50 : 129}
               />
               {mobileMenuOpen && (
@@ -124,8 +124,8 @@ export default function Navbar() {
                     rowGap={"1rem"}
                     position={"absolute"}
                     top={"70px"}
-                    right='15px'
-                    overflow='hidden'
+                    right="15px"
+                    overflow="hidden"
                     p={3}
                     sx={{
                       backgroundColor: "white",
@@ -150,11 +150,11 @@ export default function Navbar() {
             {/* Destop Drop down */}
             <Box
               display={{ xs: "none", md: "flex" }}
-              justifyContent='space-between'
-              alignItems='center'
+              justifyContent="space-between"
+              alignItems="center"
             >
               <NavLink
-                to='/'
+                to="/"
                 style={{ color: "inherit", textDecoration: "inherit" }}
               >
                 <Typography mx={1} fontWeight={700}>
@@ -163,16 +163,16 @@ export default function Navbar() {
               </NavLink>
 
               <NavLink
-                to='/all-transactions'
+                to="/all-transactions"
                 style={{ color: "inherit", textDecoration: "inherit" }}
               >
-                <Typography variant='body1' mx={1} fontWeight={700}>
+                <Typography variant="body1" mx={1} fontWeight={700}>
                   All Transactions
                 </Typography>
               </NavLink>
 
               <NavLink
-                to='/notification'
+                to="/notification"
                 style={{
                   color: "inherit",
                   textDecoration: "inherit",
@@ -182,24 +182,24 @@ export default function Navbar() {
                 {true ? <NotificationIcon /> : <NotificationsIcon />}
               </NavLink>
 
-              <Box position='relative'>
+              <Box position="relative">
                 <img
                   style={{
                     marginLeft: "10px",
                     cursor: "pointer",
                   }}
                   src={avatar}
-                  alt='avatar'
+                  alt="avatar"
                   onClick={handleClick}
                 />
                 {open && (
                   <ClickAwayListener onClickAway={handleClose}>
                     <Box
-                      bgcolor='#fff'
-                      color='#001D4B'
-                      width='118px'
-                      overflow='hidden'
-                      borderRadius='2px'
+                      bgcolor="#fff"
+                      color="#001D4B"
+                      width="118px"
+                      overflow="hidden"
+                      borderRadius="2px"
                       sx={{
                         position: "absolute",
                         right: 20,
@@ -207,8 +207,8 @@ export default function Navbar() {
                       }}
                       py={1}
                     >
-                      {dropDownElems.map((x) => (
-                        <Link to={x.path}>
+                      {dropDownElems.map((x, i) => (
+                        <Link to={x.path} key={i}>
                           <AppMenuItem {...x} />
                         </Link>
                       ))}

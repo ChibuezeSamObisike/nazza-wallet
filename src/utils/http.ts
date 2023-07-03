@@ -22,8 +22,11 @@ const refresh = async () => {
 // Request interceptor for API calls
 http.interceptors.request.use(
   async (config: AxiosRequestConfig) => {
+    const isAuth =
+      isAuthenticated("userToken") ?? isAuthenticated("adminToken");
+    const accessToken = getToken("userToken") ?? getToken("adminToken");
     config.headers = {
-      "x-auth-token": isAuthenticated() ? `${getToken()}` : "",
+      "x-auth-token": isAuth ? `${accessToken}` : "",
       "x-auth-apiKey": "1",
     };
     return config;

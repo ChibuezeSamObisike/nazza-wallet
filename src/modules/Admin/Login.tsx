@@ -10,16 +10,23 @@ import {
   IconButton,
 } from "@mui/material";
 import nazaLogo from "assets/naza-logo.svg";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useAlert } from "hooks/useAlert";
 import * as Yup from "yup";
 import { useForm, FieldValues } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { login } from "services/AppService";
+import handleApiError, { handleAppError } from "utils/handleApiError";
+import { setToken } from "utils/auth";
 
 const AdminLogin = () => {
   const { showNotification } = useAlert();
+  const location = useLocation();
+  const navigate = useNavigate();
+  console.log(location);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -27,8 +34,27 @@ const AdminLogin = () => {
     setShowPassword(!showPassword);
   };
 
+  const mutation = useMutation(login);
+
   const onSubmit = (data: FieldValues) => {
-    //return mutate({ data });
+    console.log(data);
+    mutation.mutate(
+      { data },
+      {
+        onSuccess(data) {
+          const path = location?.state?.from ?? "/admin";
+          showNotification?.("Login Successful", { type: "success" });
+          setToken("adminToken", data?.accessToken);
+          navigate(path);
+        },
+        onError(error) {
+          showNotification?.(handleAppError(error) || handleApiError(error), {
+            type: "error",
+          });
+          console.log(error);
+        },
+      }
+    );
   };
 
   const defaultValues = {
@@ -55,19 +81,19 @@ const AdminLogin = () => {
 
   return (
     <Box
-      bgcolor='#00368f'
+      bgcolor="#00368f"
       sx={{
         width: "100%",
         height: "100vh",
         position: "fixed",
       }}
-      display='flex'
-      alignItems='center'
-      justifyContent='center'
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
     >
-      <Box bgcolor='#fff' width='30%' p={4}>
+      <Box bgcolor="#fff" width="30%" p={4}>
         <Box
-          marginX='auto'
+          marginX="auto"
           display={"flex"}
           alignItems={"center"}
           justifyContent={"center"}
@@ -75,7 +101,7 @@ const AdminLogin = () => {
         >
           <img
             src={nazaLogo}
-            alt='logo'
+            alt="logo"
             width={"123px"}
             style={{
               color: "red",
@@ -83,14 +109,14 @@ const AdminLogin = () => {
             }}
           />
         </Box>
-        <Typography textAlign='center' fontWeight='bold' variant='subtitle1'>
+        <Typography textAlign="center" fontWeight="bold" variant="subtitle1">
           Welcome Admin
         </Typography>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
-            placeholder='Email'
-            label='Email'
+            placeholder="Email"
+            label="Email"
             fullWidth
             {...register("email")}
             sx={{
@@ -101,12 +127,12 @@ const AdminLogin = () => {
           />
 
           <TextField
-            placeholder='Password'
-            label='Password'
+            placeholder="Password"
+            label="Password"
             type={showPassword ? "text" : "password"}
             InputProps={{
               endAdornment: (
-                <InputAdornment position='end'>
+                <InputAdornment position="end">
                   <IconButton onClick={() => togglePasswordVisibility()}>
                     {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
                   </IconButton>
@@ -127,18 +153,19 @@ const AdminLogin = () => {
               mt: 3,
               width: "100%",
             }}
-            type='submit'
-            // startIcon={
-            //   isLoading && (
-            //     <CircularProgress
-            //       size={16}
-            //       sx={{
-            //         fontSize: 2,
-            //         color: "#fff",
-            //       }}
-            //     />
-            //   )
-            // }
+            type="submit"
+            disabled={mutation.isLoading}
+            startIcon={
+              mutation.isLoading && (
+                <CircularProgress
+                  size={16}
+                  sx={{
+                    fontSize: 2,
+                    color: "#fff",
+                  }}
+                />
+              )
+            }
           >
             Login
           </Button>
