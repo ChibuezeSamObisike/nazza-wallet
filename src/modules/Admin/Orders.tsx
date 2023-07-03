@@ -494,7 +494,7 @@ export function AppModal({
                 )}`
               )}
 
-              {data?.status?.toLowerCase() !== "paid" ? (
+              {data?.status !== 2 ? (
                 <Button onClick={() => onConfirmClick?.()} fullWidth>
                   Confirm Transaction
                 </Button>

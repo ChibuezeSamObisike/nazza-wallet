@@ -206,7 +206,7 @@ export default function Dashboard() {
   );
 
   const { mutate: SuspendUser, isLoading: mutationSuspendLoading } =
-    useMutation(!data?.user?.suspend ? suspendUser : unsuspendUser, {
+    useMutation(!(data?.user?.suspend === true) ? suspendUser : unsuspendUser, {
       onSuccess(data) {
         console.log("user status", data);
         queryClient.refetchQueries("getUserData");
@@ -287,7 +287,9 @@ export default function Dashboard() {
                   await SuspendUser(params?.id);
                 }}
               >
-                {!data?.user?.suspend ? "Suspend User" : "Activate User"}
+                {!(data?.user?.suspend === true)
+                  ? "Suspend User"
+                  : "Activate User"}
               </Button>
             </Box>
           </Box>

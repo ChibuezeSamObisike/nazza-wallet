@@ -7,6 +7,7 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
 import { NavLink } from "react-router-dom";
 
@@ -40,7 +41,7 @@ const SideBar = () => {
     },
     {
       title: "wallet",
-      component: GradingIcon,
+      component: AccountBalanceWalletIcon,
       path: "/admin-wallet",
     },
     {
