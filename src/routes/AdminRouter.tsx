@@ -45,13 +45,13 @@ export default function AdminGuard() {
       auth: true,
     },
     {
-      path: "admin-wallet",
+      path: "wallet",
       component: lazy(() => import("modules/Admin/Wallet")),
       auth: true,
     },
     {
       path: "*",
-      component: () => <p>You see to be lost</p>,
+      component: () => <h2>You see to be lost</h2>,
       auth: false,
     },
   ];

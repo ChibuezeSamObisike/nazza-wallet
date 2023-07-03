@@ -44,7 +44,7 @@ const SideBar = () => {
     {
       title: "wallet",
       component: GradingIcon,
-      path: "/admin/admin-wallet",
+      path: "/admin/wallet",
     },
     {
       title: "Orders",
