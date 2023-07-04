@@ -1,74 +1,76 @@
-import { useState } from "react";
-
+import { useEffect } from "react";
+import Loader from "shared/Loader";
 import {
   Typography,
   Box,
   TextField,
   Button,
   CircularProgress,
-  InputAdornment,
-  IconButton,
 } from "@mui/material";
 import nazaLogo from "assets/naza-logo.svg";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useMutation } from "react-query";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
+import { useMutation, useQuery } from "react-query";
 import { useAlert } from "hooks/useAlert";
 import * as Yup from "yup";
-import { useForm, FieldValues } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { login } from "services/AppService";
+import { sendAdminLoginLink, loginAdmin } from "services/AppService";
 import handleApiError, { handleAppError } from "utils/handleApiError";
-import { setToken } from "utils/auth";
+import { isAuthenticated, setToken } from "utils/auth";
 
 const AdminLogin = () => {
   const { showNotification } = useAlert();
   const location = useLocation();
+  const { userId } = useParams();
   const navigate = useNavigate();
-  console.log(location);
+  const loginKey = new URLSearchParams(location.search).get("key");
 
-  const [showPassword, setShowPassword] = useState(false);
+  const sendLoginLink = useMutation(sendAdminLoginLink);
+  const { isLoading: loginLoading } = useQuery(
+    ["login-admin"],
+    () => loginAdmin(userId, loginKey),
+    {
+      enabled: !!userId || !!loginKey,
+      onSuccess(data) {
+        setToken("adminToken", data?.accessToken);
+        navigate("/admin");
+      },
+      onError(error) {
+        showNotification?.(handleAppError(error) || handleApiError(error), {
+          type: "error",
+        });
+        navigate("/admin/login");
+      },
+    }
+  );
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const mutation = useMutation(login);
-
-  const onSubmit = (data: FieldValues) => {
-    console.log(data);
-    mutation.mutate(
-      { data },
-      {
-        onSuccess(data) {
-          const path = location?.state?.from ?? "/admin";
-          showNotification?.("Login Successful", { type: "success" });
-          setToken("adminToken", data?.accessToken);
-          navigate(path);
-        },
-        onError(error) {
-          showNotification?.(handleAppError(error) || handleApiError(error), {
-            type: "error",
-          });
-          console.log(error);
-        },
-      }
-    );
+  const onSubmit = (data: { email: string }) => {
+    sendLoginLink.mutate(data, {
+      onSuccess(data) {
+        showNotification?.("Login link sent. Please check your email.", {
+          type: "success",
+        });
+      },
+      onError(error) {
+        showNotification?.(handleAppError(error) || handleApiError(error), {
+          type: "error",
+        });
+      },
+    });
   };
 
   const defaultValues = {
     email: "",
-    password: "",
   };
 
   const schema = Yup.object({
     email: Yup.string()
       .required("Email is Required")
       .email("Type must be email"),
-    password: Yup.string()
-      .required("Password is Required")
-      .min(8, "Minimum of 8 text"),
   });
 
   const resolver = yupResolver(schema);
@@ -78,6 +80,30 @@ const AdminLogin = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver, defaultValues });
+
+  useEffect(() => {
+    if (isAuthenticated("adminToken")) {
+      navigate(-1);
+    }
+  });
+
+  //Handle authenticated user visiting already opened admin login page
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (
+        document.visibilityState === "visible" &&
+        isAuthenticated("adminToken")
+      ) {
+        return navigate("/admin");
+      }
+      return;
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+  });
+
+  if (loginLoading || isAuthenticated("adminToken")) return <Loader />;
 
   return (
     <Box
@@ -126,37 +152,15 @@ const AdminLogin = () => {
             helperText={errors.email?.message?.toString()}
           />
 
-          <TextField
-            placeholder="Password"
-            label="Password"
-            type={showPassword ? "text" : "password"}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={() => togglePasswordVisibility()}>
-                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            fullWidth
-            {...register("password")}
-            error={Boolean(errors["password"]?.message)}
-            helperText={errors.password?.message?.toString()}
-            sx={{
-              mt: 3,
-            }}
-          />
-
           <Button
             sx={{
               mt: 3,
               width: "100%",
             }}
             type="submit"
-            disabled={mutation.isLoading}
+            disabled={sendLoginLink.isLoading}
             startIcon={
-              mutation.isLoading && (
+              sendLoginLink.isLoading && (
                 <CircularProgress
                   size={16}
                   sx={{
@@ -167,7 +171,7 @@ const AdminLogin = () => {
               )
             }
           >
-            Login
+            Send login link
           </Button>
         </form>
       </Box>

@@ -12,7 +12,7 @@ interface IProps {
 const AdminAuthGuard = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
   if (!isAuthenticated("adminToken")) {
-    return <Navigate to="/admin-login" state={{ from: location.pathname }} />;
+    return <Navigate to="/admin/login" state={{ from: location.pathname }} />;
   }
   return <div>{children}</div>;
 };
@@ -23,6 +23,21 @@ export default function AdminGuard() {
       path: "",
       component: lazy(() => import("modules/Admin/Dashboard")),
       auth: true,
+    },
+    {
+      path: "login/*",
+      component: lazy(() => import("modules/Admin/Login")),
+      auth: false,
+    },
+    {
+      path: "login/:userId",
+      component: lazy(() => import("modules/Admin/Login")),
+      auth: false,
+    },
+    {
+      path: "settings",
+      component: lazy(() => import("modules/Admin/Settings")),
+      auth: false,
     },
     {
       path: "orders",

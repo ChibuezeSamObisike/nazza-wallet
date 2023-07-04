@@ -6,6 +6,21 @@ export const login = async (payload: any) => {
   });
 };
 
+export const sendAdminLoginLink = (payload: { email: string }) => {
+  return http.post("admin/login", payload).then((res) => {
+    return res.data;
+  });
+};
+
+export const loginAdmin = (
+  userId: string | undefined | null,
+  loginKey: string | undefined | null
+) => {
+  return http.get(`admin/login/${userId}/?key=${loginKey}`).then((res) => {
+    return res.data;
+  });
+};
+
 export const register = async (data: any) => {
   return http.post("user/register/", data).then((res) => {
     return res.data;
