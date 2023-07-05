@@ -7,6 +7,8 @@ import {
   CircularProgress,
   InputAdornment,
   IconButton,
+  List,
+  ListItem,
 } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import nazaLogo from "assets/naza-logo.svg";
@@ -27,6 +29,7 @@ import { useAlert } from "hooks/useAlert";
 
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import CheckIcon from "@mui/icons-material/Check";
 
 import * as Yup from "yup";
 
@@ -81,6 +84,7 @@ export default function AccountSetUp() {
     handleSubmit,
     formState: { errors },
     getValues,
+    watch,
   } = useForm({ resolver, defaultValues });
 
   const emailVal = getValues("email");
@@ -92,23 +96,23 @@ export default function AccountSetUp() {
   return (
     <Box
       sx={{ width: { md: "60%", xs: "100%" }, mt: { md: -12, xs: 5 } }}
-      textAlign='center'
+      textAlign="center"
     >
       <img
         src={nazaLogo}
-        alt='logo'
+        alt="logo"
         width={"123px"}
         style={{
           color: "red",
           marginBottom: 4,
         }}
       />
-      <Typography variant='subtitle1' fontWeight='bold'>
+      <Typography variant="subtitle1" fontWeight="bold">
         Let’s get to know you
       </Typography>
       <Typography
-        variant='subtitle2'
-        color='#47454C'
+        variant="subtitle2"
+        color="#47454C"
         fontWeight={400}
         fontSize={pxToRem(18)}
       >
@@ -116,10 +120,10 @@ export default function AccountSetUp() {
         your identity.
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box display='flex' flexDirection={{ xs: "column", md: "row" }}>
+        <Box display="flex" flexDirection={{ xs: "column", md: "row" }}>
           <TextField
-            placeholder='Name'
-            label='Name'
+            placeholder="Name"
+            label="Name"
             fullWidth
             {...register("name")}
             sx={{
@@ -130,8 +134,8 @@ export default function AccountSetUp() {
             helperText={errors.name?.message?.toString()}
           />
           <TextField
-            placeholder='Last Name'
-            label='Last Name'
+            placeholder="Last Name"
+            label="Last Name"
             fullWidth
             {...register("lastname")}
             sx={{
@@ -142,8 +146,8 @@ export default function AccountSetUp() {
           />
         </Box>
         <TextField
-          placeholder='Email'
-          label='Email'
+          placeholder="Email"
+          label="Email"
           fullWidth
           sx={{
             mt: 3,
@@ -153,12 +157,12 @@ export default function AccountSetUp() {
           helperText={errors.email?.message?.toString()}
         />
         <TextField
-          placeholder='Password'
-          label='Password'
+          placeholder="Password"
+          label="Password"
           type={showPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (
-              <InputAdornment position='end'>
+              <InputAdornment position="end">
                 <IconButton onClick={() => togglePasswordVisibility()}>
                   {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
                 </IconButton>
@@ -173,13 +177,45 @@ export default function AccountSetUp() {
             mt: 3,
           }}
         />
+        {watch("password") && (
+          <Box sx={{ textAlign: "left", color: "#8C8B90", marginTop: 1.5 }}>
+            <Typography variant="subtitle2" color="#47454C" fontSize="12px">
+              Password must cointain
+            </Typography>
+            <List
+              disablePadding
+              sx={{
+                fontSize: "12px",
+                display: "grid",
+                gap: "9px",
+              }}
+            >
+              <ListItem disableGutters disablePadding sx={{ marginTop: 1 }}>
+                <CheckIcon sx={{ fontSize: "14px" }} />
+                At least 8 characters
+              </ListItem>
+              <ListItem disableGutters disablePadding>
+                <CheckIcon sx={{ fontSize: "14px" }} />
+                At one upper case character
+              </ListItem>
+              <ListItem disableGutters disablePadding>
+                <CheckIcon sx={{ fontSize: "14px" }} />
+                At one upper case character
+              </ListItem>
+              <ListItem disableGutters disablePadding>
+                <CheckIcon sx={{ fontSize: "14px" }} />
+                At least one number or special character (!@#&$)
+              </ListItem>
+            </List>
+          </Box>
+        )}
 
         <Button
           sx={{
-            mt: 3,
+            mt: 2,
             width: "100%",
           }}
-          type='submit'
+          type="submit"
           startIcon={
             isLoading && (
               <CircularProgress
@@ -197,10 +233,10 @@ export default function AccountSetUp() {
       </form>
 
       <Box mt={2}>
-        <Typography textAlign='left'>
+        <Typography textAlign="left">
           Have an account?{" "}
           <span
-            role='link'
+            role="link"
             onClick={() => navigate("/login")}
             style={{
               color: "#2574F5",
