@@ -74,6 +74,7 @@ export default function TransferCrypto({
                 height="156px"
                 width="156px"
                 padding={2}
+                marginBottom={3}
               >
                 <QRCode
                   style={{ height: "100%", width: "100%" }}
@@ -82,23 +83,24 @@ export default function TransferCrypto({
               </Box>
             </Box>
 
-            <Alert
-              severity="warning"
-              sx={{
-                borderRadius: "7px",
-                border: "1px solid #FFE58F",
-                background: "#FFF7E7",
-                my: 3,
-                color: "#001D4B",
-              }}
-              icon={<WarningAmberIcon sx={{ color: "#001D4B" }} />}
-            >
-              make sure you are sending to a{" "}
-              {viewData.coinName === "BTC" && "TRC20 "}
-              {viewData.coinName === "USD" && "ERC 20 "}
-              {viewData.coinName === "ETH" && "BEP 20 "}
-              network.
-            </Alert>
+            {viewData.coinName !== "BTC" && (
+              <Alert
+                severity="warning"
+                sx={{
+                  borderRadius: "7px",
+                  border: "1px solid #FFE58F",
+                  background: "#FFF7E7",
+                  mb: 3,
+                  color: "#001D4B",
+                }}
+                icon={<WarningAmberIcon sx={{ color: "#001D4B" }} />}
+              >
+                make sure you are sending to a{" "}
+                {viewData.coinName === "USD" && "ERC 20 "}
+                {viewData.coinName === "ETH" && "BEP 20 "}
+                network.
+              </Alert>
+            )}
 
             <TextField
               id="input-with-icon-textfield"
