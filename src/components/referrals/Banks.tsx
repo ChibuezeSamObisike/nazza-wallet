@@ -164,24 +164,24 @@ export default function Banks() {
     <>
       <GenericModal open={openM1} close={closeM1}>
         <Box
-          textAlign='center'
-          alignItems='center'
-          display='flex'
-          justifyContent='center'
-          flexDirection='column'
+          textAlign="center"
+          alignItems="center"
+          display="flex"
+          justifyContent="center"
+          flexDirection="column"
         >
           <Box
-            bgcolor='#E9F1FF'
-            height='53px'
-            width='53px'
-            borderRadius='50%'
-            display='flex'
-            alignItems='center'
-            justifyContent='center'
+            bgcolor="#E9F1FF"
+            height="53px"
+            width="53px"
+            borderRadius="50%"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
           >
             <AccountBalanceIcon sx={{ color: "#001D4B", fontSize: "32px" }} />
           </Box>
-          <Typography my={2} fontWeight='bold'>
+          <Typography my={2} fontWeight="bold">
             Add a bank Account
           </Typography>
           <form
@@ -192,7 +192,7 @@ export default function Banks() {
           >
             <Autocomplete
               disablePortal
-              id='combo-box-demo'
+              id="combo-box-demo"
               options={listOfBanks}
               fullWidth
               loading={isBankListLoading}
@@ -209,16 +209,16 @@ export default function Banks() {
                   <TextField
                     helperText={errors?.["bank_code"]?.message?.toString()}
                     {...params}
-                    label='Banks'
+                    label="Banks"
                   />
                 );
               }}
             />
             <TextField
               fullWidth
-              type='number'
+              type="number"
               {...register("acc_number")}
-              label='Account Number'
+              label="Account Number"
               sx={{
                 my: 2,
               }}
@@ -227,7 +227,7 @@ export default function Banks() {
 
             {accountName && (
               <TextField
-                label='Account Name'
+                label="Account Name"
                 sx={{
                   mb: 4,
                 }}
@@ -239,7 +239,7 @@ export default function Banks() {
 
             {accountName === "" && (
               <Button
-                type='submit'
+                type="submit"
                 fullWidth
                 startIcon={
                   addBank.isLoading && (
@@ -289,28 +289,28 @@ export default function Banks() {
 
       <GenericModal open={openM2} close={closeM2}>
         <Box
-          textAlign='center'
-          alignItems='center'
-          display='flex'
-          justifyContent='center'
-          flexDirection='column'
+          textAlign="center"
+          alignItems="center"
+          display="flex"
+          justifyContent="center"
+          flexDirection="column"
         >
           <Box
-            bgcolor='#E9F1FF'
-            height='53px'
-            width='53px'
-            borderRadius='50%'
-            display='flex'
-            alignItems='center'
-            justifyContent='center'
+            bgcolor="#E9F1FF"
+            height="53px"
+            width="53px"
+            borderRadius="50%"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
           >
             <AccountBalanceIcon sx={{ color: "#001D4B", fontSize: "32px" }} />
           </Box>
-          <Typography fontSize={pxToRem(18)} my={2} fontWeight='bold'>
+          <Typography fontSize={pxToRem(18)} my={2} fontWeight="bold">
             You added a new bank account
           </Typography>
 
-          <Typography color='#8C8B90' fontWeight={300} mb={2}>
+          <Typography color="#8C8B90" fontWeight={300} mb={2}>
             You can now recieve funds to this bank accounts
           </Typography>
 
@@ -321,14 +321,14 @@ export default function Banks() {
       </GenericModal>
 
       <GenericModal open={openBank} close={closeBankModal}>
-        <Box textAlign='center'>
+        <Box textAlign="center">
           <Box>
-            <img src={deleteGif} alt='delete gif' width={200} />
+            <img src={deleteGif} alt="delete gif" width={200} />
           </Box>
-          <Typography fontWeight='bold' fontSize={pxToRem(18)}>
+          <Typography fontWeight="bold" fontSize={pxToRem(18)}>
             Are you sure?
           </Typography>
-          <Typography mt={3} fontWeight={300} color='#8C8B90'>
+          <Typography mt={3} fontWeight={300} color="#8C8B90">
             Verify that you really want to delete the <br /> chosen bank
             account.
           </Typography>
@@ -358,14 +358,14 @@ export default function Banks() {
             >
               Yes, delete the bank Account
             </Button>
-            <Button variant='outlined' onClick={() => closeBankModal()}>
+            <Button variant="outlined" onClick={() => closeBankModal()}>
               Cancel
             </Button>
           </div>
         </Box>
       </GenericModal>
-      <Box bgcolor='#fff' p={3} pt={5} mb={3} border='1px solid #D4D4D4'>
-        <Typography fontWeight='bold'>Banks</Typography>
+      <Box bgcolor="#fff" p={3} pt={5} mb={3} border="1px solid #D4D4D4">
+        <Typography fontWeight="bold">Banks</Typography>
         <Typography mt={2} fontWeight={300}>
           You can add your bank account where you will deposited
         </Typography>
@@ -377,31 +377,31 @@ export default function Banks() {
             {data?.map((x: any) => {
               return (
                 <Box
-                  bgcolor='#FAFBFF'
+                  bgcolor="#FAFBFF"
                   p={2}
                   px={4}
                   mb={4}
                   mt={3}
-                  display='flex'
-                  color='#001D4B'
-                  alignItems='center'
-                  border='1px solid #E9F1FF'
-                  width={{ md: "60%", xs: "80%" }}
+                  display="flex"
+                  color="#001D4B"
+                  alignItems="center"
+                  border="1px solid #E9F1FF"
                   flexDirection={{ md: "row", xs: "column" }}
+                  justifyContent="space-between"
                 >
                   <Box
-                    display='flex'
-                    alignItems='center'
-                    justifyContent='space-between'
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
                   >
-                    <Typography fontWeight='bold'>{x?.acc_name}</Typography>
+                    <Typography fontWeight="bold">{x?.acc_name}</Typography>
                   </Box>
                   <Typography
                     ml={6}
-                    variant='body2'
+                    variant="body2"
                     fontWeight={400}
-                    display='flex'
-                    alignItems='center'
+                    display="flex"
+                    alignItems="center"
                   >
                     {coverSomeNums(x?.acc_number?.toString())}{" "}
                     <Typography mx={3}> |</Typography> {x?.bank_name}
@@ -414,7 +414,6 @@ export default function Banks() {
                       }}
                       sx={{
                         color: "#D53A32",
-                        ml: { md: 3, xs: 0 },
                       }}
                     />
                   </IconButton>
