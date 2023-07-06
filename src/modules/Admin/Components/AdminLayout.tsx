@@ -113,8 +113,7 @@ const SideBar = () => {
               cursor: "pointer",
             }}
             onClick={() => {
-              logOutFromAdmin();
-              navigate("/admin");
+              logOutFromAdmin(() => navigate("/admin"));
             }}
           >
             <LogoutOutlinedIcon />

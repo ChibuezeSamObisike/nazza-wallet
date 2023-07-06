@@ -73,7 +73,7 @@ export default function SellModal({
             mt={2}
           >
             <Typography color='#8C8B90' fontWeight={300}>
-              Select coin you want to sell
+              Select coin to sell
             </Typography>
             <Select
               labelId='demo-simple-select-helper-label'

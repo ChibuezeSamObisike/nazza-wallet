@@ -54,8 +54,9 @@ export const logOut = (cb: VoidFunction): void => {
   cb();
 };
 
-export const logOutFromAdmin = (): void => {
+export const logOutFromAdmin = (cb: VoidFunction): void => {
   localStorage.removeItem("adminToken");
+  cb();
 };
 
 export const isAuthenticated = (tokenType: TokenType) => {
