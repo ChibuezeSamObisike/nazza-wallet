@@ -32,6 +32,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import CheckIcon from "@mui/icons-material/Check";
 
 import * as Yup from "yup";
+import { passwordValidator } from "utils/passwordValidator";
 
 export default function AccountSetUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -64,7 +65,6 @@ export default function AccountSetUp() {
       });
     },
   });
-
   const schema = Yup.object({
     email: Yup.string()
       .required("Email is Required")
@@ -90,7 +90,6 @@ export default function AccountSetUp() {
   const emailVal = getValues("email");
 
   const onSubmit = (data: FieldValues) => {
-    console.log("Form data", { ...data, referral: 123456 ?? refferal_code });
     mutate({ ...data, referral: 123456 ?? refferal_code });
   };
   return (
@@ -178,10 +177,12 @@ export default function AccountSetUp() {
           }}
         />
         {watch("password") && (
-          <Box sx={{ textAlign: "left", color: "#8C8B90", marginTop: 1.5 }}>
-            <Typography variant="subtitle2" color="#47454C" fontSize="12px">
-              Password must cointain
-            </Typography>
+          <Box sx={{ textAlign: "left", color: "#8C8B90", marginTop: 2.5 }}>
+            {passwordValidator(watch("password")).length > 0 && (
+              <Typography variant="subtitle2" color="#47454C" fontSize="12px">
+                Password must contain
+              </Typography>
+            )}
             <List
               disablePadding
               sx={{
@@ -190,22 +191,17 @@ export default function AccountSetUp() {
                 gap: "9px",
               }}
             >
-              <ListItem disableGutters disablePadding sx={{ marginTop: 1 }}>
-                <CheckIcon sx={{ fontSize: "14px" }} />
-                At least 8 characters
-              </ListItem>
-              <ListItem disableGutters disablePadding>
-                <CheckIcon sx={{ fontSize: "14px" }} />
-                At one upper case character
-              </ListItem>
-              <ListItem disableGutters disablePadding>
-                <CheckIcon sx={{ fontSize: "14px" }} />
-                At one upper case character
-              </ListItem>
-              <ListItem disableGutters disablePadding>
-                <CheckIcon sx={{ fontSize: "14px" }} />
-                At least one number or special character (!@#&$)
-              </ListItem>
+              {passwordValidator(watch("password")).map((errorMessage) => (
+                <ListItem
+                  key={errorMessage}
+                  disableGutters
+                  disablePadding
+                  sx={{ marginTop: 1 }}
+                >
+                  <CheckIcon sx={{ fontSize: "14px" }} />
+                  {errorMessage}
+                </ListItem>
+              ))}
             </List>
           </Box>
         )}
