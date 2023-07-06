@@ -16,7 +16,7 @@ import { useAmount } from "hooks/useAmount";
 
 import QRCode from "react-qr-code";
 import { pxToRem } from "utils/pxToRem";
-
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 export default function TransferCrypto({
   open,
   close,
@@ -33,22 +33,22 @@ export default function TransferCrypto({
   return (
     <Box>
       <SellSmallScreen
-        title='Transfer'
-        subtitle='Send wallet and add to crypto '
+        title="Transfer"
+        subtitle="Send wallet and add to crypto "
       >
         <Box
-          color='#5D5C63'
-          bgcolor='#fff'
+          color="#5D5C63"
+          bgcolor="#fff"
           p={4}
-          borderRadius='16px'
-          border='1px solid #A4A3A7'
+          borderRadius="16px"
+          border="1px solid #A4A3A7"
         >
           <Box>
-            <Typography variant='subtitle2' fontWeight='bold' color='black'>
+            <Typography variant="subtitle2" fontWeight="bold" color="black">
               Transfer funds
             </Typography>
 
-            <Typography mt={3}>
+            <Typography mt={3} sx={{ textAlign: "center" }}>
               Send{" "}
               <span
                 style={{
@@ -61,50 +61,63 @@ export default function TransferCrypto({
               worth of {viewData?.coinName} to this address below or scan the QR
               code.
             </Typography>
-            {!(viewData?.coinName === "BTC") && (
-              <Alert
-                severity='warning'
-                sx={{
-                  my: 3,
-                }}
-              >
-                make sure you are sending to a{" "}
-                {viewData.coinName === "USD" && "ERC 20 "}
-                {viewData.coinName === "ETH" && "BEP 20 "}
-                network.
-              </Alert>
-            )}
-
             <Box
-              mx='auto'
-              display='flex'
-              alignItems='center'
-              justifyContent='center'
+              mx="auto"
+              marginTop="31px"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
             >
-              <Box border='1px solid grey'>
-                <QRCode value={viewData?.address} />
+              <Box
+                border="1px solid #2574F5"
+                borderRadius="19px"
+                height="156px"
+                width="156px"
+                padding={2}
+              >
+                <QRCode
+                  style={{ height: "100%", width: "100%" }}
+                  value={viewData?.address}
+                />
               </Box>
             </Box>
 
-            <Typography textAlign='center' mt={2} fontSize={pxToRem(16)}>
-              Scan the QR code or copy the payment wallet
-            </Typography>
+            <Alert
+              severity="warning"
+              sx={{
+                borderRadius: "7px",
+                border: "1px solid #FFE58F",
+                background: "#FFF7E7",
+                my: 3,
+                color: "#001D4B",
+              }}
+              icon={<WarningAmberIcon sx={{ color: "#001D4B" }} />}
+            >
+              make sure you are sending to a{" "}
+              {viewData.coinName === "BTC" && "TRC20 "}
+              {viewData.coinName === "USD" && "ERC 20 "}
+              {viewData.coinName === "ETH" && "BEP 20 "}
+              network.
+            </Alert>
 
             <TextField
-              id='input-with-icon-textfield'
+              id="input-with-icon-textfield"
               fullWidth
               disabled
               sx={{
-                marginTop: "30px",
+                borderRadius: "4px",
+                background: "#FAFBFF",
               }}
               value={viewData?.address}
               InputLabelProps={{
                 shrink: true,
               }}
-              label='Address'
+              label="Address"
               InputProps={{
+                disableUnderline: true,
+                style: { border: "none" },
                 endAdornment: (
-                  <InputAdornment position='end'>
+                  <InputAdornment position="end">
                     <Button
                       onClick={() => {
                         navigator.clipboard
@@ -118,8 +131,8 @@ export default function TransferCrypto({
                       sx={{
                         p: 1,
                         px: 3,
-                        backgroundColor: "#E9F1FF",
-                        color: "#000000",
+                        backgroundColor: "#FAFBFF",
+                        color: "#2574F5",
                         fontWeight: 500,
                       }}
                     >

@@ -21,84 +21,84 @@ export default function Sidebar({
 
   return (
     <Box
-      width='100%'
-      height='100%'
-      display='flex'
-      flexDirection='column'
-      alignItems='center'
+      width="100%"
+      height="100%"
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
     >
       <Box
-        display='flex'
-        flexDirection='column'
-        alignItems='center'
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
         ml={20}
         pt={10}
       >
         {/* <Avatar /> */}
         <Box
-          width='200px'
-          height='200px'
-          display='flex'
-          alignItems='center'
-          justifyContent='center'
-          bgcolor='grey'
-          borderRadius='50%'
+          width="200px"
+          height="200px"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          bgcolor="grey"
+          borderRadius="50%"
         >
-          <Typography color='#fff' fontSize={90}>
+          <Typography color="#fff" fontSize={90}>
             {data?.name[0]} {data?.lastname[0]}
           </Typography>
         </Box>
-        <Typography textAlign={"center"} variant='h3' pt={4} fontWeight='bold'>
+        <Typography textAlign={"center"} variant="h3" pt={4} fontWeight="bold">
           {data?.name} {data?.lastname}
         </Typography>
-        <Typography mt={1} color='#5D5C63' fontWeight='400'>
+        <Typography mt={1} color="#5D5C63" fontWeight="400">
           {data?.email}
         </Typography>
       </Box>
-      <Box mt={6} width='100%' display='flex' justifyContent='flex-end'>
-        <Box width='60%'>
+      <Box mt={6} width="100%" display="flex" justifyContent="flex-end">
+        <Box width="60%">
           <AppTabs
-            label='Profile'
+            label="Profile"
             icon={Profile}
             index={0}
             active={active}
             onClick={() => handleChangeTabs(0)}
           />
           <AppTabs
-            label='KYC (verify Identity)'
+            label="KYC (verify Identity)"
             icon={Kyc}
             index={1}
             active={active}
             onClick={() => handleChangeTabs(1)}
           />
           <AppTabs
-            label='Security'
+            label="Security"
             icon={Security}
             index={2}
             active={active}
             onClick={() => handleChangeTabs(2)}
           />
           <AppTabs
-            label='Invite'
+            label="Invite"
             icon={Refer}
             index={3}
             active={active}
             onClick={() => handleChangeTabs(3)}
           />
           <AppTabs
-            label='Banks'
+            label="Banks"
             icon={AccountBalanceIcon}
             index={4}
             active={active}
             onClick={() => handleChangeTabs(4)}
           />
-          <AppTabs
+          {/* <AppTabs
             label='Logout'
             icon={LogoutRoundedIcon}
             index={5}
             active={active}
             onClick={() => handleChangeTabs(5)}
-          />
+          /> */}
         </Box>
       </Box>
     </Box>
