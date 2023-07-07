@@ -9,7 +9,6 @@ import {
   IconButton,
   List,
   ListItem,
-  Collapse,
 } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import nazaLogo from "assets/naza-logo.svg";
