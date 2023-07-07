@@ -191,15 +191,21 @@ export default function AccountSetUp() {
                 gap: "9px",
               }}
             >
-              {passwordValidator(watch("password")).map((errorMessage) => (
+              {passwordValidator(watch("password")).map((validator) => (
                 <ListItem
-                  key={errorMessage}
+                  key={validator.message}
                   disableGutters
                   disablePadding
                   sx={{ marginTop: 1 }}
                 >
-                  <CheckIcon sx={{ fontSize: "14px" }} />
-                  {errorMessage}
+                  {validator.passed && (
+                    <CheckIcon
+                      sx={{
+                        fontSize: "14px",
+                      }}
+                    />
+                  )}
+                  {validator.message}
                 </ListItem>
               ))}
             </List>

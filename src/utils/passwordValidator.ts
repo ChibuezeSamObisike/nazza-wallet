@@ -1,21 +1,21 @@
-interface Errors {
-  "At least 8 characters": boolean;
-  "At least one uppercase letter": boolean;
-  "At least one numbers": boolean;
-  "At least one special character": boolean;
+interface Validator {
+  message: string;
+  passed: boolean;
 }
 
-export const passwordValidator = (password: string): string[] => {
-  const errors: Errors = {
-    "At least 8 characters": password.length >= 8,
-    "At least one uppercase letter": /[A-Z]/.test(password),
-    "At least one numbers": /[0-9]/.test(password),
-    "At least one special character": /[\W_]/.test(password),
-  };
+export const passwordValidator = (password: string): Array<Validator> => {
+  const validator: Array<Validator> = [
+    { message: "At least 8 characters", passed: password.length >= 8 },
+    {
+      message: "At least one uppercase letter",
+      passed: /[A-Z]/.test(password),
+    },
+    { message: "At least one numbers", passed: /[0-9]/.test(password) },
+    {
+      message: "At least one special character",
+      passed: /[\W_]/.test(password),
+    },
+  ];
 
-  const res = Object.keys(errors).filter(
-    (x) => errors[x as keyof Errors] === false
-  );
-
-  return res;
+  return validator;
 };
